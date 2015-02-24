@@ -24,7 +24,7 @@ public class MainActivity extends ActionBarActivity {
         initializeParse();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new StartScreenFragment())
                     .commit();
         }
     }

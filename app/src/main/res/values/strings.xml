@@ -8,4 +8,6 @@
     <string name="text_view_next_text">Próximo radar:</string>
     <string name="text_view_refresh_time_text">Última actualización: Hace %s minutos.</string>
     <string name="text_view_speed_limit_text">Máxima velocidad:</string>
+    <string name="text_view_distance_value">%s Km</string>
+    <string name="text_view_speed_limit_value_text">%s</string>
 </resources>

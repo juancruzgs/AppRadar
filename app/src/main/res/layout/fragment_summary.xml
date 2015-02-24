@@ -20,13 +20,13 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/text_view_next_text"
             android:id="@+id/text_view_next"
-            android:layout_weight="4.5" />
+            android:layout_weight="4.5"/>
 
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -37,11 +37,32 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view_distance"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_weight="3">
+
+            <TextView
+                android:id="@+id/text_view_distance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/text_view_distance_value"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="50dp"/>
+        </android.support.v7.widget.CardView>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -64,7 +85,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="40dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -87,6 +108,40 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view_speed_limit"
+            android:layout_width="100dp"
+            android:layout_height="210dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_weight="3">
+
+            <TextView
+                android:id="@+id/text_view_speed_limit_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/text_view_speed_limit_value_text"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="80dp"
+                android:background="@drawable/speed_limit_ring" />
+        </android.support.v7.widget.CardView>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </LinearLayout>

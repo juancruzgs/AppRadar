@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import com.parse.Parse;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -19,11 +21,18 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         showIconInActionBar();
+        initializeParse();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+    }
+
+    private void initializeParse() {
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "7P8k5rZtpTzL29BqPhsIFqMrD9T0Qg7MIT1VYzfJ", "FVtaE3Ur3M4AhZuPvvkXZyiRlZhLgRAGqB0GcZt6");
     }
 
     private void showIconInActionBar() {

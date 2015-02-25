@@ -50,8 +50,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         prepareFragment(savedInstanceState);
         showIconInActionBar();
         initializeParse();
-        initializeParse();
-        initializeGooglePlayServices();
+        //initializeGooglePlayServices();
     }
 
     private void prepareFragment(Bundle savedInstanceState) {
@@ -62,18 +61,19 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         }
     }
 
+    private void showIconInActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setIcon(R.mipmap.ic_launcher);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4b000000")));
+    }
+
     private void initializeParse() {
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "7P8k5rZtpTzL29BqPhsIFqMrD9T0Qg7MIT1VYzfJ", "FVtaE3Ur3M4AhZuPvvkXZyiRlZhLgRAGqB0GcZt6");
     }
 
-    private void showIconInActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setIcon(R.mipmap.ic_launcher);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4b000000")));
-    
     private void initializeGooglePlayServices() {
         if (!isGooglePlayServicesAvailable()) {
             Log.e(TAG, "Google Play services unavailable.");
@@ -140,13 +140,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
     /**
      * Checks if Google Play services is available.
      * @return true if it is.
@@ -174,6 +167,13 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -186,21 +186,5 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
     }
 }

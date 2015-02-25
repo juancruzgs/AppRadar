@@ -10,24 +10,22 @@ import android.media.SoundPool;
  * Created by ariel.cattaneo on 25/02/2015.
  */
 public class SoundManager {
-    private Context mContext;
-
     private SoundPool mSoundPool;
     private boolean mLoaded;
     private float mVolume;
 
     private int soundIdAlert;
 
-    public SoundManager(Context context) {
-        mContext = context;
-
+    private void setVolume(Context context) {
         float normalVolume = ((AudioManager)context.getSystemService(Context.AUDIO_SERVICE))
                 .getStreamVolume(AudioManager.STREAM_ALARM);
         float maxVolume = ((AudioManager)context.getSystemService(Context.AUDIO_SERVICE))
                 .getStreamMaxVolume(AudioManager.STREAM_ALARM);
 
         mVolume = normalVolume / maxVolume;
+    }
 
+    private void setSoundPool() {
         mSoundPool = new SoundPool(1, AudioManager.STREAM_ALARM, 0);
 
         mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
@@ -36,7 +34,17 @@ public class SoundManager {
                 mLoaded = true;
             }
         });
+    }
+
+    private void loadSounds(Context context) {
         soundIdAlert = mSoundPool.load(context, R.raw.alert, 1);
+    }
+
+    public SoundManager(Context context) {
+        setVolume(context);
+
+        setSoundPool();
+        loadSounds(context);
     }
 
     public void playAlert() {

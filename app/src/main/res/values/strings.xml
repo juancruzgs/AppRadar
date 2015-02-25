@@ -11,4 +11,16 @@
     <string name="text_view_distance_value">%s Km</string>
     <string name="text_view_speed_limit_value_text">%s</string>
     <string name="action_refresh">Actualizar</string>
+    <string name="pref_customized_first_notification">Primera Notificación</string>
+    <string name="pref_distance_title">Distancia</string>
+    <string name="pref_first_notification_distance_summary">Ingrese la distancia de la primera notificación.</string>
+    <string name="pref_sound_title">Sonido</string>
+    <string name="pref_first_notification_sound_summary">Seleccione un tono para la primera notificación.</string>
+    <string name="title_activity_settings">Opciones</string>
+    <string name="pref_customized_second_notification">Segunda Notificación</string>
+    <string name="pref_second_notification_sound_summary">Seleccione un tono para la segunda notificación.</string>
+    <string name="pref_second_notification_distance_summary">Ingrese la distancia de la segunda notificación.</string>
+    <string name="pref_customized_third_notification">Tercera Notificación</string>
+    <string name="pref_third_notification_distance_summary">Ingrese la distancia de la tercera notificación.</string>
+    <string name="pref_third_notification_sound_summary">Seleccione un tono para la tercera notificación.</string>
 </resources>

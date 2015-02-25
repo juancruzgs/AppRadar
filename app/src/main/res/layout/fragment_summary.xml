@@ -2,146 +2,82 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/text_view_next_text"
+        android:id="@+id/text_view_next"
+        android:layout_gravity="left" />
+
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="5dp" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_distance"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        card_view:cardCornerRadius="4dp">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/text_view_distance"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/text_view_distance_value"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/text_view_next_text"
-            android:id="@+id/text_view_next"
-            android:layout_weight="4.5"/>
-
-    </LinearLayout>
+            android:textSize="50dp"/>
+    </android.support.v7.widget.CardView>
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="5dp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_view_distance"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            card_view:cardCornerRadius="4dp"
-            android:layout_weight="3">
-
-            <TextView
-                android:id="@+id/text_view_distance"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/text_view_distance_value"
-                android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="50dp"/>
-        </android.support.v7.widget.CardView>
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="5dp" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/text_view_refresh_time_text"
-            android:id="@+id/text_view_refresh_time"
-            android:layout_weight="1" />
-    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/text_view_refresh_time_text"
+        android:id="@+id/text_view_refresh_time" />
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/text_view_speed_limit_text"
-            android:id="@+id/text_view_speed_limit"
-            android:layout_weight="4.5" />
-    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/text_view_speed_limit_text"
+        android:id="@+id/text_view_speed_limit"
+        android:layout_gravity="left" />
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="5dp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_speed_limit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="220dp"
+        card_view:cardCornerRadius="4dp">
 
-        <Space
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/text_view_speed_limit_value"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_view_speed_limit"
-            android:layout_width="100dp"
-            android:layout_height="210dp"
-            card_view:cardCornerRadius="4dp"
-            android:layout_weight="3">
-
-            <TextView
-                android:id="@+id/text_view_speed_limit_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/text_view_speed_limit_value_text"
-                android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="80dp"
-                android:background="@drawable/speed_limit_ring" />
-        </android.support.v7.widget.CardView>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-    </LinearLayout>
+            android:text="@string/text_view_speed_limit_value_text"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="80dp"
+            android:background="@drawable/speed_limit_ring" />
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

@@ -21,7 +21,7 @@ public class MainActivity extends ActionBarActivity {
         showIconInActionBar();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new SummaryFragment())
+                    .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
     }

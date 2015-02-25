@@ -3,15 +3,15 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:paddingLeft="25dp"
-    android:paddingRight="25dp">
+    android:paddingLeft="@dimen/summary_fragment_padding_landscape"
+    android:paddingRight="@dimen/summary_fragment_padding_landscape">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingRight="10dp"
+        android:paddingRight="@dimen/summary_fragment_padding_landscape_intern"
         android:gravity="center">
 
         <TextView
@@ -24,14 +24,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="5dp" />
+            android:layout_height="@dimen/elements_spacer" />
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/card_view_distance"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            card_view:cardCornerRadius="4dp">
+            android:layout_height="@dimen/card_view_distance_height"
+            card_view:cardCornerRadius="@dimen/card_view_corner_radius">
 
             <TextView
                 android:id="@+id/text_view_distance"
@@ -40,12 +40,12 @@
                 android:text="@string/text_view_distance_value"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="50dp"/>
+                android:textSize="@dimen/typography_display_3"/>
         </android.support.v7.widget.CardView>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="5dp" />
+            android:layout_height="@dimen/elements_spacer" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingLeft="10dp"
+        android:paddingLeft="@dimen/summary_fragment_padding_landscape_intern"
         android:gravity="center">
 
         <TextView
@@ -73,14 +73,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="5dp" />
+            android:layout_height="@dimen/elements_spacer" />
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/card_view_speed_limit"
             android:layout_width="match_parent"
-            android:layout_height="210dp"
-            card_view:cardCornerRadius="4dp">
+            android:layout_height="@dimen/card_view_speed_limit_height_landscape"
+            card_view:cardCornerRadius="@dimen/card_view_corner_radius">
 
             <TextView
                 android:id="@+id/text_view_speed_limit_value"
@@ -89,7 +89,7 @@
                 android:text="@string/text_view_speed_limit_value_text"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="80dp"
+                android:textSize="@dimen/typography_speed_limit"
                 android:background="@drawable/speed_limit_ring" />
         </android.support.v7.widget.CardView>
     </LinearLayout>

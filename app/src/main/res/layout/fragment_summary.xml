@@ -3,8 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:paddingLeft="50dp"
-    android:paddingRight="50dp">
+    android:paddingLeft="@dimen/summary_fragment_padding"
+    android:paddingRight="@dimen/summary_fragment_padding">
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,14 +16,14 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="5dp" />
+        android:layout_height="@dimen/elements_spacer" />
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view_distance"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        card_view:cardCornerRadius="4dp">
+        android:layout_height="@dimen/card_view_distance_height"
+        card_view:cardCornerRadius="@dimen/card_view_corner_radius">
 
         <TextView
             android:id="@+id/text_view_distance"
@@ -32,12 +32,12 @@
             android:text="@string/text_view_distance_value"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="50dp"/>
+            android:textSize="@dimen/typography_display_3"/>
     </android.support.v7.widget.CardView>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="5dp" />
+        android:layout_height="@dimen/elements_spacer" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="@dimen/elements_spacer_large" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,14 +60,14 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="5dp" />
+        android:layout_height="@dimen/elements_spacer" />
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view_speed_limit"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        card_view:cardCornerRadius="4dp">
+        android:layout_height="@dimen/card_view_speed_limit_height_portrait"
+        card_view:cardCornerRadius="@dimen/card_view_corner_radius">
 
         <TextView
             android:id="@+id/text_view_speed_limit_value"
@@ -76,7 +76,7 @@
             android:text="@string/text_view_speed_limit_value_text"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="80dp"
+            android:textSize="@dimen/typography_speed_limit"
             android:background="@drawable/speed_limit_ring" />
     </android.support.v7.widget.CardView>
 

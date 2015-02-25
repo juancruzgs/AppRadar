@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_select_destination"
-            android:elevation="6dp"
+            android:elevation="0dp"
             android:background="@drawable/button_destination"
             android:gravity="center"
             android:paddingLeft="10dp"

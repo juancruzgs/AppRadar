@@ -11,24 +11,26 @@
     <ImageView
         android:id="@+id/imageView_start_screen_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:elevation="6dp"
         android:src="@mipmap/startscreenpic"
-        android:scaleType="center"
-        android:elevation="2dp"/>
+        android:scaleType="fitXY"
+        android:layout_weight="1.5" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="1">
 
         <Button
             android:id="@+id/button_select_desntination"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_select_destination"
-            android:elevation="2dp"
-            android:background="@drawable/button_rounded_rectangle"
+            android:elevation="6dp"
+            android:background="@drawable/button_destination"
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -42,8 +44,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button" />
+            android:text="@string/button_start_travel"
+            android:id="@+id/button_start_travel"
+            android:elevation="6dp"
+            android:background="@drawable/button_start_travel" />
 
     </LinearLayout>
 </LinearLayout>

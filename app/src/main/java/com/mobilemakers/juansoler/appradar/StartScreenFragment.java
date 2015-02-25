@@ -1,9 +1,14 @@
 package com.mobilemakers.juansoler.appradar;
 
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -21,32 +26,7 @@ public class StartScreenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_start_screen, container, false);
-        mButton = (Button) rootView.findViewById(R.id.button_select_desntination);
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ScaleAnimation shrinkAnim = new ScaleAnimation(1.15f, 1.0f, 1.15f, 1.0f);
-                shrinkAnim.setDuration(2000);
-                mButton.setAnimation(shrinkAnim);
-                shrinkAnim.start();
-                shrinkAnim.setAnimationListener(new Animation.AnimationListener()
-                {
-                    @Override
-                    public void onAnimationStart(Animation animation){}
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation){}
-
-                    @Override
-                    public void onAnimationEnd(Animation animation)
-                    {
-                        //call intent
-                    }
-                });
-            }
-        });
         return rootView;
     }
-
 
 }

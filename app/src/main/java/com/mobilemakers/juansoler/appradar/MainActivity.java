@@ -1,5 +1,7 @@
 package com.mobilemakers.juansoler.appradar;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -21,7 +23,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         showIconInActionBar();
-        initializeParse();
+        //initializeParse();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new StartScreenFragment())
@@ -39,6 +41,7 @@ public class MainActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.mipmap.ic_launcher);
         actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4b000000")));
     }
 
 

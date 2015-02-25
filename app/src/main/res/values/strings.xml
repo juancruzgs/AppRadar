@@ -11,4 +11,6 @@
     <string name="text_view_distance_value">%s Km</string>
     <string name="text_view_speed_limit_value_text">%s</string>
     <string name="action_refresh">Actualizar</string>
+    <string name="button_select_destination">Seleccione destino</string>
+    <string name="button_start_travel">Iniciar Viaje</string>
 </resources>

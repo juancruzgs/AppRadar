@@ -3,6 +3,8 @@ package com.mobilemakers.juansoler.appradar;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.os.Build;
 
 import com.parse.Parse;
 
@@ -47,21 +50,16 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         prepareFragment(savedInstanceState);
         showIconInActionBar();
         initializeParse();
+        initializeParse();
         initializeGooglePlayServices();
     }
 
     private void prepareFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new StartScreenFragment())
                     .commit();
         }
-    }
-
-    private void showIconInActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setIcon(R.mipmap.ic_launcher);
-        actionBar.setDisplayShowHomeEnabled(true);
     }
 
     private void initializeParse() {
@@ -70,6 +68,12 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         Parse.initialize(this, "7P8k5rZtpTzL29BqPhsIFqMrD9T0Qg7MIT1VYzfJ", "FVtaE3Ur3M4AhZuPvvkXZyiRlZhLgRAGqB0GcZt6");
     }
 
+    private void showIconInActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setIcon(R.mipmap.ic_launcher);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4b000000")));
+    
     private void initializeGooglePlayServices() {
         if (!isGooglePlayServicesAvailable()) {
             Log.e(TAG, "Google Play services unavailable.");

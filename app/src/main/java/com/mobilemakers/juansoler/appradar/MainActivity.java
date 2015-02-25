@@ -47,6 +47,30 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         prepareFragment(savedInstanceState);
         showIconInActionBar();
         initializeParse();
+        initializeGooglePlayServices();
+    }
+
+    private void prepareFragment(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new PlaceholderFragment())
+                    .commit();
+        }
+    }
+
+    private void showIconInActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setIcon(R.mipmap.ic_launcher);
+        actionBar.setDisplayShowHomeEnabled(true);
+    }
+
+    private void initializeParse() {
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "7P8k5rZtpTzL29BqPhsIFqMrD9T0Qg7MIT1VYzfJ", "FVtaE3Ur3M4AhZuPvvkXZyiRlZhLgRAGqB0GcZt6");
+    }
+
+    private void initializeGooglePlayServices() {
         if (!isGooglePlayServicesAvailable()) {
             Log.e(TAG, "Google Play services unavailable.");
             finish();
@@ -64,26 +88,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         // Instantiate the current List of geofences.
         mGeofenceList = new ArrayList<>();
         createGeofences();
-    }
-
-    private void prepareFragment(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
-    }
-
-    private void initializeParse() {
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "7P8k5rZtpTzL29BqPhsIFqMrD9T0Qg7MIT1VYzfJ", "FVtaE3Ur3M4AhZuPvvkXZyiRlZhLgRAGqB0GcZt6");
-    }
-
-    private void showIconInActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setIcon(R.mipmap.ic_launcher);
-        actionBar.setDisplayShowHomeEnabled(true);
     }
 
     /**

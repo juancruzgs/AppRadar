@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.parse.Parse;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -44,7 +42,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         setContentView(R.layout.activity_main);
         prepareFragment(savedInstanceState);
         showIconInActionBar();
-        initializeParse();
         //initializeGooglePlayServices();
     }
 
@@ -63,11 +60,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4b000000")));
     }
 
-    private void initializeParse() {
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "7P8k5rZtpTzL29BqPhsIFqMrD9T0Qg7MIT1VYzfJ", "FVtaE3Ur3M4AhZuPvvkXZyiRlZhLgRAGqB0GcZt6");
-    }
 
     private void initializeGooglePlayServices() {
         if (!isGooglePlayServicesAvailable()) {

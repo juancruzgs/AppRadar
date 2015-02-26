@@ -33,6 +33,15 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
     private final static String TAG = MainActivity.class.getSimpleName();
+    private final static String PARSE_LATITUDE = "latitud";
+    private final static String PARSE_LONGITUDE = "longitud";
+    private final static String PARSE_NAME = "nombre";
+    private final static String PARSE_KM = "km";
+    private final static String PARSE_MAXIMUM_SPEED = "velocidad_maxima";
+    private final static String PARSE_DIRECCION = "direccion";
+    private final static int FIRST_FENCE = 5000;
+    private final static int SECOND_FENCE = 2000;
+    private final static int THIRD_FENCE = 300;
     // Stores the PendingIntent used to request geofence monitoring.
     private PendingIntent mGeofenceRequestIntent;
     private GoogleApiClient mApiClient;
@@ -40,10 +49,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     // locations within the user's proximity.
     List<Geofence> mGeofenceList;
 
-    public class Radar {
-        public String lat;
-        public String lon;
-    }
 
     @Override
     public void onAttachedToWindow() {
@@ -69,33 +74,43 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         setContentView(R.layout.activity_main);
         prepareFragment(savedInstanceState);
         showIconInActionBar();
-        final List<Radar> radares = new ArrayList<>();
-
+        List<SpotGeofence> radares = new ArrayList<>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Radares");
-        /*query.getInBackground("CKbo7axILs", new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                Radar radar;
-                radar = new Radar();
-                String lat = parseObject.getString("latitud");
-                String lon = parseObject.getString("longitud");
-                radar.lat = lat;
-                radar.lon = lon;
-            }
-        });*/
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                Radar radar;
+                SpotGeofence spotGeofence;
                 if (parseObjects.size()>0) {
+                    int id = 0;
                     for (int i = 0; i < parseObjects.size(); i++) {
-                        radar = new Radar();
                         ParseObject p = parseObjects.get(i);
-                        String lat = p.getString("latitud");
-                        String lon = p.getString("longitud");
-                        radar.lat = lat;
-                        radar.lon = lon;
-                        radares.add(radar);
+                        String latitude = p.getString(PARSE_LATITUDE);
+                        String longitude = p.getString(PARSE_LONGITUDE);
+                        for (int j = 0; j < 3; j++) {
+                            switch (j){
+                                case 0:
+                                    spotGeofence = new SpotGeofence(Integer.toString(id),
+                                            Double.parseDouble(latitude),
+                                            Double.parseDouble(longitude),
+                                            FIRST_FENCE);
+                                    break;
+                                case 1:
+                                    spotGeofence = new SpotGeofence(Integer.toString(id),
+                                            Double.parseDouble(latitude),
+                                            Double.parseDouble(longitude),
+                                            SECOND_FENCE);
+                                    break;
+                                default:
+                                    spotGeofence = new SpotGeofence(Integer.toString(id),
+                                            Double.parseDouble(latitude),
+                                            Double.parseDouble(longitude),
+                                            THIRD_FENCE);
+                                    break;
+                            }
+                            mGeofenceList.add(spotGeofence.toGeofence());
+                            id++;
+                        }
+
                     } }
             }
         });

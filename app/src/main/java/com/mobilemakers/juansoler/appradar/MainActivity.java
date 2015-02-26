@@ -32,6 +32,8 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity implements ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
+
+
     private final static String TAG = MainActivity.class.getSimpleName();
     // Stores the PendingIntent used to request geofence monitoring.
     private PendingIntent mGeofenceRequestIntent;
@@ -39,6 +41,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     // Internal List of Geofence objects. In a real app, these might be provided by an API based on
     // locations within the user's proximity.
     List<Geofence> mGeofenceList;
+    NotificationPreference mNotification = new NotificationPreference();
 
     public class Radar {
         public String lat;
@@ -110,6 +113,12 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                     .add(R.id.container, new StartScreenFragment())
                     .commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mNotification.getSharedPreferences(this);
     }
 
     private void showIconInActionBar() {

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -42,6 +43,24 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     public class Radar {
         public String lat;
         public String lon;
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        //showActivityAlwaysOnTop();
+    }
+
+    private void showActivityAlwaysOnTop() {
+        //Use in alert screen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                        //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                        //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
     }
 
     @Override

@@ -169,6 +169,8 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent iSettings = new Intent(this, SettingsActivity.class);
+            startActivity(iSettings);
             return true;
         }
 

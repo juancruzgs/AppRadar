@@ -25,5 +25,8 @@
     <string name="pref_customized_third_notification">Tercera Notificación</string>
     <string name="pref_third_notification_distance_summary">Ingrese la distancia de la tercera notificación.</string>
     <string name="pref_third_notification_sound_summary">Seleccione un tono para la tercera notificación.</string>
+    <string name="enableGPS_dialog">Enable GPS</string>
+    <string name="cancelGPS_dialog">Cancel</string>
+    <string name="messageGPS_dialog">Your GPS seems to be disabled, do you want to enable it?</string>
 
 </resources>

@@ -19,6 +19,13 @@ import android.widget.Button;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener {
 
+    private static final String MESSAGE = "Your GPS seems to be disabled, do you want to enable it?";
+    private static final String POSITIVE_BUTTON_TEXT = "Enable GPS";
+    private static final String NEGATIVE_BUTTON_TEXT = "Cancel";
+    private static final String TAG_DESTINATION_DIALOG = "destinations_dialog";
+
+    Button mButtonSetDestination;
+
     public StartScreenFragment() {
     }
 
@@ -32,14 +39,14 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     private void prepareButtonDestination(View rootView) {
-        Button buttonSetDestination = (Button)rootView.findViewById(R.id.button_select_desntination);
-        buttonSetDestination.setOnClickListener(new View.OnClickListener() {
+        mButtonSetDestination = (Button)rootView.findViewById(R.id.button_select_desntination);
+        mButtonSetDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 transitionOUT();
-                FragmentManager fm = getFragmentManager();
+                FragmentManager fragmentManager = getFragmentManager();
                 DestinationsDialog destinationsDialog = new DestinationsDialog();
-                destinationsDialog.show(fm, "destinations_dialog");
+                destinationsDialog.show(fragmentManager, TAG_DESTINATION_DIALOG);
             }
         });
     }
@@ -49,31 +56,35 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkGPSEnabled();
+                checkGPSStatus();
             }
 
-            private void checkGPSEnabled() {
+            private void checkGPSStatus() {
                 LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
                 if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER ))
                 {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                            .setCancelable(false)
-                            .setPositiveButton("Enable GPS", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,
-                                                    int id) {
-                                    Intent gpsIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS );
-                                    startActivity(gpsIntent);
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-                    final AlertDialog alert = builder.create();
-                    alert.show();
+                    showAlertDialog();
                 }
+            }
+
+            private void showAlertDialog() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(MESSAGE)
+                        .setCancelable(false)
+                        .setPositiveButton(POSITIVE_BUTTON_TEXT, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int id) {
+                                Intent gpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(gpsIntent);
+                            }
+                        })
+                        .setNegativeButton(NEGATIVE_BUTTON_TEXT, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                final AlertDialog alert = builder.create();
+                alert.show();
             }
         });
     }

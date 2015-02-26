@@ -23,4 +23,5 @@
     <string name="pref_customized_third_notification">Tercera Notificación</string>
     <string name="pref_third_notification_distance_summary">Ingrese la distancia de la tercera notificación.</string>
     <string name="pref_third_notification_sound_summary">Seleccione un tono para la tercera notificación.</string>
+
 </resources>

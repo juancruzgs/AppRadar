@@ -19,6 +19,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationServices;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +39,10 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     // locations within the user's proximity.
     List<Geofence> mGeofenceList;
 
+    public class Radar {
+        public String lat;
+        public String lon;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +50,38 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         setContentView(R.layout.activity_main);
         prepareFragment(savedInstanceState);
         showIconInActionBar();
+        final List<Radar> radares = new ArrayList<>();
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Radares");
+        /*query.getInBackground("CKbo7axILs", new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                Radar radar;
+                radar = new Radar();
+                String lat = parseObject.getString("latitud");
+                String lon = parseObject.getString("longitud");
+                radar.lat = lat;
+                radar.lon = lon;
+            }
+        });*/
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                Radar radar;
+                if (parseObjects.size()>0) {
+                    for (int i = 0; i < parseObjects.size(); i++) {
+                        radar = new Radar();
+                        ParseObject p = parseObjects.get(i);
+                        String lat = p.getString("latitud");
+                        String lon = p.getString("longitud");
+                        radar.lat = lat;
+                        radar.lon = lon;
+                        radares.add(radar);
+                    } }
+            }
+        });
+
+
         //initializeGooglePlayServices();
     }
 

@@ -10,6 +10,8 @@ import android.media.SoundPool;
  * Created by ariel.cattaneo on 25/02/2015.
  */
 public class SoundManager {
+    private static SoundManager privateInstance = null;
+
     private SoundPool mSoundPool;
     private boolean mLoaded;
     private float mVolume;
@@ -40,17 +42,27 @@ public class SoundManager {
         soundIdAlert = mSoundPool.load(context, R.raw.alert, 1);
     }
 
-    public SoundManager(Context context) {
+    private SoundManager(Context context) {
         setVolume(context);
 
         setSoundPool();
         loadSounds(context);
     }
 
-    public void playAlert() {
+    private void privPlayAlert() {
         if (mLoaded) {
             mSoundPool.play(soundIdAlert, mVolume, mVolume, 10, 0, 1.0f);
         }
         // TODO: else - Unlikely: do something to alert the user without the alert sound loaded
+    }
+
+    public static void playAlert() {
+        if (privateInstance != null) {
+            privateInstance.privPlayAlert();
+        }
+    }
+
+    public static void init(Context context) {
+        privateInstance = new SoundManager(context);
     }
 }

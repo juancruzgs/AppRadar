@@ -88,7 +88,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private void prepareFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new SummaryFragment())
+                    .add(R.id.container, new StartScreenFragment())
                     .commit();
         }
     }

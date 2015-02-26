@@ -23,6 +23,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private static final String POSITIVE_BUTTON_TEXT = "Enable GPS";
     private static final String NEGATIVE_BUTTON_TEXT = "Cancel";
     private static final String TAG_DESTINATION_DIALOG = "destinations_dialog";
+    private static final long ANIMATION_DURATION = 1000;
+    private static final float ANIMATION_ALPHA_FROM = 0.0f;
+    private static final float ANIMATION_ALPHA_TO = 1.0f;
 
     Button mButtonSetDestination;
 
@@ -97,10 +100,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     public void transitionIN(){
 
-        Animation in = new AlphaAnimation(0.0f, 1.0f);
-        in.setDuration(1000);
-        mButtonSetDestination.startAnimation(in);
-        in.setAnimationListener(new Animation.AnimationListener() {
+        Animation animationIn = new AlphaAnimation(ANIMATION_ALPHA_FROM, ANIMATION_ALPHA_TO);
+        animationIn.setDuration(ANIMATION_DURATION);
+        mButtonSetDestination.startAnimation(animationIn);
+        animationIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
                 mButtonSetDestination.setVisibility(View.VISIBLE);
@@ -120,10 +123,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     public void transitionOUT(){
 
-        Animation out = new AlphaAnimation(1.0f, 0.0f);
-        out.setDuration(1000);
-        mButtonSetDestination.startAnimation(out);
-        out.setAnimationListener(new Animation.AnimationListener() {
+        Animation animationOut = new AlphaAnimation(ANIMATION_ALPHA_FROM, ANIMATION_ALPHA_TO);
+        animationOut.setDuration(ANIMATION_DURATION);
+        mButtonSetDestination.startAnimation(animationOut);
+        animationOut.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener {
 
@@ -22,7 +23,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_start_screen, container, false);
-        mButtonSetDestination = (Button)rootView.findViewById(R.id.button_select_desntination);
+        mButtonSetDestination = (Button) rootView.findViewById(R.id.button_select_desntination);
         mButtonSetDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +42,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         transitionIN();
     }
 
-    public void transitionIN(){
+    public void transitionIN() {
 
         Animation in = new AlphaAnimation(0.0f, 1.0f);
         in.setDuration(1000);
@@ -64,7 +65,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         });
     }
 
-    public void transitionOUT(){
+    public void transitionOUT() {
 
         Animation out = new AlphaAnimation(1.0f, 0.0f);
         out.setDuration(1000);

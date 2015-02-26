@@ -1,5 +1,7 @@
 package com.mobilemakers.juansoler.appradar;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -17,6 +19,8 @@ public class DestinationsDialog extends DialogFragment {
 
     DestinationsAdapter mAdapter;
     ArrayList<String> mDestinationsList = new ArrayList<>();
+    //Boolean mPressed = false;
+    DestinationDialogListener mDialogListener;
 
     public DestinationsDialog() {
     }
@@ -25,7 +29,12 @@ public class DestinationsDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.destinations_dialog, container);
-        getDialog().setTitle("Select destination...");
+        mDialogListener = (DestinationDialogListener) getFragmentManager().findFragmentById(R.id.container);
+        Dialog dialog = getDialog();
+        if (dialog != null){
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setTitle("Select destination...");
+        }
         ListView listView = (ListView) rootView.findViewById(R.id.listView_destinations);
         mDestinationsList.add("Buenos Aires");
         mDestinationsList.add("Mar del Plata");
@@ -41,8 +50,16 @@ public class DestinationsDialog extends DialogFragment {
     }
 
     public void dismissDialog(int position){
-        DestinationDialogListener activity = (DestinationDialogListener) getFragmentManager().findFragmentById(R.id.container);
-        activity.onFinishDialog(mDestinationsList.get(position));
+        mDialogListener.onFinishDialog(mDestinationsList.get(position));
+        //mPressed = true;
         this.dismiss();
     }
+
+    /*@Override
+    public void onDismiss(DialogInterface dialog) {
+        if (!mPressed) {
+            mDialogListener.onFinishDialog("");
+        }
+        super.onDismiss(dialog);
+    }*/
 }

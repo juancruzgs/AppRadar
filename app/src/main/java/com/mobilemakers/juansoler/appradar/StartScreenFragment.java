@@ -19,9 +19,6 @@ import android.widget.Button;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener {
 
-    private static final String MESSAGE = "Your GPS seems to be disabled, do you want to enable it?";
-    private static final String POSITIVE_BUTTON_TEXT = "Enable GPS";
-    private static final String NEGATIVE_BUTTON_TEXT = "Cancel";
     private static final String TAG_DESTINATION_DIALOG = "destinations_dialog";
     private static final long ANIMATION_DURATION = 1000;
     private static final float ANIMATION_ALPHA_FROM = 0.0f;
@@ -72,16 +69,16 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
             private void showAlertDialog() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage(MESSAGE)
+                builder.setMessage(getString(R.string.messageGPS_dialog))
                         .setCancelable(false)
-                        .setPositiveButton(POSITIVE_BUTTON_TEXT, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.enableGPS_dialog), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int id) {
                                 Intent gpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                                 startActivity(gpsIntent);
                             }
                         })
-                        .setNegativeButton(NEGATIVE_BUTTON_TEXT, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.cancelGPS_dialog), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }

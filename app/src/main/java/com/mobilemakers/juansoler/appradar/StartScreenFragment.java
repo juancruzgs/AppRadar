@@ -23,6 +23,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private static final long ANIMATION_DURATION = 1000;
     private static final float ANIMATION_ALPHA_FROM = 0.0f;
     private static final float ANIMATION_ALPHA_TO = 1.0f;
+    FragmentManager mFragmentManager;
 
     Button mButtonSetDestination;
 
@@ -33,6 +34,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_start_screen, container, false);
+        mFragmentManager = getFragmentManager();
         prepareButtonDestination(rootView);
         prepareButtonStart(rootView);
         return rootView;
@@ -44,9 +46,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             @Override
             public void onClick(View v) {
                 transitionOUT();
-                FragmentManager fragmentManager = getFragmentManager();
                 DestinationsDialog destinationsDialog = new DestinationsDialog();
-                destinationsDialog.show(fragmentManager, TAG_DESTINATION_DIALOG);
+                destinationsDialog.show(mFragmentManager, TAG_DESTINATION_DIALOG);
             }
         });
     }
@@ -61,9 +62,11 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
             private void checkGPSStatus() {
                 LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-                if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER ))
-                {
+                if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER )){
                     showAlertDialog();
+                } else {
+                    mFragmentManager.beginTransaction().replace(R.id.container, new SummaryFragment())
+                            .addToBackStack(null).commit();
                 }
             }
 

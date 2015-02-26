@@ -1,8 +1,13 @@
 package com.mobilemakers.juansoler.appradar;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -14,6 +19,9 @@ public class GeofenceTransitionsIntentService extends IntentService
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     private final static String TAG = GeofenceTransitionsIntentService.class.getSimpleName();
+
+    NotificationCompat.Builder mBuilder;
+    int mId;
 
     public GeofenceTransitionsIntentService() {
         super(GeofenceTransitionsIntentService.class.getSimpleName());
@@ -36,10 +44,13 @@ public class GeofenceTransitionsIntentService extends IntentService
             if (Geofence.GEOFENCE_TRANSITION_ENTER == transitionType) {
                 String triggeredGeoFenceId = geoFenceEvent.getTriggeringGeofences().get(0)
                         .getRequestId();
-                Log.d(TAG, "Exiting GeoFence");
-            } else if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType) {
+                //Calling notifications
+                //createNotification("title", "text", R.mipmap.ic_launcher);
                 Log.d(TAG, "Entering GeoFence");
+            } else if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType) {
+                Log.d(TAG, "Exiting GeoFence");
             }
+
         }
     }
 
@@ -57,5 +68,21 @@ public class GeofenceTransitionsIntentService extends IntentService
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
+    }
+
+    private void createNotification(String title,String text, int icon){
+        mBuilder =  new NotificationCompat.Builder(this)
+                .setSmallIcon(icon)
+                .setContentTitle(title)
+                .setContentText(text);
+        Intent resultIntent = new Intent(this, MainActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(mId, mBuilder.build());
     }
 }

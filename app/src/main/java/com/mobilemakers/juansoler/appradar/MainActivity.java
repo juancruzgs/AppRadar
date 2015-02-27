@@ -3,7 +3,6 @@ package com.mobilemakers.juansoler.appradar;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -28,20 +26,15 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MainActivity extends ActionBarActivity implements ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
-
-
     private final static String TAG = MainActivity.class.getSimpleName();
-    // Stores the PendingIntent used to request geofence monitoring.
     private PendingIntent mGeofenceRequestIntent;
     private GoogleApiClient mApiClient;
-    // Internal List of Geofence objects. In a real app, these might be provided by an API based on
-    // locations within the user's proximity.
     List<Geofence> mGeofenceList;
     NotificationPreference mNotification = new NotificationPreference();
+    GeofenceTransitionsIntent geofenceTransition;
 
     public class Radar {
         public String lat;
@@ -49,21 +42,10 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     }
 
     @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        //showActivityAlwaysOnTop();
-    }
-
-    private void showActivityAlwaysOnTop() {
-        //Use in alert screen
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                        //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                        //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //Location Services Intent
+        geofenceTransition.handleTransition(intent);
     }
 
     @Override
@@ -72,6 +54,8 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         setContentView(R.layout.activity_main);
         prepareFragment(savedInstanceState);
         showIconInActionBar();
+
+        geofenceTransition = new GeofenceTransitionsIntent(this);
         final List<Radar> radares = new ArrayList<>();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Radares");
@@ -115,19 +99,12 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mNotification.getSharedPreferences(this);
-    }
-
     private void showIconInActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.mipmap.ic_launcher);
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4b000000")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_color)));
     }
-
 
     private void initializeGooglePlayServices() {
         if (!isGooglePlayServicesAvailable()) {
@@ -149,13 +126,15 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         createGeofences();
     }
 
-    /**
-     * In this sample, the geofences are predetermined and are hard-coded here. A real app might
-     * dynamically create geofences based on the user's location.
-     */
     public void createGeofences() {
         // Create internal "flattened" objects containing the geofence data.
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mNotification.getSharedPreferences(this);
     }
 
     @Override
@@ -195,10 +174,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         }
     }
 
-    /**
-     * Checks if Google Play services is available.
-     * @return true if it is.
-     */
     private boolean isGooglePlayServicesAvailable() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (ConnectionResult.SUCCESS == resultCode) {
@@ -212,30 +187,22 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         }
     }
 
-    /**
-     * Create a PendingIntent that triggers GeofenceTransitionIntentService when a geofence
-     * transition occurs.
-     */
     private PendingIntent getGeofenceTransitionPendingIntent() {
-        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
-        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent iSettings = new Intent(this, SettingsActivity.class);
             startActivity(iSettings);

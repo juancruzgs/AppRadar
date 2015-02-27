@@ -68,7 +68,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         showIconInActionBar();
 
         geofenceTransition = new GeofenceTransitionsIntent(this);
-        final List<Radar> radares = new ArrayList<>();
 
         final ParseObject radares = new ParseObject("Radar");
         mGeofenceList = new ArrayList<Geofence>();

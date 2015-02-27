@@ -64,8 +64,10 @@ public class SoundManager {
         soundIdAlert = mSoundPool.load(mContext, resource, 1);
     }
 
-    public void setAlertSound(String name) {
-        // TODO: Throw exception if that sound doesn't exist.
+    public void setAlertSound(String name) throws SoundNotFoundException {
+        if (!mSoundsMap.containsKey(name)) {
+            throw new SoundNotFoundException();
+        }
         privateInstance.privSetAlertSound(mSoundsMap.get(name));
     }
 
@@ -86,11 +88,11 @@ public class SoundManager {
         }
     }
 
-    public static void playAlert() {
-        if (privateInstance != null) {
-            privateInstance.privPlayAlert();
+    public static void playAlert() throws SoundManagerNotInitializedException {
+        if (privateInstance == null) {
+            throw new SoundManagerNotInitializedException();
         }
-        // TODO: Throw some exception or something if the SoundManager wasn't initiated.
+        privateInstance.privPlayAlert();
     }
 
     public static void init(Context context) {
@@ -167,17 +169,13 @@ public class SoundManager {
         }
 
         AudioTrack audioTrack = null;                                   // Get audio track
-        try {
-            int bufferSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
-            audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
-                    sampleRate, AudioFormat.CHANNEL_OUT_MONO,
-                    AudioFormat.ENCODING_PCM_16BIT, bufferSize,
-                    AudioTrack.MODE_STREAM);
-            audioTrack.play();                                          // Play the track
-            audioTrack.write(generatedSnd, 0, generatedSnd.length);     // Load the track
-        }
-        catch (Exception e){
-        }
-        if (audioTrack != null) audioTrack.release();           // Track play done. Release track.
+        int bufferSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
+        audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
+                sampleRate, AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_16BIT, bufferSize,
+                AudioTrack.MODE_STREAM);
+        audioTrack.play();                                          // Play the track
+        audioTrack.write(generatedSnd, 0, generatedSnd.length);     // Load the track
+        audioTrack.release();           // Track play done. Release track.
     }
 }

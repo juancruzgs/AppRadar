@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">AppRadar</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="hello_world" translatable="false">Hello world!</string>
+    <string name="action_settings">Opciones</string>
 
 <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="text_view_next_text">Próximo radar:</string>
     <string name="text_view_refresh_time_text">Última actualización: Hace %s minutos.</string>
     <string name="text_view_speed_limit_text">Máxima velocidad:</string>
-    <string name="text_view_distance_value">%s Km</string>
-    <string name="text_view_speed_limit_value_text">%s</string>
+    <string name="text_view_distance_value" translatable="false">%s Km</string>
+    <string name="text_view_speed_limit_value_text" translatable="false">%s</string>
     <string name="action_refresh">Actualizar</string>
     <string name="button_select_destination">Seleccione destino</string>
     <string name="button_start_travel">Iniciar Viaje</string>
@@ -25,8 +25,7 @@
     <string name="pref_customized_third_notification">Tercera Notificación</string>
     <string name="pref_third_notification_distance_summary">Ingrese la distancia de la tercera notificación.</string>
     <string name="pref_third_notification_sound_summary">Seleccione un tono para la tercera notificación.</string>
-    <string name="enableGPS_dialog">Enable GPS</string>
-    <string name="cancelGPS_dialog">Cancel</string>
-    <string name="messageGPS_dialog">Your GPS seems to be disabled, do you want to enable it?</string>
-
+    <string name="enableGPS_dialog">Activar GPS</string>
+    <string name="cancelGPS_dialog">Cancelar</string>
+    <string name="messageGPS_dialog">Tu GPS parece estar desactivado, ¿Quieres activarlo ahora?</string>
 </resources>

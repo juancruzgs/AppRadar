@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import java.util.ArrayList;
 
@@ -19,7 +20,6 @@ public class DestinationsDialog extends DialogFragment {
 
     DestinationsAdapter mAdapter;
     ArrayList<String> mDestinationsList = new ArrayList<>();
-    //Boolean mPressed = false;
     DestinationDialogListener mDialogListener;
 
     public DestinationsDialog() {
@@ -32,9 +32,9 @@ public class DestinationsDialog extends DialogFragment {
         mDialogListener = (DestinationDialogListener) getFragmentManager().findFragmentById(R.id.container);
         Dialog dialog = getDialog();
         if (dialog != null){
-            dialog.setCanceledOnTouchOutside(false);
             dialog.setTitle("Select destination...");
         }
+        this.setCancelable(false);
         ListView listView = (ListView) rootView.findViewById(R.id.listView_destinations);
         mDestinationsList.add("Buenos Aires");
         mDestinationsList.add("Mar del Plata");
@@ -46,20 +46,23 @@ public class DestinationsDialog extends DialogFragment {
                 dismissDialog(position);
             }
         });
+        Button buttonCancelDialog = (Button)rootView.findViewById(R.id.button_cancel_dialog);
+        buttonCancelDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissDialog(-1);
+            }
+        });
         return rootView;
     }
 
     public void dismissDialog(int position){
-        mDialogListener.onFinishDialog(mDestinationsList.get(position));
-        //mPressed = true;
+        if (position > -1) {
+            mDialogListener.onFinishDialog(mDestinationsList.get(position));
+        } else {
+            mDialogListener.onFinishDialog("");
+        }
         this.dismiss();
     }
 
-    /*@Override
-    public void onDismiss(DialogInterface dialog) {
-        if (!mPressed) {
-            mDialogListener.onFinishDialog("");
-        }
-        super.onDismiss(dialog);
-    }*/
 }

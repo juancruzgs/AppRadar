@@ -13,4 +13,5 @@
     <string name="action_refresh">Actualizar</string>
     <string name="button_select_destination">Seleccione destino</string>
     <string name="button_start_travel">Iniciar Viaje</string>
+    <string name="buton_dialog_cancel">Cancelar</string>
 </resources>

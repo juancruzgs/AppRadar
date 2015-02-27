@@ -38,7 +38,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     @Override
     public void onFinishDialog(String destination) {
-        mButtonSetDestination.setText(destination);
+        if (!destination.equals("")){
+            mButtonSetDestination.setText(destination);
+        }
         transitionIN();
     }
 

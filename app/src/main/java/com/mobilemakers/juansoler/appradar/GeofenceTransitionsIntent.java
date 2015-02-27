@@ -22,11 +22,6 @@ public class GeofenceTransitionsIntent {
         this.mActivity = activity;
     }
 
-    /**
-     * Handles incoming intents.
-     * @param intent The Intent sent by Location Services. This Intent is provided to Location
-     * Services (inside a PendingIntent) when addGeofences() is called.
-     */
     protected void handleTransition(Intent intent) {
         GeofencingEvent geoFenceEvent = GeofencingEvent.fromIntent(intent);
         if (!geoFenceEvent.hasError()) {
@@ -58,7 +53,6 @@ public class GeofenceTransitionsIntent {
         NotificationManager mNotificationManager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(mId, mBuilder.build());
     }
-
 
     private void showActivityAlwaysOnTop() {
         //Use in alert screen

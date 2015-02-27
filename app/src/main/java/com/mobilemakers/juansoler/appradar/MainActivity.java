@@ -3,7 +3,6 @@ package com.mobilemakers.juansoler.appradar;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -27,7 +26,6 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MainActivity extends ActionBarActivity implements ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
@@ -46,6 +44,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        //Location Services Intent
         geofenceTransition.handleTransition(intent);
     }
 
@@ -104,9 +103,8 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.mipmap.ic_launcher);
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4b000000")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_color)));
     }
-
 
     private void initializeGooglePlayServices() {
         if (!isGooglePlayServicesAvailable()) {
@@ -128,10 +126,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         createGeofences();
     }
 
-    /**
-     * In this sample, the geofences are predetermined and are hard-coded here. A real app might
-     * dynamically create geofences based on the user's location.
-     */
     public void createGeofences() {
         // Create internal "flattened" objects containing the geofence data.
 
@@ -180,10 +174,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         }
     }
 
-    /**
-     * Checks if Google Play services is available.
-     * @return true if it is.
-     */
     private boolean isGooglePlayServicesAvailable() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (ConnectionResult.SUCCESS == resultCode) {
@@ -197,10 +187,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         }
     }
 
-    /**
-     * Create a PendingIntent that triggers GeofenceTransitionIntentService when a geofence
-     * transition occurs.
-     */
     private PendingIntent getGeofenceTransitionPendingIntent() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);

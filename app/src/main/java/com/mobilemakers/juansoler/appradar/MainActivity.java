@@ -1,5 +1,6 @@
 package com.mobilemakers.juansoler.appradar;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -27,6 +29,7 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class MainActivity extends ActionBarActivity implements ConnectionCallbacks,
@@ -35,10 +38,11 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private final static String TAG = MainActivity.class.getSimpleName();
     private final static String PARSE_LATITUDE = "latitud";
     private final static String PARSE_LONGITUDE = "longitud";
+    private final static String PARSE_ID = "id";
     private final static String PARSE_NAME = "nombre";
     private final static String PARSE_KM = "km";
     private final static String PARSE_MAXIMUM_SPEED = "velocidad_maxima";
-    private final static String PARSE_DIRECCION = "direccion";
+    private final static String PARSE_DIRECTION = "direccion";
     private final static int FIRST_FENCE = 5000;
     private final static int SECOND_FENCE = 2000;
     private final static int THIRD_FENCE = 300;
@@ -48,6 +52,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     // Internal List of Geofence objects. In a real app, these might be provided by an API based on
     // locations within the user's proximity.
     List<Geofence> mGeofenceList;
+    ArrayList<ParseObject> mRadares;
 
 
     @Override
@@ -62,7 +67,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                         //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                WindowManager.LayoutParams.FLAG_FULLSCREEN |
                         //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
@@ -74,49 +79,76 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         setContentView(R.layout.activity_main);
         prepareFragment(savedInstanceState);
         showIconInActionBar();
-        List<SpotGeofence> radares = new ArrayList<>();
+
+        final ParseObject radares = new ParseObject("Radar");
+        mGeofenceList = new ArrayList<Geofence>();
+        final ArrayList<ParseObject> radaresOnParse;
+        gettingParseObjectsFromNetwork();
+        int id = 0;
+        for (int i = 0; i < mRadares.size(); i++) {
+            SpotGeofence spotGeofence;
+            ParseObject p = mRadares.get(i);
+            String latitude = p.getString(PARSE_LATITUDE);
+            String longitude = p.getString(PARSE_LONGITUDE);
+            String name = p.getString(PARSE_NAME);
+            String km = p.getString(PARSE_KM);
+            int max_speed = p.getInt(PARSE_MAXIMUM_SPEED);
+            int direction = p.getInt(PARSE_DIRECTION);
+            for (int j = 0; j < 3; j++) {
+                switch (j){
+                    case 0:
+                        spotGeofence = new SpotGeofence(Integer.toString(id),
+                                Double.parseDouble(latitude),
+                                Double.parseDouble(longitude),
+                                FIRST_FENCE);
+                        break;
+                    case 1:
+                        spotGeofence = new SpotGeofence(Integer.toString(id),
+                                Double.parseDouble(latitude),
+                                Double.parseDouble(longitude),
+                                SECOND_FENCE);
+                        break;
+                    default:
+                        spotGeofence = new SpotGeofence(Integer.toString(id),
+                                Double.parseDouble(latitude),
+                                Double.parseDouble(longitude),
+                                THIRD_FENCE);
+                        break;
+                }
+                mGeofenceList.add(spotGeofence.toGeofence());
+            }
+            saveRadarOnLocalParse(id, name, km, max_speed, direction, radares);
+            id++;
+        }
+
+
+
+
+        //initializeGooglePlayServices();
+    }
+
+    private void gettingParseObjectsFromNetwork() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Radares");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 SpotGeofence spotGeofence;
-                if (parseObjects.size()>0) {
+                if (parseObjects.size() > 0) {
                     int id = 0;
                     for (int i = 0; i < parseObjects.size(); i++) {
-                        ParseObject p = parseObjects.get(i);
-                        String latitude = p.getString(PARSE_LATITUDE);
-                        String longitude = p.getString(PARSE_LONGITUDE);
-                        for (int j = 0; j < 3; j++) {
-                            switch (j){
-                                case 0:
-                                    spotGeofence = new SpotGeofence(Integer.toString(id),
-                                            Double.parseDouble(latitude),
-                                            Double.parseDouble(longitude),
-                                            FIRST_FENCE);
-                                    break;
-                                case 1:
-                                    spotGeofence = new SpotGeofence(Integer.toString(id),
-                                            Double.parseDouble(latitude),
-                                            Double.parseDouble(longitude),
-                                            SECOND_FENCE);
-                                    break;
-                                default:
-                                    spotGeofence = new SpotGeofence(Integer.toString(id),
-                                            Double.parseDouble(latitude),
-                                            Double.parseDouble(longitude),
-                                            THIRD_FENCE);
-                                    break;
-                            }
-                            mGeofenceList.add(spotGeofence.toGeofence());
-                            id++;
-                        }
+                        mRadares.add(parseObjects.get(i));
+                    }
+                }
+            }});
+    }
 
-                    } }
-            }
-        });
-
-
-        //initializeGooglePlayServices();
+    private void saveRadarOnLocalParse(int id, String name, String km, int max_speed, int direction, ParseObject radares) {
+        radares.put(PARSE_ID, id);
+        radares.put(PARSE_NAME, name);
+        radares.put(PARSE_KM, km);
+        radares.put(PARSE_MAXIMUM_SPEED, max_speed);
+        radares.put(PARSE_DIRECTION, direction);
+        radares.pinInBackground();
     }
 
     private void prepareFragment(Bundle savedInstanceState) {

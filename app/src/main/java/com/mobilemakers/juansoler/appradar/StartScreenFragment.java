@@ -126,7 +126,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     public void transitionOUT() {
 
-        Animation animationOut = new AlphaAnimation(ANIMATION_ALPHA_FROM, ANIMATION_ALPHA_TO);
+        Animation animationOut = new AlphaAnimation(ANIMATION_ALPHA_TO, ANIMATION_ALPHA_FROM);
         animationOut.setDuration(ANIMATION_DURATION);
         mButtonSetDestination.startAnimation(animationOut);
         animationOut.setAnimationListener(new Animation.AnimationListener() {

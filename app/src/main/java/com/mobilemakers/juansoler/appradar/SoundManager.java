@@ -14,9 +14,9 @@ import java.util.HashMap;
  * Created by ariel.cattaneo on 25/02/2015.
  */
 public class SoundManager {
-    private static SoundManager privateInstance = null;
+    public final static int NUMBER_OF_ALERTS = 3;
 
-    private static final int DEFAULT_SOUND = R.raw.sub_klaxon;
+    private static SoundManager privateInstance = null;
 
     private static HashMap<String, Integer> mSoundsMap;
 
@@ -25,7 +25,8 @@ public class SoundManager {
     private boolean mLoaded;
     private float mVolume;
 
-    private int soundIdAlert;
+    private int [] soundIdAlert;
+    private boolean [] soundSet;
 
     private void setVolume(Context context) {
         float normalVolume = ((AudioManager)context.getSystemService(Context.AUDIO_SERVICE))
@@ -53,50 +54,59 @@ public class SoundManager {
         mSoundsMap.put("Factory", R.raw.factory);
         mSoundsMap.put("Air horn", R.raw.air_horn);
         mSoundsMap.put("Beep ping", R.raw.beep_ping);
-
-        // TODO: Load sound from preferences if defined
-        soundIdAlert = mSoundPool.load(mContext, DEFAULT_SOUND, 1);
     }
 
-    private void privSetAlertSound(int resource) {
-        mSoundPool.unload(soundIdAlert);
+    private void privSetAlertSound(int alert, int resource) {
+        mSoundPool.unload(soundIdAlert[alert]);
 
-        soundIdAlert = mSoundPool.load(mContext, resource, 1);
+        soundIdAlert[alert] = mSoundPool.load(mContext, resource, 1);
+        soundSet[alert] = true;
     }
 
-    public void setAlertSound(String name) throws SoundNotFoundException {
+    public void setAlertSound(int alert, String name) throws SoundNotFoundException {
         if (!mSoundsMap.containsKey(name)) {
             throw new SoundNotFoundException();
         }
-        privateInstance.privSetAlertSound(mSoundsMap.get(name));
+        privateInstance.privSetAlertSound(alert, mSoundsMap.get(name));
     }
 
     private SoundManager(Context context) {
         mContext = context;
         setVolume(context);
 
+        soundIdAlert = new int[NUMBER_OF_ALERTS];
+        soundSet = new boolean[NUMBER_OF_ALERTS];
+        for (int counter = 0; counter < NUMBER_OF_ALERTS; counter++) {
+            soundSet[counter] = false;
+        }
+
         setSoundPool();
         loadSounds();
     }
 
-    private void privPlayAlert() {
+    private void privPlayAlert(int alert) throws SoundNotSetException {
         if (mLoaded) {
-            mSoundPool.play(soundIdAlert, mVolume, mVolume, 10, 0, 1.0f);
+            if (!soundSet[alert]) {
+                throw new SoundNotSetException();
+            }
+            mSoundPool.play(soundIdAlert[alert], mVolume, mVolume, 10, 0, 1.0f);
         }
         else {
             playAlertTone();
         }
     }
 
-    public static void playAlert() throws SoundManagerNotInitializedException {
+    public static void playAlert(int alert) throws SoundManagerNotInitializedException,
+        SoundNotSetException {
         if (privateInstance == null) {
             throw new SoundManagerNotInitializedException();
         }
-        privateInstance.privPlayAlert();
+        privateInstance.privPlayAlert(alert);
     }
 
     public static void init(Context context) {
         privateInstance = new SoundManager(context);
+        // TODO: Set sounds from preferences.
     }
 
     /**

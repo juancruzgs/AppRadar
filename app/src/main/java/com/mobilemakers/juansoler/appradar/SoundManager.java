@@ -48,9 +48,11 @@ public class SoundManager {
     }
 
     private void loadSounds() {
-        // TODO: More sounds.
         mSoundsMap = new HashMap<>();
         mSoundsMap.put("Submarine klaxon", R.raw.sub_klaxon);
+        mSoundsMap.put("Factory", R.raw.factory);
+        mSoundsMap.put("Air horn", R.raw.air_horn);
+        mSoundsMap.put("Beep ping", R.raw.beep_ping);
 
         // TODO: Load sound from preferences if defined
         soundIdAlert = mSoundPool.load(mContext, DEFAULT_SOUND, 1);

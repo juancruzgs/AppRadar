@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="sound_options">
+        <!-- WWII submarine dive klaxon -->
+        <!-- Freely available on the U.S. Department of Defense media page.
+            Public Domain as a work of the U.S. government. -->
+        <!-- Wikimedia Commons (commons.wikimedia.org) -->
         <item>Submarine klaxon</item>
+
+        <!-- Factory noise by Lionel Allorge - Free Art License - lunerouge.org -->
+        <item>Factory</item>
+
+        <!-- Air horn - License: Attribution 3.0 - Recorded by Mike Koenig -->
+        <!-- soundbible.com -->
+        <item>Air horn</item>
+
+        <!-- Beep ping - License: Attribution 3.0 - Recorded by Mike Koenig -->
+        <!-- soundbible.com -->
+        <item>Beep ping</item>
     </string-array>
 </resources>

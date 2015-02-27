@@ -15,14 +15,24 @@
         android:elevation="6dp"
         android:src="@mipmap/startscreenpic"
         android:scaleType="fitXY"
-        android:layout_weight="1.5" />
+        android:layout_weight="1.2"
+        android:background="@drawable/imageview_rectangle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/textView_welcome"
+        android:id="@+id/textView_welcome"
+        android:paddingTop="25dp"
+        android:gravity="center" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="0.8">
 
         <Button
             android:id="@+id/button_select_desntination"

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener {
 
@@ -94,11 +95,13 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     @Override
     public void onFinishDialog(String destination) {
-        mButtonSetDestination.setText(destination);
+        if (!destination.equals("")){
+            mButtonSetDestination.setText(destination);
+        }
         transitionIN();
     }
 
-    public void transitionIN(){
+    public void transitionIN() {
 
         Animation animationIn = new AlphaAnimation(ANIMATION_ALPHA_FROM, ANIMATION_ALPHA_TO);
         animationIn.setDuration(ANIMATION_DURATION);
@@ -121,7 +124,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         });
     }
 
-    public void transitionOUT(){
+    public void transitionOUT() {
 
         Animation animationOut = new AlphaAnimation(ANIMATION_ALPHA_FROM, ANIMATION_ALPHA_TO);
         animationOut.setDuration(ANIMATION_DURATION);

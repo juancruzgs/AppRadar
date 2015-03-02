@@ -30,6 +30,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
     private final static String TAG = MainActivity.class.getSimpleName();
+    private final static int CONNECTION_TIMEOUT = 9000;
     private final static String RADARS_TABLE = "Radares";
     private final static String OBJECT_RADAR = "Radar";
     private final static String PARSE_LATITUDE = "latitud";
@@ -67,8 +68,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         prepareFragment(savedInstanceState);
         showIconInActionBar();
         mGeofenceTransition = new GeofenceTransitionsIntent(this);
-        prepareRadars();
-        //initializeGooglePlayServices();
+        initializeGooglePlayServices();
     }
 
     private void prepareFragment(Bundle savedInstanceState) {
@@ -86,14 +86,33 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_color)));
     }
 
-    private void prepareRadars() {
-        final ParseObject radars = new ParseObject(OBJECT_RADAR);
+    private void initializeGooglePlayServices() {
+        if (!isGooglePlayServicesAvailable()) {
+            Log.e(TAG, "Google Play services unavailable.");
+            finish();
+            return;
+        }
+
+        mApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        mApiClient.connect();
+
+        // Instantiate the current List of geofences.
         mGeofenceList = new ArrayList<>();
+        createGeofences();
+    }
+
+    private void createGeofences() {
+        final ParseObject radars = new ParseObject(OBJECT_RADAR);
         final ArrayList<ParseObject> radarsOnParse;
         gettingParseObjectsFromNetwork();
         int id = 0;
+        SpotGeofence spotGeofence;
         for (int i = 0; i < mRadars.size(); i++) {
-            SpotGeofence spotGeofence;
             ParseObject parseRadar = mRadars.get(i);
             String latitude = parseRadar.getString(PARSE_LATITUDE);
             String longitude = parseRadar.getString(PARSE_LONGITUDE);
@@ -102,24 +121,19 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
             int maxSpeed = parseRadar.getInt(PARSE_MAXIMUM_SPEED);
             int direction = parseRadar.getInt(PARSE_DIRECTION);
             for (int j = 0; j < 3; j++) {
+                spotGeofence = new SpotGeofence();
+                spotGeofence.setId(Integer.toString(id));
+                spotGeofence.setLatitude(Double.parseDouble(latitude));
+                spotGeofence.setLongitude(Double.parseDouble(longitude));
                 switch (j){
                     case 0:
-                        spotGeofence = new SpotGeofence(Integer.toString(id),
-                                Double.parseDouble(latitude),
-                                Double.parseDouble(longitude),
-                                FIRST_FENCE);
+                        spotGeofence.setRadius(FIRST_FENCE);
                         break;
                     case 1:
-                        spotGeofence = new SpotGeofence(Integer.toString(id),
-                                Double.parseDouble(latitude),
-                                Double.parseDouble(longitude),
-                                SECOND_FENCE);
+                        spotGeofence.setRadius(SECOND_FENCE);
                         break;
-                    default:
-                        spotGeofence = new SpotGeofence(Integer.toString(id),
-                                Double.parseDouble(latitude),
-                                Double.parseDouble(longitude),
-                                THIRD_FENCE);
+                    case 2:
+                        spotGeofence.setRadius(THIRD_FENCE);
                         break;
                 }
                 mGeofenceList.add(spotGeofence.toGeofence());
@@ -153,31 +167,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         radars.pinInBackground();
     }
 
-    private void initializeGooglePlayServices() {
-        if (!isGooglePlayServicesAvailable()) {
-            Log.e(TAG, "Google Play services unavailable.");
-            finish();
-            return;
-        }
-
-        mApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-
-        mApiClient.connect();
-
-        // Instantiate the current List of geofences.
-        mGeofenceList = new ArrayList<>();
-        createGeofences();
-    }
-
-    public void createGeofences() {
-        // Create internal "flattened" objects containing the geofence data.
-
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -204,7 +193,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         // If the error has a resolution, start a Google Play services activity to resolve it.
         if (connectionResult.hasResolution()) {
             try {
-                connectionResult.startResolutionForResult(this, 9000);
+                connectionResult.startResolutionForResult(this, CONNECTION_TIMEOUT);
             } catch (IntentSender.SendIntentException e) {
                 Log.e(TAG, "Exception while resolving connection error.", e);
             }

@@ -48,10 +48,10 @@ public class SoundManager {
 
     private void loadSounds() {
         mSoundsMap = new HashMap<>();
-        mSoundsMap.put("Submarine klaxon", R.raw.sub_klaxon);
-        mSoundsMap.put("Factory", R.raw.factory);
-        mSoundsMap.put("Air horn", R.raw.air_horn);
-        mSoundsMap.put("Beep ping", R.raw.beep_ping);
+        mSoundsMap.put(mContext.getString(R.string.sub_klaxon), R.raw.sub_klaxon);
+        mSoundsMap.put(mContext.getString(R.string.factory), R.raw.factory);
+        mSoundsMap.put(mContext.getString(R.string.air_horn), R.raw.air_horn);
+        mSoundsMap.put(mContext.getString(R.string.beep_ping), R.raw.beep_ping);
     }
 
     private void privSetAlertSound(int alert, int resource) {

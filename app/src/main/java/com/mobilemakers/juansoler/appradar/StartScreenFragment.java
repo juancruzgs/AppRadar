@@ -17,6 +17,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
+
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener {
 
     private static final String TAG_DESTINATION_DIALOG = "destinations_dialog";
@@ -71,7 +73,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
 
             private void showAlertDialog() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
                 builder.setMessage(getString(R.string.messageGPS_dialog))
                         .setCancelable(false)
                         .setPositiveButton(getString(R.string.enableGPS_dialog), new DialogInterface.OnClickListener() {

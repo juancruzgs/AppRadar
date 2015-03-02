@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/pref_customized_first_notification">
-        <ListPreference android:key="first_notification_preference_distance"
+        <com.afollestad.materialdialogs.prefs.MaterialListPreference
+            android:key="first_notification_preference_distance"
             android:title="@string/pref_distance_title" android:summary="@string/pref_first_notification_distance_summary"
             android:entries="@array/first_entries"
             android:entryValues="@array/first_values"
@@ -10,7 +11,8 @@
             android:title="@string/pref_sound_title" android:summary="@string/pref_first_notification_sound_summary"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_second_notification">
-        <ListPreference android:key="second_notification_preference_distance"
+        <com.afollestad.materialdialogs.prefs.MaterialListPreference
+            android:key="second_notification_preference_distance"
             android:title="@string/pref_distance_title" android:summary="@string/pref_second_notification_distance_summary"
             android:entries="@array/second_entries"
             android:entryValues="@array/second_values"

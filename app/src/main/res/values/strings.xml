@@ -29,4 +29,9 @@
     <string name="cancelGPS_dialog">Cancel</string>
     <string name="messageGPS_dialog">Your GPS seems to be disabled, do you want to enable it?</string>
 
+    <string name="sub_klaxon">Bocina de submarino</string>
+    <string name="factory">Fábrica</string>
+    <string name="air_horn">Sirena de aire</string>
+    <string name="beep_ping">Ping de beep</string>
+
 </resources>

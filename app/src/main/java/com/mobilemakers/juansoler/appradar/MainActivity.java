@@ -45,6 +45,8 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private final static int SECOND_FENCE = 2000;
     private final static int THIRD_FENCE = 300;
 
+    static boolean queryFinished = false;
+
     // Stores the PendingIntent used to request geofence monitoring.
     private PendingIntent mGeofenceRequestIntent;
     private GoogleApiClient mApiClient;
@@ -104,26 +106,20 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
         // Instantiate the current List of geofences.
         mGeofenceList = new ArrayList<>();
-        createGeofences();
-    }
-    
-    private void prepareRadars() {
-        final ParseObject radars = new ParseObject(OBJECT_RADAR);
-        mGeofenceList = new ArrayList<>();
-        createGeofences();
+        gettingParseObjectsFromNetwork();
+        //createGeofences();
     }
 
     private void createGeofences() {
-        final ParseObject radars = new ParseObject(OBJECT_RADAR);
         final ArrayList<ParseObject> radarsOnParse;
         gettingParseObjectsFromNetwork();
 
         gettingParseObjectsFromLocal();
 
-        preparingGeofenceList(radars);
+        preparingGeofenceList();
     }
 
-    private void preparingGeofenceList(ParseObject radars) {
+    private void preparingGeofenceList() {
         int id = 0;
         SpotGeofence spotGeofence;
         for (int i = 0; i < mRadars.size(); i++) {
@@ -151,9 +147,9 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                         break;
                 }
                 mGeofenceList.add(spotGeofence.toGeofence());
-                saveRadarOnLocalParse(id, name, Double.parseDouble(latitude), Double.parseDouble(longitude), km, maxSpeed, direction,THIRD_FENCE, radars);
-                id++;
-            }        }
+                saveRadarOnLocalParse(id, name, Double.parseDouble(latitude), Double.parseDouble(longitude), km, maxSpeed, direction,THIRD_FENCE);                id++;
+            }
+        }
     }
 
     private void gettingParseObjectsFromLocal() {
@@ -166,8 +162,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                     for (int i = 0; i < parseObjects.size(); i++){
                         mRadars.add(parseObjects.get(i));
                     }
-                } else {
-                    Log.d("score", "Error: " + e.getMessage());
                 }
             }
         });
@@ -185,10 +179,12 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                         /*mRadars.add(parseObjects.get(i));*/
                     }
                 }
+                queryFinished = true;
             }});
     }
 
-    private void saveRadarOnLocalParse(int id, String name, double latitude, double longitude, String km, int maxSpeed, int direction, int radius, ParseObject radars) {
+    private void saveRadarOnLocalParse(int id, String name, double latitude, double longitude, String km, int maxSpeed, int direction, int radius) {
+        ParseObject radars = new ParseObject(OBJECT_RADAR);
         radars.put(PARSE_ID, id);
         radars.put(PARSE_NAME, name);
         radars.put(PARSE_LATITUDE, latitude);
@@ -210,10 +206,17 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     public void onConnected(Bundle bundle) {
         // Get the PendingIntent for the geofence monitoring request.
         // Send a request to add the current geofences.
+        while (!queryFinished){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         mGeofenceRequestIntent = getGeofenceTransitionPendingIntent();
         LocationServices.GeofencingApi.addGeofences(mApiClient, mGeofenceList,
                 mGeofenceRequestIntent);
-        finish();
+
     }
 
     @Override

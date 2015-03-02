@@ -258,4 +258,10 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy() {
+        mApiClient.disconnect();
+        super.onDestroy();
+    }
 }

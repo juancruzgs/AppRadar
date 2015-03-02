@@ -30,4 +30,9 @@
     <string name="enableGPS_dialog">Activar GPS</string>
     <string name="cancelGPS_dialog">Cancelar</string>
     <string name="messageGPS_dialog">Tu GPS parece estar desactivado, ¿Quieres activarlo ahora?</string>
+
+    <string name="sub_klaxon">Bocina de submarino</string>
+    <string name="factory">Fábrica</string>
+    <string name="air_horn">Sirena de aire</string>
+    <string name="beep_ping">Ping de beep</string>
 </resources>

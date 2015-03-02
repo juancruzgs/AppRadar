@@ -186,4 +186,48 @@ public class SoundManager {
         audioTrack.write(generatedSnd, 0, generatedSnd.length);     // Load the track
         audioTrack.release();           // Track play done. Release track.
     }
+
+    /**
+     * SoundManager exception superclass.
+     *
+     * Created by ariel.cattaneo on 27/02/2015.
+     */
+    public static class SoundManagerException extends Exception {
+    }
+
+    /**
+     * SoundManager exception: it wasn't initialized.
+     *
+     * Created by ariel.cattaneo on 27/02/2015.
+     */
+    public static class SoundManagerNotInitializedException extends SoundManagerException {
+        @Override
+        public String getMessage() {
+            return "The SoundManager object wasn't initialized.\nYou have to call SoundManager.init(context) before using it.";
+        }
+    }
+
+    /**
+     * SoundManager exception: the sound file wasn't found.
+     *
+     * Created by ariel.cattaneo on 27/02/2015.
+     */
+    public static class SoundNotFoundException extends SoundManagerException {
+        @Override
+        public String getMessage() {
+            return "The sound file wasn't found.";
+        }
+    }
+
+    /**
+     * SoundManager exception: the sound wasn't set.
+     *
+     * Created by ariel.cattaneo on 27/02/2015.
+     */
+    public static class SoundNotSetException extends SoundManagerException {
+        @Override
+        public String getMessage() {
+            return "The sound wasn't set.";
+        }
+    }
 }

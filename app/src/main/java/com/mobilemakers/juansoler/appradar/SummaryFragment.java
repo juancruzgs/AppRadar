@@ -17,7 +17,11 @@ import android.widget.TextView;
  */
 public class SummaryFragment extends Fragment {
 
-    TextView mTexttViewDistance;
+    private final static int DISTANCE = 9;
+    private final static int REFRESH_TIME = 10;
+    private final static int SPEED_LIMIT = 120;
+
+    TextView mTextViewDistance;
     TextView mTextViewRefreshTime;
     TextView mTextViewSpeedLimitValue;
 
@@ -31,14 +35,9 @@ public class SummaryFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
         wireUpViews(rootView);
 
-        int distance = 9;
-        setDistance(distance);
-
-        int refresh_time = 10;
-        setRefreshTime(refresh_time);
-
-        int speed_limit = 120;
-        mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text),speed_limit));
+        setDistance(DISTANCE);
+        setRefreshTime(REFRESH_TIME);
+        mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), SPEED_LIMIT));
         return rootView;
     }
 
@@ -47,11 +46,11 @@ public class SummaryFragment extends Fragment {
     }
 
     private void setDistance(int distance) {
-        mTexttViewDistance.setText(String.format(getString(R.string.text_view_distance_value),Integer.toString(distance)));
+        mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), Integer.toString(distance)));
     }
 
     private void wireUpViews(View rootView) {
-        mTexttViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
+        mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
         mTextViewRefreshTime = (TextView) rootView.findViewById(R.id.text_view_refresh_time);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
     }

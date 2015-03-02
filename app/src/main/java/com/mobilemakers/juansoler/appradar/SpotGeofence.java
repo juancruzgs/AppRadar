@@ -4,8 +4,6 @@ import com.google.android.gms.location.Geofence;
 
 /**
  * Spot class with geofence info.
- *
- * Created by ariel.cattaneo on 25/02/2015.
  */
 public class SpotGeofence {
 

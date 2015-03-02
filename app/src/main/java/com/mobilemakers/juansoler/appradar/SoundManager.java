@@ -10,8 +10,6 @@ import java.util.HashMap;
 
 /**
  * Sound management (initialization, load, play...)
- *
- * Created by ariel.cattaneo on 25/02/2015.
  */
 public class SoundManager {
     public final static int NUMBER_OF_ALERTS = 3;

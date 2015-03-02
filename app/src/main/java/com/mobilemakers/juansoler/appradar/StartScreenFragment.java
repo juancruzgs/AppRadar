@@ -67,7 +67,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER )){
                     showAlertDialog();
                 } else {
-                    mFragmentManager.beginTransaction().replace(R.id.container, new SummaryFragment())
+                    SummaryFragment summaryFragment = new SummaryFragment();
+                    summaryFragment.setArguments(getArguments().getBundle(MainActivity.RADARS_LIST));
+                    mFragmentManager.beginTransaction().replace(R.id.container, summaryFragment)
                             .addToBackStack(null).commit();
                 }
             }

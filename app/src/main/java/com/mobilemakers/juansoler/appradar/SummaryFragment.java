@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +28,8 @@ public class SummaryFragment extends Fragment {
     TextView mTextViewRefreshTime;
     TextView mTextViewSpeedLimitValue;
 
-    float mDistance;
+    int mDistance;
+    RadarList mRadars;
 
     public SummaryFragment() {
         // Required empty public constructor
@@ -37,12 +40,24 @@ public class SummaryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
         wireUpViews(rootView);
-        setDistance(DISTANCE);
+        mDistance = calculateDistanceToTheNextRadar();
+        setDistance(mDistance);
         setRefreshTime(REFRESH_TIME);
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), SPEED_LIMIT));
-        mDistance = calculateTheDistanceToNextRadar();
+
         return rootView;
     }
+
+    private int calculateDistanceToTheNextRadar() {
+        Location currentLocation = MainActivity.mLastLocation;
+        mRadars = getArguments().getParcelable(MainActivity.RADARS_LIST);
+        Location nextLocation = new Location("nextLocation");
+        nextLocation.setLongitude(mRadars.getmRadars().get(0).getmLongitude());
+        nextLocation.setLatitude(mRadars.getmRadars().get(0).getmLatitude());
+        float result = (distanceTo(currentLocation, nextLocation)/1000);
+        return Math.round(result);
+    }
+
 
     private void setRefreshTime(int refresh_time) {
         mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text),Integer.toString(refresh_time)));
@@ -58,12 +73,8 @@ public class SummaryFragment extends Fragment {
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
     }
 
-    private float calculateTheDistanceToNextRadar() {
-        Location currentLocation = MainActivity.mLastLocation;
-        Location location2 = new Location("lastLocation");
-        location2.setLatitude(-58.169778);
-        location2.setLongitude(-34.934739);
-        float distance = currentLocation.distanceTo(location2);
+    private float distanceTo(Location currentLocation, Location nextLocation) {
+        float distance = currentLocation.distanceTo(nextLocation);
         return distance;
     }
 

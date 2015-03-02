@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     NotificationPreference mNotification = new NotificationPreference();
     GeofenceTransitionsIntent mGeofenceTransition;
     List<Geofence> mGeofenceList;
-    ArrayList<ParseObject> mRadars;
+    ArrayList<ParseObject> mRadars = new ArrayList<>();
 
 
     @Override

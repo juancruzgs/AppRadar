@@ -1,6 +1,5 @@
 package com.mobilemakers.juansoler.appradar;
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -11,8 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -28,12 +25,13 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends ActionBarActivity implements ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
     private final static String TAG = MainActivity.class.getSimpleName();
+    private final static String RADARS_TABLE = "Radares";
+    private final static String OBJECT_RADAR = "Radar";
     private final static String PARSE_LATITUDE = "latitud";
     private final static String PARSE_LONGITUDE = "longitud";
     private final static String PARSE_ID = "id";
@@ -44,20 +42,22 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private final static int FIRST_FENCE = 5000;
     private final static int SECOND_FENCE = 2000;
     private final static int THIRD_FENCE = 300;
+
     // Stores the PendingIntent used to request geofence monitoring.
     private PendingIntent mGeofenceRequestIntent;
     private GoogleApiClient mApiClient;
-    List<Geofence> mGeofenceList;
+
     NotificationPreference mNotification = new NotificationPreference();
-    GeofenceTransitionsIntent geofenceTransition;
-    ArrayList<ParseObject> mRadares;
+    GeofenceTransitionsIntent mGeofenceTransition;
+    List<Geofence> mGeofenceList;
+    ArrayList<ParseObject> mRadars;
 
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         //Location Services Intent
-        geofenceTransition.handleTransition(intent);
+        mGeofenceTransition.handleTransition(intent);
     }
 
     @Override
@@ -66,23 +66,41 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         setContentView(R.layout.activity_main);
         prepareFragment(savedInstanceState);
         showIconInActionBar();
+        mGeofenceTransition = new GeofenceTransitionsIntent(this);
+        prepareRadars();
+        //initializeGooglePlayServices();
+    }
 
-        geofenceTransition = new GeofenceTransitionsIntent(this);
+    private void prepareFragment(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new StartScreenFragment())
+                    .commit();
+        }
+    }
 
-        final ParseObject radares = new ParseObject("Radar");
-        mGeofenceList = new ArrayList<Geofence>();
-        final ArrayList<ParseObject> radaresOnParse;
+    private void showIconInActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setIcon(R.mipmap.ic_launcher);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_color)));
+    }
+
+    private void prepareRadars() {
+        final ParseObject radars = new ParseObject(OBJECT_RADAR);
+        mGeofenceList = new ArrayList<>();
+        final ArrayList<ParseObject> radarsOnParse;
         gettingParseObjectsFromNetwork();
         int id = 0;
-        for (int i = 0; i < mRadares.size(); i++) {
+        for (int i = 0; i < mRadars.size(); i++) {
             SpotGeofence spotGeofence;
-            ParseObject p = mRadares.get(i);
-            String latitude = p.getString(PARSE_LATITUDE);
-            String longitude = p.getString(PARSE_LONGITUDE);
-            String name = p.getString(PARSE_NAME);
-            String km = p.getString(PARSE_KM);
-            int max_speed = p.getInt(PARSE_MAXIMUM_SPEED);
-            int direction = p.getInt(PARSE_DIRECTION);
+            ParseObject parseRadar = mRadars.get(i);
+            String latitude = parseRadar.getString(PARSE_LATITUDE);
+            String longitude = parseRadar.getString(PARSE_LONGITUDE);
+            String name = parseRadar.getString(PARSE_NAME);
+            String km = parseRadar.getString(PARSE_KM);
+            int maxSpeed = parseRadar.getInt(PARSE_MAXIMUM_SPEED);
+            int direction = parseRadar.getInt(PARSE_DIRECTION);
             for (int j = 0; j < 3; j++) {
                 switch (j){
                     case 0:
@@ -106,18 +124,13 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                 }
                 mGeofenceList.add(spotGeofence.toGeofence());
             }
-            saveRadarOnLocalParse(id, name, km, max_speed, direction, radares);
+            saveRadarOnLocalParse(id, name, km, maxSpeed, direction, radars);
             id++;
         }
-
-
-
-
-        //initializeGooglePlayServices();
     }
 
     private void gettingParseObjectsFromNetwork() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Radares");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -125,34 +138,19 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                 if (parseObjects.size() > 0) {
                     int id = 0;
                     for (int i = 0; i < parseObjects.size(); i++) {
-                        mRadares.add(parseObjects.get(i));
+                        mRadars.add(parseObjects.get(i));
                     }
                 }
             }});
     }
 
-    private void saveRadarOnLocalParse(int id, String name, String km, int max_speed, int direction, ParseObject radares) {
-        radares.put(PARSE_ID, id);
-        radares.put(PARSE_NAME, name);
-        radares.put(PARSE_KM, km);
-        radares.put(PARSE_MAXIMUM_SPEED, max_speed);
-        radares.put(PARSE_DIRECTION, direction);
-        radares.pinInBackground();
-    }
-
-    private void prepareFragment(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new StartScreenFragment())
-                    .commit();
-        }
-    }
-
-    private void showIconInActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setIcon(R.mipmap.ic_launcher);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_color)));
+    private void saveRadarOnLocalParse(int id, String name, String km, int maxSpeed, int direction, ParseObject radars) {
+        radars.put(PARSE_ID, id);
+        radars.put(PARSE_NAME, name);
+        radars.put(PARSE_KM, km);
+        radars.put(PARSE_MAXIMUM_SPEED, maxSpeed);
+        radars.put(PARSE_DIRECTION, direction);
+        radars.pinInBackground();
     }
 
     private void initializeGooglePlayServices() {

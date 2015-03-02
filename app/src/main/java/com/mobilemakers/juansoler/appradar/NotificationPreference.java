@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-/**
- * Created by micaela.cavallo on 26/02/2015.
- */
 public class NotificationPreference {
     private final static String FIRST_NOTIFICATION_DISTANCE = "first_notification_preference_distance";
     private final static String FIRST_NOTIFICATION_SOUND = "first_notification_preference_sound";

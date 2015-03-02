@@ -6,8 +6,6 @@ import android.media.SoundPool;
 
 /**
  * Sound management (initialization, load, play...)
- *
- * Created by ariel.cattaneo on 25/02/2015.
  */
 public class SoundManager {
     private static SoundManager privateInstance = null;

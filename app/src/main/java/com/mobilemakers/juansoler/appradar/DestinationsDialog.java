@@ -1,7 +1,6 @@
 package com.mobilemakers.juansoler.appradar;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -13,6 +12,10 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class DestinationsDialog extends DialogFragment {
+
+    private final static String SELECT_DESTINATION = "Select destination...";
+    private final static String BUENOS_AIRES = "Buenos Aires";
+    private final static String MAR_DEL_PLATA = "Mar del Plata";
 
     public interface DestinationDialogListener {
         void onFinishDialog(String Destination);
@@ -32,12 +35,12 @@ public class DestinationsDialog extends DialogFragment {
         mDialogListener = (DestinationDialogListener) getFragmentManager().findFragmentById(R.id.container);
         Dialog dialog = getDialog();
         if (dialog != null){
-            dialog.setTitle("Select destination...");
+            dialog.setTitle(SELECT_DESTINATION);
         }
         this.setCancelable(false);
         ListView listView = (ListView) rootView.findViewById(R.id.listView_destinations);
-        mDestinationsList.add("Buenos Aires");
-        mDestinationsList.add("Mar del Plata");
+        mDestinationsList.add(BUENOS_AIRES);
+        mDestinationsList.add(MAR_DEL_PLATA);
         mAdapter = new DestinationsAdapter(getActivity(), mDestinationsList);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

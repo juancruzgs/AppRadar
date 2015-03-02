@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -52,7 +53,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     GeofenceTransitionsIntent mGeofenceTransition;
     List<Geofence> mGeofenceList;
     ArrayList<ParseObject> mRadars = new ArrayList<>();
-
+    public static Location mLastLocation;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -155,7 +156,8 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                         mRadars.add(parseObjects.get(i));
                     }
                 }
-            }});
+            }
+        });
     }
 
     private void saveRadarOnLocalParse(int id, String name, String km, int maxSpeed, int direction, ParseObject radars) {
@@ -175,6 +177,8 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     @Override
     public void onConnected(Bundle bundle) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mApiClient);
         // Get the PendingIntent for the geofence monitoring request.
         // Send a request to add the current geofences.
         mGeofenceRequestIntent = getGeofenceTransitionPendingIntent();

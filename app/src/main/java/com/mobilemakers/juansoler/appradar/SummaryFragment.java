@@ -1,6 +1,7 @@
 package com.mobilemakers.juansoler.appradar;
 
 
+import android.location.Location;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -25,6 +26,8 @@ public class SummaryFragment extends Fragment {
     TextView mTextViewRefreshTime;
     TextView mTextViewSpeedLimitValue;
 
+    float mDistance;
+
     public SummaryFragment() {
         // Required empty public constructor
     }
@@ -34,10 +37,10 @@ public class SummaryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
         wireUpViews(rootView);
-
         setDistance(DISTANCE);
         setRefreshTime(REFRESH_TIME);
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), SPEED_LIMIT));
+        mDistance = calculateTheDistanceToNextRadar();
         return rootView;
     }
 
@@ -53,6 +56,15 @@ public class SummaryFragment extends Fragment {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
         mTextViewRefreshTime = (TextView) rootView.findViewById(R.id.text_view_refresh_time);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
+    }
+
+    private float calculateTheDistanceToNextRadar() {
+        Location currentLocation = MainActivity.mLastLocation;
+        Location location2 = new Location("lastLocation");
+        location2.setLatitude(-58.169778);
+        location2.setLongitude(-34.934739);
+        float distance = currentLocation.distanceTo(location2);
+        return distance;
     }
 
     @Override

@@ -114,6 +114,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     private void gettingParseObjectsFromNetwork() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+        query.orderByAscending(PARSE_KM);
         List<ParseObject> parseObjects;
         try {
             parseObjects = query.find();

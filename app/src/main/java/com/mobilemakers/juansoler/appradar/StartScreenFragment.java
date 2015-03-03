@@ -19,6 +19,8 @@ import android.widget.Button;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
+import java.util.Iterator;
+
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener {
 
     private static final String TAG_DESTINATION_DIALOG = "destinations_dialog";
@@ -28,6 +30,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     FragmentManager mFragmentManager;
 
     Button mButtonSetDestination;
+
+    RadarList mRadars;
 
     public StartScreenFragment() {
     }
@@ -67,19 +71,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER )){
                     showAlertDialog();
                 } else {
+                    int direction = getDirection();
+                    mRadars = filterRadars(direction);
                     SummaryFragment summaryFragment = new SummaryFragment();
                     setFragmentArgument(summaryFragment);
                     mFragmentManager.beginTransaction().replace(R.id.container, summaryFragment)
                             .addToBackStack(null).commit();
-                }
-            }
-
-            private void setFragmentArgument(SummaryFragment summaryFragment) {
-                Bundle bundle = getArguments();
-                if (bundle !=null && bundle.containsKey(MainActivity.RADARS_LIST)) {
-//                    Bundle bundle = new Bundle();
-//                bundle.putParcelable(MainActivity.RADARS_LIST, getArguments().getParcelable(MainActivity.RADARS_LIST));
-                    summaryFragment.setArguments(bundle);
                 }
             }
 
@@ -102,8 +99,43 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 final AlertDialog alert = builder.create();
                 alert.show();
             }
+
+            private int getDirection() {
+                int direction;
+                if (mButtonSetDestination.getText().equals("Mar del Plata")) {
+                    direction = 0;
+                }
+                else {
+                    direction = 1;
+                }
+                return direction;
+            }
+
+            private void setFragmentArgument(SummaryFragment summaryFragment) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(MainActivity.RADARS_LIST, mRadars);
+                summaryFragment.setArguments(bundle);
+            }
+
+            public RadarList filterRadars (int direction) {
+                Bundle bundle = getArguments();
+                RadarList radarList = null;
+                if (bundle != null && bundle.containsKey(MainActivity.RADARS_LIST)) {
+                    radarList = bundle.getParcelable(MainActivity.RADARS_LIST);
+                    Iterator iterator = radarList.getmRadars().iterator();
+                    while (iterator.hasNext()) {
+                        Radar radar = (Radar) iterator.next();
+                        if (radar.getDireccion() == direction) {
+                            radarList.getmRadars().remove(radar); // PARCEL ERROR
+                        }
+                    }
+                }
+                return radarList;
+            }
         });
     }
+
+
 
     @Override
     public void onFinishDialog(String destination) {

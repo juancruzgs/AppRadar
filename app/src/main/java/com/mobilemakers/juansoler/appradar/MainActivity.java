@@ -32,12 +32,12 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private final static String TAG = MainActivity.class.getSimpleName();
     private final static int CONNECTION_TIMEOUT = 9000;
     private final static String RADARS_TABLE = "Radares";
-    private final static String PARSE_LATITUDE = "latitude";
-    private final static String PARSE_LONGITUDE = "longitude";
-    private final static String PARSE_NAME = "name";
+    private final static String PARSE_LATITUDE = "latitud";
+    private final static String PARSE_LONGITUDE = "longitud";
+    private final static String PARSE_NAME = "nombre";
     private final static String PARSE_KM = "km";
-    private final static String PARSE_MAXIMUM_SPEED = "max_speed";
-    private final static String PARSE_DIRECTION = "direction";
+    private final static String PARSE_MAXIMUM_SPEED = "velocidad_maxima";
+    private final static String PARSE_DIRECTION = "direccion";
     private final static int FIRST_FENCE = 5000;
     private final static int SECOND_FENCE = 2000;
     private final static int THIRD_FENCE = 300;

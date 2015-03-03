@@ -52,8 +52,8 @@ public class SummaryFragment extends Fragment {
         Location currentLocation = MainActivity.mLastLocation;
         mRadars = getArguments().getParcelable(MainActivity.RADARS_LIST);
         Location nextLocation = new Location("nextLocation");
-        nextLocation.setLongitude(mRadars.getmRadars().get(0).getmLongitude());
-        nextLocation.setLatitude(mRadars.getmRadars().get(0).getmLatitude());
+        nextLocation.setLongitude(mRadars.getmRadars().get(0).getLongitude());
+        nextLocation.setLatitude(mRadars.getmRadars().get(0).getLatitude());
         float result = (distanceTo(currentLocation, nextLocation)/1000);
         return Math.round(result);
     }

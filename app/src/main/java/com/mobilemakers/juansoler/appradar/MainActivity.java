@@ -64,7 +64,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Float flot = Float.valueOf("41.45");
         prepareFragment(savedInstanceState);
         showIconInActionBar();
         mGeofenceTransition = new GeofenceTransitionsIntent(this);

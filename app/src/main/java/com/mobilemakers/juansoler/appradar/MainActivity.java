@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private final static int FIRST_FENCE = 5000;
     private final static int SECOND_FENCE = 2000;
     private final static int THIRD_FENCE = 300;
+    public final static String RADARS_LIST = "radars_list";
 
     static boolean queryFinished = false;
 
@@ -54,8 +56,8 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     NotificationPreference mNotification = new NotificationPreference();
     GeofenceTransitionsIntent mGeofenceTransition;
     List<Geofence> mGeofenceList;
-    ArrayList<ParseObject> mRadars = new ArrayList<>();
-
+    RadarList mRadars = new RadarList();
+    public static Location mLastLocation;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -76,8 +78,12 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     private void prepareFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
+            StartScreenFragment startScreenFragment = new StartScreenFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(RADARS_LIST, mRadars);
+            startScreenFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new StartScreenFragment())
+                    .add(R.id.container, startScreenFragment)
                     .commit();
         }
     }
@@ -122,19 +128,19 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private void preparingGeofenceList() {
         int id = 0;
         SpotGeofence spotGeofence;
-        for (int i = 0; i < mRadars.size(); i++) {
-            ParseObject parseRadar = mRadars.get(i);
-            String latitude = parseRadar.getString(PARSE_LATITUDE);
-            String longitude = parseRadar.getString(PARSE_LONGITUDE);
-            String name = parseRadar.getString(PARSE_NAME);
-            String km = parseRadar.getString(PARSE_KM);
-            int maxSpeed = parseRadar.getInt(PARSE_MAXIMUM_SPEED);
-            int direction = parseRadar.getInt(PARSE_DIRECTION);
+        for (int i = 0; i < mRadars.getmRadars().size(); i++) {
+            Radar radar = mRadars.getmRadars().get(i);
+            Double latitude = radar.getmLatitude();
+            Double longitude = radar.getmLongitude();
+            String name = radar.getmName();
+            Double km = radar.getmKm();
+            int maxSpeed = radar.getmMaxSpeed();
+            int direction = radar.getmDireccion();
             for (int j = 0; j < 3; j++) {
                 spotGeofence = new SpotGeofence();
                 spotGeofence.setId(Integer.toString(id));
-                spotGeofence.setLatitude(Double.parseDouble(latitude));
-                spotGeofence.setLongitude(Double.parseDouble(longitude));
+                spotGeofence.setLatitude(latitude);
+                spotGeofence.setLongitude(longitude);
                 switch (j){
                     case 0:
                         spotGeofence.setRadius(FIRST_FENCE);
@@ -172,11 +178,20 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
+                Radar radar;
                 if (parseObjects.size() > 0) {
                     int id = 0;
                     for (int i = 0; i < parseObjects.size(); i++) {
                         parseObjects.get(i).pinInBackground();
                         /*mRadars.add(parseObjects.get(i));*/
+//                        radar = new Radar();
+//                        radar.setmLatitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LATITUDE)));
+//                        radar.setmLongitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LONGITUDE)));
+//                        radar.setmName(parseObjects.get(i).getString(PARSE_NAME));
+//                        radar.setmKm(Double.valueOf(parseObjects.get(i).getString(PARSE_KM)));
+//                        radar.setmMaxSpeed(Integer.parseInt(parseObjects.get(i).getString(PARSE_MAXIMUM_SPEED)));
+//                        radar.setmDireccion(Integer.parseInt(parseObjects.get(i).getString(PARSE_DIRECTION)));
+//                        mRadars.getmRadars().add(radar);
                     }
                 }
                 queryFinished = true;
@@ -204,8 +219,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     @Override
     public void onConnected(Bundle bundle) {
-        // Get the PendingIntent for the geofence monitoring request.
-        // Send a request to add the current geofences.
         while (!queryFinished){
             try {
                 Thread.sleep(1000);
@@ -213,6 +226,10 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                 e.printStackTrace();
             }
         }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mApiClient);
+        // Get the PendingIntent for the geofence monitoring request.
+        // Send a request to add the current geofences.
         mGeofenceRequestIntent = getGeofenceTransitionPendingIntent();
         LocationServices.GeofencingApi.addGeofences(mApiClient, mGeofenceList,
                 mGeofenceRequestIntent);

@@ -31,13 +31,13 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     private final static String TAG = MainActivity.class.getSimpleName();
     private final static int CONNECTION_TIMEOUT = 9000;
-    private final static String RADARS_TABLE = "Radares";
-    private final static String PARSE_LATITUDE = "latitud";
-    private final static String PARSE_LONGITUDE = "longitud";
-    private final static String PARSE_NAME = "nombre";
-    private final static String PARSE_KM = "kilometro";
-    private final static String PARSE_MAXIMUM_SPEED = "velocidad_maxima";
-    private final static String PARSE_DIRECTION = "direccion";
+    private final static String RADARS_TABLE = "Radars";
+    private final static String PARSE_LATITUDE = "latitude";
+    private final static String PARSE_LONGITUDE = "longitude";
+    private final static String PARSE_NAME = "name";
+    private final static String PARSE_KM = "km";
+    private final static String PARSE_MAXIMUM_SPEED = "max_speed";
+    private final static String PARSE_DIRECTION = "direction";
     private final static int FIRST_FENCE = 5000;
     private final static int SECOND_FENCE = 2000;
     private final static int THIRD_FENCE = 300;
@@ -140,8 +140,8 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
             Radar radar;
             for (int i = 0; i < parseObjects.size(); i++){
                 radar = new Radar();
-                radar.setLatitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LATITUDE)));
-                radar.setLongitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LONGITUDE)));
+                radar.setLatitude(parseObjects.get(i).getNumber(PARSE_LATITUDE).doubleValue());
+                radar.setLongitude(parseObjects.get(i).getNumber(PARSE_LONGITUDE).doubleValue());
                 radar.setName(parseObjects.get(i).getString(PARSE_NAME));
                 radar.setKm(parseObjects.get(i).getNumber(PARSE_KM).floatValue());
                 radar.setMaxSpeed(parseObjects.get(i).getNumber(PARSE_MAXIMUM_SPEED).intValue());

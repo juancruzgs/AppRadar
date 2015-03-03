@@ -1,9 +1,5 @@
 package com.mobilemakers.juansoler.appradar;
 
-/**
- * Created by micaela.cavallo on 02/03/2015.
- */
-
 public class Radar {
     private String mName;
     private Double mLatitude;

@@ -13,7 +13,7 @@ public class SpotGeofence {
     private float mRadius;
     private long mExpirationDuration;
     private String mName;
-    private Double mKm;
+    private Float mKm;
     private int mMaxSpeed;
     private int mDirection;
 
@@ -61,11 +61,11 @@ public class SpotGeofence {
         mName = name;
     }
 
-    public Double getKm() {
+    public Float getKm() {
         return mKm;
     }
 
-    public void setKm(Double km) {
+    public void setKm(Float km) {
         mKm = km;
     }
 

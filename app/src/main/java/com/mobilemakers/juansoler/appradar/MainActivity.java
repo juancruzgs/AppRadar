@@ -64,6 +64,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Float flot = Float.valueOf("41.45");
         prepareFragment(savedInstanceState);
         showIconInActionBar();
         mGeofenceTransition = new GeofenceTransitionsIntent(this);
@@ -145,7 +146,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                 radar.setLatitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LATITUDE)));
                 radar.setLongitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LONGITUDE)));
                 radar.setName(parseObjects.get(i).getString(PARSE_NAME));
-                radar.setKm(Double.valueOf(parseObjects.get(i).getString(PARSE_KM)));
+                radar.setKm(Float.valueOf(parseObjects.get(i).getString(PARSE_KM)));
                 radar.setMaxSpeed(Integer.parseInt(parseObjects.get(i).getString(PARSE_MAXIMUM_SPEED)));
                 radar.setDireccion(Integer.parseInt(parseObjects.get(i).getString(PARSE_DIRECTION)));
                 mRadars.getmRadars().add(radar);
@@ -164,7 +165,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
             Double latitude = radar.getLatitude();
             Double longitude = radar.getLongitude();
             String name = radar.getName();
-            Double km = radar.getKm();
+            Float km = radar.getKm();
             int maxSpeed = radar.getMaxSpeed();
             int direction = radar.getDireccion();
             for (int j = 0; j < 3; j++) {

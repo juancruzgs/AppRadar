@@ -4,14 +4,14 @@ public class Radar {
     private String mName;
     private Double mLatitude;
     private Double mLongitude;
-    private Double mKm;
+    private Float mKm;
     private int mDireccion;
     private int mMaxSpeed;
 
     public Radar() {
     }
 
-    public Radar(String mName, Double mLatitude, Double mLongitude, Double mKm, int mDireccion, int mMaxSpeed) {
+    public Radar(String mName, Double mLatitude, Double mLongitude, Float mKm, int mDireccion, int mMaxSpeed) {
         this.mName = mName;
         this.mLatitude = mLatitude;
         this.mLongitude = mLongitude;
@@ -44,11 +44,11 @@ public class Radar {
         mLongitude = longitude;
     }
 
-    public Double getKm() {
+    public Float getKm() {
         return mKm;
     }
 
-    public void setKm(Double km) {
+    public void setKm(Float km) {
         mKm = km;
     }
 

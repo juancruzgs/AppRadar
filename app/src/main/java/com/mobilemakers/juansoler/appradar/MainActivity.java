@@ -105,12 +105,11 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        mApiClient.connect();
-
         // Instantiate the current List of geofences.
         mGeofenceList = new ArrayList<>();
 //        gettingParseObjectsFromNetwork();
         createGeofences();
+        mApiClient.connect();
     }
 
     private void createGeofences() {

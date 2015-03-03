@@ -68,9 +68,18 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                     showAlertDialog();
                 } else {
                     SummaryFragment summaryFragment = new SummaryFragment();
-                    summaryFragment.setArguments(getArguments().getBundle(MainActivity.RADARS_LIST));
+                    setFragmentArgument(summaryFragment);
                     mFragmentManager.beginTransaction().replace(R.id.container, summaryFragment)
                             .addToBackStack(null).commit();
+                }
+            }
+
+            private void setFragmentArgument(SummaryFragment summaryFragment) {
+                Bundle bundle = getArguments();
+                if (bundle !=null && bundle.containsKey(MainActivity.RADARS_LIST)) {
+//                    Bundle bundle = new Bundle();
+//                bundle.putParcelable(MainActivity.RADARS_LIST, getArguments().getParcelable(MainActivity.RADARS_LIST));
+                    summaryFragment.setArguments(bundle);
                 }
             }
 

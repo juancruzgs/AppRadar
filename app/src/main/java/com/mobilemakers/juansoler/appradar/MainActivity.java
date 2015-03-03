@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private final static String PARSE_LATITUDE = "latitud";
     private final static String PARSE_LONGITUDE = "longitud";
     private final static String PARSE_NAME = "nombre";
-    private final static String PARSE_KM = "km";
+    private final static String PARSE_KM = "kilometro";
     private final static String PARSE_MAXIMUM_SPEED = "velocidad_maxima";
     private final static String PARSE_DIRECTION = "direccion";
     private final static int FIRST_FENCE = 5000;
@@ -52,6 +52,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     List<SpotGeofence> mGeofenceList;
     RadarList mRadars = new RadarList();
     public static Location mLastLocation;
+    StartScreenFragment mStartScreenFragment = new StartScreenFragment();
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -72,12 +73,8 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     private void prepareFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            StartScreenFragment startScreenFragment = new StartScreenFragment();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(RADARS_LIST, mRadars);
-            startScreenFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, startScreenFragment)
+                    .add(R.id.container, mStartScreenFragment)
                     .commit();
         }
     }
@@ -111,6 +108,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private void createGeofences() {
         gettingParseObjectsFromNetwork();
         gettingParseObjectsFromLocal();
+        setFragmentArguments();
         preparingGeofenceList();
     }
 
@@ -145,14 +143,20 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                 radar.setLatitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LATITUDE)));
                 radar.setLongitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LONGITUDE)));
                 radar.setName(parseObjects.get(i).getString(PARSE_NAME));
-                radar.setKm(Float.valueOf(parseObjects.get(i).getString(PARSE_KM)));
-                radar.setMaxSpeed(Integer.parseInt(parseObjects.get(i).getString(PARSE_MAXIMUM_SPEED)));
-                radar.setDireccion(Integer.parseInt(parseObjects.get(i).getString(PARSE_DIRECTION)));
+                radar.setKm(parseObjects.get(i).getNumber(PARSE_KM).floatValue());
+                radar.setMaxSpeed(parseObjects.get(i).getNumber(PARSE_MAXIMUM_SPEED).intValue());
+                radar.setDireccion(parseObjects.get(i).getNumber(PARSE_DIRECTION).intValue());
                 mRadars.getmRadars().add(radar);
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setFragmentArguments() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(RADARS_LIST, mRadars);
+        mStartScreenFragment.setArguments(bundle);
     }
 
     private void preparingGeofenceList() {

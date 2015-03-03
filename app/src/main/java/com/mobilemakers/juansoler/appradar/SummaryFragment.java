@@ -20,9 +20,9 @@ import java.util.ArrayList;
  */
 public class SummaryFragment extends Fragment {
 
-    private final static int DISTANCE = 9;
     private final static int REFRESH_TIME = 10;
     private final static int SPEED_LIMIT = 120;
+    private final static String NEXT_LOCATION = "nextLocation";
 
     TextView mTextViewDistance;
     TextView mTextViewRefreshTime;
@@ -44,20 +44,25 @@ public class SummaryFragment extends Fragment {
         setDistance(mDistance);
         setRefreshTime(REFRESH_TIME);
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), SPEED_LIMIT));
-
         return rootView;
     }
 
     private int calculateDistanceToTheNextRadar() {
         Location currentLocation = MainActivity.mLastLocation;
-        mRadars = getArguments().getParcelable(MainActivity.RADARS_LIST);
-        Location nextLocation = new Location("nextLocation");
+        getFragmentArguments();
+        Location nextLocation = new Location(NEXT_LOCATION);
         nextLocation.setLongitude(mRadars.getmRadars().get(0).getLongitude());
         nextLocation.setLatitude(mRadars.getmRadars().get(0).getLatitude());
         float result = (distanceTo(currentLocation, nextLocation)/1000);
         return Math.round(result);
     }
 
+    private void getFragmentArguments() {
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(MainActivity.RADARS_LIST)) {
+            mRadars = bundle.getParcelable(MainActivity.RADARS_LIST);
+        }
+    }
 
     private void setRefreshTime(int refresh_time) {
         mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text),Integer.toString(refresh_time)));

@@ -47,8 +47,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private final static int THIRD_FENCE = 300;
     public final static String RADARS_LIST = "radars_list";
 
-    static boolean queryFinished = false;
-
     // Stores the PendingIntent used to request geofence monitoring.
     private PendingIntent mGeofenceRequestIntent;
     private GoogleApiClient mApiClient;
@@ -131,7 +129,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                         parseObjects.get(i).pinInBackground();
                     }
                 }
-                queryFinished = true;
             }});
     }
 
@@ -215,13 +212,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     @Override
     public void onConnected(Bundle bundle) {
-//        while (!queryFinished){
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mApiClient);
         // Get the PendingIntent for the geofence monitoring request.

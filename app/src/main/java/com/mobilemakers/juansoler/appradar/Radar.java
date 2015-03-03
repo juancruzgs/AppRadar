@@ -1,6 +1,9 @@
 package com.mobilemakers.juansoler.appradar;
 
-public class Radar {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Radar implements Parcelable {
     private String mName;
     private Double mLatitude;
     private Double mLongitude;
@@ -67,4 +70,41 @@ public class Radar {
     public void setMaxSpeed(int maxSpeed) {
         mMaxSpeed = maxSpeed;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mName);
+        dest.writeDouble(mLatitude);
+        dest.writeDouble(mLongitude);
+        dest.writeFloat(mKm);
+        dest.writeInt(mDireccion);
+        dest.writeInt(mMaxSpeed);
+    }
+
+    private Radar(Parcel in){
+        mName = in.readString();
+        mLatitude = in.readDouble();
+        mLongitude = in.readDouble();
+        mKm = in.readFloat();
+        mDireccion = in.readInt();
+        mMaxSpeed = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Radar> CREATOR = new Parcelable.Creator<Radar>() {
+
+        @Override
+        public Radar createFromParcel(Parcel source) {
+            return new Radar(source);
+        }
+
+        @Override
+        public Radar[] newArray(int size) {
+            return new Radar[size];
+        }
+    };
 }

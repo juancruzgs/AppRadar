@@ -40,7 +40,7 @@ public class RadarList implements Parcelable {
     }
 
      private RadarList(Parcel in){
-         mRadars = in.readArrayList(ClassLoader.getSystemClassLoader());
+         mRadars = in.readArrayList(Radar.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<RadarList> CREATOR = new Parcelable.Creator<RadarList>() {

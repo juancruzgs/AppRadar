@@ -19,7 +19,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationServices;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -33,15 +32,12 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private final static String TAG = MainActivity.class.getSimpleName();
     private final static int CONNECTION_TIMEOUT = 9000;
     private final static String RADARS_TABLE = "Radares";
-    private final static String OBJECT_RADAR = "Radar";
     private final static String PARSE_LATITUDE = "latitude";
     private final static String PARSE_LONGITUDE = "longitude";
-    private final static String PARSE_ID = "id";
     private final static String PARSE_NAME = "name";
     private final static String PARSE_KM = "km";
     private final static String PARSE_MAXIMUM_SPEED = "max_speed";
     private final static String PARSE_DIRECTION = "direction";
-    private final static String PARSE_RADIUS = "radius";
     private final static int FIRST_FENCE = 5000;
     private final static int SECOND_FENCE = 2000;
     private final static int THIRD_FENCE = 300;
@@ -120,7 +116,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     private void gettingParseObjectsFromNetwork() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
-        List<ParseObject> parseObjects = null;
+        List<ParseObject> parseObjects;
         try {
             parseObjects = query.find();
             if (parseObjects.size() > 0) {
@@ -140,7 +136,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private void gettingParseObjectsFromLocal() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         query.fromLocalDatastore();
-        List<ParseObject> parseObjects = null;
+        List<ParseObject> parseObjects;
         try {
             parseObjects = query.find();
             Radar radar;

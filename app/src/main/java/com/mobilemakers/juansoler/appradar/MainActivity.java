@@ -117,11 +117,8 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     }
 
     private void createGeofences() {
-        final ArrayList<ParseObject> radarsOnParse;
         gettingParseObjectsFromNetwork();
-
         gettingParseObjectsFromLocal();
-
         preparingGeofenceList();
     }
 
@@ -153,7 +150,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                         break;
                 }
                 mGeofenceList.add(spotGeofence.toGeofence());
-                saveRadarOnLocalParse(id, name, Double.parseDouble(latitude), Double.parseDouble(longitude), km, maxSpeed, direction,THIRD_FENCE);                id++;
+                saveRadarOnLocalParse(id, name, latitude, longitude, km, maxSpeed, direction,THIRD_FENCE);                id++;
             }
         }
     }
@@ -165,8 +162,16 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (e == null) {
+                    Radar radar;
                     for (int i = 0; i < parseObjects.size(); i++){
-                        mRadars.add(parseObjects.get(i));
+                        radar = new Radar();
+                        radar.setmLatitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LATITUDE)));
+                        radar.setmLongitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LONGITUDE)));
+                        radar.setmName(parseObjects.get(i).getString(PARSE_NAME));
+                        radar.setmKm(Double.valueOf(parseObjects.get(i).getString(PARSE_KM)));
+                        radar.setmMaxSpeed(Integer.parseInt(parseObjects.get(i).getString(PARSE_MAXIMUM_SPEED)));
+                        radar.setmDireccion(Integer.parseInt(parseObjects.get(i).getString(PARSE_DIRECTION)));
+                        mRadars.getmRadars().add(radar);
                     }
                 }
             }
@@ -178,27 +183,16 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                Radar radar;
                 if (parseObjects.size() > 0) {
-                    int id = 0;
                     for (int i = 0; i < parseObjects.size(); i++) {
                         parseObjects.get(i).pinInBackground();
-                        /*mRadars.add(parseObjects.get(i));*/
-//                        radar = new Radar();
-//                        radar.setmLatitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LATITUDE)));
-//                        radar.setmLongitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LONGITUDE)));
-//                        radar.setmName(parseObjects.get(i).getString(PARSE_NAME));
-//                        radar.setmKm(Double.valueOf(parseObjects.get(i).getString(PARSE_KM)));
-//                        radar.setmMaxSpeed(Integer.parseInt(parseObjects.get(i).getString(PARSE_MAXIMUM_SPEED)));
-//                        radar.setmDireccion(Integer.parseInt(parseObjects.get(i).getString(PARSE_DIRECTION)));
-//                        mRadars.getmRadars().add(radar);
                     }
                 }
                 queryFinished = true;
             }});
     }
 
-    private void saveRadarOnLocalParse(int id, String name, double latitude, double longitude, String km, int maxSpeed, int direction, int radius) {
+    private void saveRadarOnLocalParse(int id, String name, double latitude, double longitude, double km, int maxSpeed, int direction, int radius) {
         ParseObject radars = new ParseObject(OBJECT_RADAR);
         radars.put(PARSE_ID, id);
         radars.put(PARSE_NAME, name);

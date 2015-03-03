@@ -20,51 +20,51 @@ public class Radar {
         this.mMaxSpeed = mMaxSpeed;
     }
 
-    public int getmMaxSpeed() {
-        return mMaxSpeed;
-    }
-
-    public void setmMaxSpeed(int mMaxSpeed) {
-        this.mMaxSpeed = mMaxSpeed;
-    }
-
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 
-    public void setmName(String mName) {
-        this.mName = mName;
+    public void setName(String name) {
+        mName = name;
     }
 
-    public Double getmLatitude() {
+    public Double getLatitude() {
         return mLatitude;
     }
 
-    public void setmLatitude(Double mLatitude) {
-        this.mLatitude = mLatitude;
+    public void setLatitude(Double latitude) {
+        mLatitude = latitude;
     }
 
-    public Double getmLongitude() {
+    public Double getLongitude() {
         return mLongitude;
     }
 
-    public void setmLongitude(Double mLongitude) {
-        this.mLongitude = mLongitude;
+    public void setLongitude(Double longitude) {
+        mLongitude = longitude;
     }
 
-    public Double getmKm() {
+    public Double getKm() {
         return mKm;
     }
 
-    public void setmKm(Double mKm) {
-        this.mKm = mKm;
+    public void setKm(Double km) {
+        mKm = km;
     }
 
-    public int getmDireccion() {
+    public int getDireccion() {
         return mDireccion;
     }
 
-    public void setmDireccion(int mDireccion) {
-        this.mDireccion = mDireccion;
+    public void setDireccion(int direccion) {
+        mDireccion = direccion;
+    }
+
+    public int getMaxSpeed() {
+        return mMaxSpeed;
+    }
+
+    public void setMaxSpeed(int maxSpeed) {
+        mMaxSpeed = maxSpeed;
     }
 }

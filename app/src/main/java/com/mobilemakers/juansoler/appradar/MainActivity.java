@@ -98,7 +98,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private void initializeGooglePlayServices() {
         if (!isGooglePlayServicesAvailable()) {
             Log.e(TAG, "Google Play services unavailable.");
-            finish();
             return;
         }
 
@@ -112,70 +111,14 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
         // Instantiate the current List of geofences.
         mGeofenceList = new ArrayList<>();
-        gettingParseObjectsFromNetwork();
-        //createGeofences();
+//        gettingParseObjectsFromNetwork();
+        createGeofences();
     }
 
     private void createGeofences() {
         gettingParseObjectsFromNetwork();
         gettingParseObjectsFromLocal();
         preparingGeofenceList();
-    }
-
-    private void preparingGeofenceList() {
-        int id = 0;
-        SpotGeofence spotGeofence;
-        for (int i = 0; i < mRadars.getmRadars().size(); i++) {
-            Radar radar = mRadars.getmRadars().get(i);
-            Double latitude = radar.getmLatitude();
-            Double longitude = radar.getmLongitude();
-            String name = radar.getmName();
-            Double km = radar.getmKm();
-            int maxSpeed = radar.getmMaxSpeed();
-            int direction = radar.getmDireccion();
-            for (int j = 0; j < 3; j++) {
-                spotGeofence = new SpotGeofence();
-                spotGeofence.setId(Integer.toString(id));
-                spotGeofence.setLatitude(latitude);
-                spotGeofence.setLongitude(longitude);
-                switch (j){
-                    case 0:
-                        spotGeofence.setRadius(FIRST_FENCE);
-                        break;
-                    case 1:
-                        spotGeofence.setRadius(SECOND_FENCE);
-                        break;
-                    case 2:
-                        spotGeofence.setRadius(THIRD_FENCE);
-                        break;
-                }
-                mGeofenceList.add(spotGeofence.toGeofence());
-                saveRadarOnLocalParse(id, name, latitude, longitude, km, maxSpeed, direction,THIRD_FENCE);                id++;
-            }
-        }
-    }
-
-    private void gettingParseObjectsFromLocal() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
-        query.fromLocalDatastore();
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                if (e == null) {
-                    Radar radar;
-                    for (int i = 0; i < parseObjects.size(); i++){
-                        radar = new Radar();
-                        radar.setmLatitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LATITUDE)));
-                        radar.setmLongitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LONGITUDE)));
-                        radar.setmName(parseObjects.get(i).getString(PARSE_NAME));
-                        radar.setmKm(Double.valueOf(parseObjects.get(i).getString(PARSE_KM)));
-                        radar.setmMaxSpeed(Integer.parseInt(parseObjects.get(i).getString(PARSE_MAXIMUM_SPEED)));
-                        radar.setmDireccion(Integer.parseInt(parseObjects.get(i).getString(PARSE_DIRECTION)));
-                        mRadars.getmRadars().add(radar);
-                    }
-                }
-            }
-        });
     }
 
     private void gettingParseObjectsFromNetwork() {
@@ -192,7 +135,66 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
             }});
     }
 
-    private void saveRadarOnLocalParse(int id, String name, double latitude, double longitude, double km, int maxSpeed, int direction, int radius) {
+    private void gettingParseObjectsFromLocal() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+        query.fromLocalDatastore();
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null) {
+                    Radar radar;
+                    for (int i = 0; i < parseObjects.size(); i++){
+                        radar = new Radar();
+                        radar.setLatitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LATITUDE)));
+                        radar.setLongitude(Double.valueOf(parseObjects.get(i).getString(PARSE_LONGITUDE)));
+                        radar.setName(parseObjects.get(i).getString(PARSE_NAME));
+                        radar.setKm(Double.valueOf(parseObjects.get(i).getString(PARSE_KM)));
+                        radar.setMaxSpeed(Integer.parseInt(parseObjects.get(i).getString(PARSE_MAXIMUM_SPEED)));
+                        radar.setDireccion(Integer.parseInt(parseObjects.get(i).getString(PARSE_DIRECTION)));
+                        mRadars.getmRadars().add(radar);
+                    }
+                }
+            }
+        });
+    }
+
+    private void preparingGeofenceList() {
+        int id = 0;
+        float radius = 0;
+        SpotGeofence spotGeofence;
+        for (int i = 0; i < mRadars.getmRadars().size(); i++) {
+            Radar radar = mRadars.getmRadars().get(i);
+            Double latitude = radar.getLatitude();
+            Double longitude = radar.getLongitude();
+            String name = radar.getName();
+            Double km = radar.getKm();
+            int maxSpeed = radar.getMaxSpeed();
+            int direction = radar.getDireccion();
+            for (int j = 0; j < 3; j++) {
+                spotGeofence = new SpotGeofence();
+                spotGeofence.setId(Integer.toString(id));
+                spotGeofence.setLatitude(latitude);
+                spotGeofence.setLongitude(longitude);
+                switch (j){
+                    case 0:
+                        radius = FIRST_FENCE;
+                        break;
+                    case 1:
+                        radius = SECOND_FENCE;
+                        break;
+                    case 2:
+                        radius = THIRD_FENCE;
+                        break;
+                }
+                spotGeofence.setRadius(radius);
+                mGeofenceList.add(spotGeofence.toGeofence());
+                saveRadarOnLocalParse(id, name, latitude, longitude, km, maxSpeed, direction,radius);
+                id++;
+            }
+        }
+    }
+
+    private void saveRadarOnLocalParse(int id, String name, double latitude, double longitude, double km, int maxSpeed, int direction, float radius) {
         ParseObject radars = new ParseObject(OBJECT_RADAR);
         radars.put(PARSE_ID, id);
         radars.put(PARSE_NAME, name);
@@ -213,13 +215,13 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     @Override
     public void onConnected(Bundle bundle) {
-        while (!queryFinished){
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        while (!queryFinished){
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mApiClient);
         // Get the PendingIntent for the geofence monitoring request.

@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     private void gettingParseObjects() {
         try {
-            if (isNetworkAvailable() && !isLocalDatabaseUpToDate()) {
+            if (isNetworkAvailable() && !isLocalDatabaseUpdated()) {
                 gettingParseObjectsFromNetwork();
             } else {
                 gettingParseObjectsFromLocal();
@@ -128,7 +128,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         }
     }
 
-    private boolean isLocalDatabaseUpToDate() throws ParseException {
+    private boolean isLocalDatabaseUpdated() throws ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         ParseObject parseObject;
         query.orderByDescending(PARSE_UPDATED_AT);

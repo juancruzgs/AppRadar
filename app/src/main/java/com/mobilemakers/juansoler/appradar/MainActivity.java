@@ -42,6 +42,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private final static String PARSE_KM = "km";
     private final static String PARSE_MAXIMUM_SPEED = "max_speed";
     private final static String PARSE_DIRECTION = "direction";
+    private final static String PARSE_UPDATED_AT = "updatedAt";
     private final static int FIRST_FENCE = 5000;
     private final static int SECOND_FENCE = 2000;
     private final static int THIRD_FENCE = 300;
@@ -128,17 +129,15 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     }
 
     private boolean isLocalDatabaseUpToDate() throws ParseException {
-        ParseQuery<ParseObject> queryCloud = ParseQuery.getQuery(RADARS_TABLE);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         ParseObject parseObject;
-        queryCloud.orderByDescending("updatedAt");
+        query.orderByDescending(PARSE_UPDATED_AT);
 
-        parseObject = queryCloud.getFirst();
+        parseObject = query.getFirst();
         Date cloudDate = parseObject.getUpdatedAt();
 
-        ParseQuery<ParseObject> queryLocal = ParseQuery.getQuery(RADARS_TABLE);
-        queryLocal.orderByDescending("updatedAt");
-        queryLocal.fromLocalDatastore();
-        parseObject = queryLocal.getFirst();
+        query.fromLocalDatastore();
+        parseObject = query.getFirst();
         Date localDate = parseObject.getUpdatedAt();
 
         return localDate.compareTo(cloudDate) == 0;

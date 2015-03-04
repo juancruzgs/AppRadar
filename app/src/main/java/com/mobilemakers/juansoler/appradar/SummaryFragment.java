@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class SummaryFragment extends Fragment {
 
     private final static int REFRESH_TIME = 10;
-    private final static int SPEED_LIMIT = 120;
     private final static String NEXT_LOCATION = "nextLocation";
 
     TextView mTextViewDistance;
@@ -40,21 +39,27 @@ public class SummaryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
         wireUpViews(rootView);
-        mDistance = calculateDistanceToTheNextRadar();
+        getFragmentArguments();
+        mDistance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
         setDistance(mDistance);
+        mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.get(0).getMaxSpeed()));
         setRefreshTime(REFRESH_TIME);
-        mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), SPEED_LIMIT));
         return rootView;
     }
 
-    private int calculateDistanceToTheNextRadar() {
-        Location currentLocation = MainActivity.mLastLocation;
+    private int calculateDistanceToTheNextRadar(Double latitude, Double longitude) {
+        Location currentLocation = MainActivity.getLastLocation();
         getFragmentArguments();
-        Location nextLocation = new Location(NEXT_LOCATION);
-        nextLocation.setLongitude(mRadars.get(0).getLongitude());
-        nextLocation.setLatitude(mRadars.get(0).getLatitude());
+        Location nextLocation = createTheNextLocation(latitude, longitude);
         float distance = (currentLocation.distanceTo(nextLocation)/1000);
         return Math.round(distance);
+    }
+
+    private Location createTheNextLocation(Double latitude, Double longitude) {
+        Location nextLocation = new Location(NEXT_LOCATION);
+        nextLocation.setLongitude(longitude);
+        nextLocation.setLatitude(latitude);
+        return nextLocation;
     }
 
     private void getFragmentArguments() {
@@ -83,6 +88,7 @@ public class SummaryFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_summary, menu);
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -152,7 +152,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private void gettingParseObjectsFromNetwork() throws ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         query.orderByAscending(PARSE_KM);
-        query.orderByAscending(PARSE_KM);
         List<ParseObject> parseObjects;
         parseObjects = query.find();
         Radar radar;
@@ -169,6 +168,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private void gettingParseObjectsFromLocal() throws ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         query.fromLocalDatastore();
+        query.orderByAscending(PARSE_KM);
         List<ParseObject> parseObjects;
         parseObjects = query.find();
         Radar radar;

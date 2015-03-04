@@ -106,10 +106,20 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     }
 
     private void createGeofences() {
-        gettingParseObjectsFromNetwork();
-        gettingParseObjectsFromLocal();
+        gettingParseObjects();
         setFragmentArguments();
         preparingGeofenceList();
+    }
+
+    private void gettingParseObjects() {
+//        if (!localDatabaseUpToDate && hasInternet){
+//            gettingParseObjectsFromNetwork();
+//        }
+//        else{
+//            gettingParseObjectsFromLocal();
+//        }
+        gettingParseObjectsFromNetwork();
+        gettingParseObjectsFromLocal();
     }
 
     private void gettingParseObjectsFromNetwork() {
@@ -117,13 +127,17 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         List<ParseObject> parseObjects;
         try {
             parseObjects = query.find();
-            if (parseObjects.size() > 0) {
-                for (int i = 0; i < parseObjects.size(); i++) {
-                    try {
-                        parseObjects.get(i).pin();
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
-                    }
+            Radar radar;
+            ParseObject parseObject;
+            for (int i = 0; i < parseObjects.size(); i++) {
+                try {
+                    parseObject = parseObjects.get(i);
+                    radar = createRadarFromParse(parseObject);
+                    mRadars.add(radar);
+                    //Save to local database
+                    parseObject.pin();
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
                 }
             }
         } catch (ParseException e) {
@@ -138,19 +152,26 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         try {
             parseObjects = query.find();
             Radar radar;
+            ParseObject parseObject;
             for (int i = 0; i < parseObjects.size(); i++){
-                radar = new Radar();
-                radar.setLatitude(parseObjects.get(i).getNumber(PARSE_LATITUDE).doubleValue());
-                radar.setLongitude(parseObjects.get(i).getNumber(PARSE_LONGITUDE).doubleValue());
-                radar.setName(parseObjects.get(i).getString(PARSE_NAME));
-                radar.setKm(parseObjects.get(i).getNumber(PARSE_KM).floatValue());
-                radar.setMaxSpeed(parseObjects.get(i).getNumber(PARSE_MAXIMUM_SPEED).intValue());
-                radar.setDirection(parseObjects.get(i).getNumber(PARSE_DIRECTION).intValue());
+                parseObject = parseObjects.get(i);
+                radar = createRadarFromParse(parseObject);
                 mRadars.add(radar);
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private Radar createRadarFromParse(ParseObject parseObject) {
+        Radar radar = new Radar();
+        radar.setLatitude(parseObject.getNumber(PARSE_LATITUDE).doubleValue());
+        radar.setLongitude(parseObject.getNumber(PARSE_LONGITUDE).doubleValue());
+        radar.setName(parseObject.getString(PARSE_NAME));
+        radar.setKm(parseObject.getNumber(PARSE_KM).floatValue());
+        radar.setMaxSpeed(parseObject.getNumber(PARSE_MAXIMUM_SPEED).intValue());
+        radar.setDirection(parseObject.getNumber(PARSE_DIRECTION).intValue());
+        return radar;
     }
 
     private void setFragmentArguments() {

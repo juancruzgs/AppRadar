@@ -3,22 +3,21 @@ package com.mobilemakers.juansoler.appradar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
+import android.media.MediaPlayer;
 import android.preference.ListPreference;
-import android.preference.Preference;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import android.util.AttributeSet;
+
 
 /**
  * Created by paula.baudo on 3/2/2015.
  */
 public class SoundListPreference extends ListPreference {
 
+
     private Context context;
-    private int mClickedDialogEntryIndex;
+    private int mClickedDialogEntryIndex = 0;
+    private int mLastClickedDialogEntryIndex = 0;
 
     public SoundListPreference(final Context context) {
         super(context);
@@ -31,40 +30,51 @@ public class SoundListPreference extends ListPreference {
     }
 
     @Override
-    protected void showDialog(Bundle state) {
-        int preselect = findIndexOfValue(getValue());
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
-                .title(getDialogTitle())
-                .content(getDialogMessage())
-                .icon(getDialogIcon())
-                .negativeText(getNegativeButtonText())
-                .positiveText(getPositiveButtonText())
-                .items(getEntries())
-                .itemsCallbackSingleChoice(preselect, new MaterialDialog.ListCallback() {
+    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+        super.onPrepareDialogBuilder(builder);
+
+        CharSequence[] entries = getEntries();
+        final CharSequence[] entryValues = getEntryValues();
+
+        builder
+                .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
-                    public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                        onClick(null, DialogInterface.BUTTON_POSITIVE);
-                        dialog.dismiss();
-                        if (which >= 0 && getEntryValues() != null) {
-                            String value = getEntryValues()[which].toString();
-                            if (callChangeListener(value) && isPersistent())
-                                setValue(value);
-                        }
+                    public void onClick(DialogInterface dialog, int which) {
+                        mLastClickedDialogEntryIndex = mClickedDialogEntryIndex;
                     }
-                });
+                })
+                .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mClickedDialogEntryIndex = mLastClickedDialogEntryIndex;
+                    }
+                })
+                .setSingleChoiceItems(entries, mClickedDialogEntryIndex ,
+                        new DialogInterface.OnClickListener() {
 
-        final View contentView = onCreateDialogView();
-        if (contentView != null) {
-            onBindDialogView(contentView);
-            builder.customView(contentView, false);
-        } else {
-            builder.content(getDialogMessage());
-        }
+                            public void onClick(DialogInterface dialog, int which) {
+                                mClickedDialogEntryIndex = which;
+                                String value = entryValues[which].toString();
+                                MediaPlayer mPlayer;
 
-        builder.show();
+                                switch (value) {
+                                    case "Bocina de submarino":
+                                        mPlayer = MediaPlayer.create(getContext(), R.raw.sub_klaxon);
+                                        break;
+                                    case "Fábrica":
+                                        mPlayer = MediaPlayer.create(getContext(), R.raw.factory);
+                                        break;
+                                    case "Sirena de aire":
+                                        mPlayer = MediaPlayer.create(getContext(), R.raw.air_horn);
+                                        break;
+                                    default:
+                                        mPlayer = MediaPlayer.create(getContext(), R.raw.beep_ping);
+                                        break;
+                                }
+                                mPlayer.start();
+                            }
+                        });
     }
-
-
 
 }
 

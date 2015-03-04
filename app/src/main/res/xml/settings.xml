@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/pref_customized_first_notification">
-        <com.afollestad.materialdialogs.prefs.MaterialListPreference
+        <ListPreference
             android:key="first_notification_preference_distance"
             android:title="@string/pref_distance_title" android:summary="@string/pref_first_notification_distance_summary"
             android:entries="@array/first_entries"
@@ -15,7 +15,7 @@
             android:defaultValue="Bocina de submarino"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_second_notification">
-        <com.afollestad.materialdialogs.prefs.MaterialListPreference
+        <ListPreference
             android:key="second_notification_preference_distance"
             android:title="@string/pref_distance_title" android:summary="@string/pref_second_notification_distance_summary"
             android:entries="@array/second_entries"

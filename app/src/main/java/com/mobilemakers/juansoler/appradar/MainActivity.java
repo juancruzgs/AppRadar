@@ -145,6 +145,12 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         return localDate.compareTo(cloudDate) == 0;
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     private void gettingParseObjectsFromNetwork() throws ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         List<ParseObject> parseObjects;

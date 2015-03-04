@@ -147,7 +147,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                 radar.setName(parseObjects.get(i).getString(PARSE_NAME));
                 radar.setKm(parseObjects.get(i).getNumber(PARSE_KM).floatValue());
                 radar.setMaxSpeed(parseObjects.get(i).getNumber(PARSE_MAXIMUM_SPEED).intValue());
-                radar.setDireccion(parseObjects.get(i).getNumber(PARSE_DIRECTION).intValue());
+                radar.setDirection(parseObjects.get(i).getNumber(PARSE_DIRECTION).intValue());
                 mRadars.add(radar);
             }
         } catch (ParseException e) {
@@ -172,7 +172,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
             String name = radar.getName();
             Float km = radar.getKm();
             int maxSpeed = radar.getMaxSpeed();
-            int direction = radar.getDireccion();
+            int direction = radar.getDirection();
             for (int j = 0; j < 3; j++) {
                 spotGeofence = new SpotGeofence();
                 spotGeofence.setId(Integer.toString(id));

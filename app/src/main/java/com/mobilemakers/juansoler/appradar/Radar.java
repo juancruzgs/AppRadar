@@ -8,19 +8,10 @@ public class Radar implements Parcelable {
     private Double mLatitude;
     private Double mLongitude;
     private Float mKm;
-    private int mDireccion;
+    private int mDirection;
     private int mMaxSpeed;
 
     public Radar() {
-    }
-
-    public Radar(String mName, Double mLatitude, Double mLongitude, Float mKm, int mDireccion, int mMaxSpeed) {
-        this.mName = mName;
-        this.mLatitude = mLatitude;
-        this.mLongitude = mLongitude;
-        this.mKm = mKm;
-        this.mDireccion = mDireccion;
-        this.mMaxSpeed = mMaxSpeed;
     }
 
     public String getName() {
@@ -55,12 +46,12 @@ public class Radar implements Parcelable {
         mKm = km;
     }
 
-    public int getDireccion() {
-        return mDireccion;
+    public int getDirection() {
+        return mDirection;
     }
 
-    public void setDireccion(int direccion) {
-        mDireccion = direccion;
+    public void setDirection(int direction) {
+        mDirection = direction;
     }
 
     public int getMaxSpeed() {
@@ -82,7 +73,7 @@ public class Radar implements Parcelable {
         dest.writeDouble(mLatitude);
         dest.writeDouble(mLongitude);
         dest.writeFloat(mKm);
-        dest.writeInt(mDireccion);
+        dest.writeInt(mDirection);
         dest.writeInt(mMaxSpeed);
     }
 
@@ -91,7 +82,7 @@ public class Radar implements Parcelable {
         mLatitude = in.readDouble();
         mLongitude = in.readDouble();
         mKm = in.readFloat();
-        mDireccion = in.readInt();
+        mDirection = in.readInt();
         mMaxSpeed = in.readInt();
     }
 

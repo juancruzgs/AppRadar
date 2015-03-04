@@ -122,11 +122,11 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 RadarList radarList = null;
                 if (bundle != null && bundle.containsKey(MainActivity.RADARS_LIST)) {
                     radarList = bundle.getParcelable(MainActivity.RADARS_LIST);
-                    Iterator iterator = radarList.getRadars().listIterator();
+                    Iterator iterator = radarList.iterator();
                     Radar radar;
                     while (iterator.hasNext()) {
                         radar = (Radar) iterator.next();
-                        if (radar.getDireccion() != direction) {
+                        if (radar.getDirection() != direction) {
                             iterator.remove();
                         }
                     }

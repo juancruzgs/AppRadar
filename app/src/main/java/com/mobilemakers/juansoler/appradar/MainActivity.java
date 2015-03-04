@@ -1,10 +1,13 @@
 package com.mobilemakers.juansoler.appradar;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -24,6 +27,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements ConnectionCallbacks,
@@ -112,54 +116,61 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     }
 
     private void gettingParseObjects() {
-//        if (!localDatabaseUpToDate && hasInternet){
+//        if (!localDatabaseUpToDate && isNetworkAvailable){
 //            gettingParseObjectsFromNetwork();
 //        }
 //        else{
 //            gettingParseObjectsFromLocal();
 //        }
-        gettingParseObjectsFromNetwork();
-        gettingParseObjectsFromLocal();
-    }
-
-    private void gettingParseObjectsFromNetwork() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
-        List<ParseObject> parseObjects;
         try {
-            parseObjects = query.find();
-            Radar radar;
-            ParseObject parseObject;
-            for (int i = 0; i < parseObjects.size(); i++) {
-                try {
-                    parseObject = parseObjects.get(i);
-                    radar = createRadarFromParse(parseObject);
-                    mRadars.add(radar);
-                    //Save to local database
-                    parseObject.pin();
-                } catch (ParseException e1) {
-                    e1.printStackTrace();
-                }
-            }
+            gettingParseObjectsFromNetwork();
+            gettingParseObjectsFromLocal();
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
-    private void gettingParseObjectsFromLocal() {
+    private boolean localDatabaseUpToDate() throws ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+        ParseObject parseObject;
+        query.orderByDescending("updatedAt");
+
+        parseObject = query.getFirst();
+        Date cloudDate = parseObject.getDate("updatedAt");
+
         query.fromLocalDatastore();
+        parseObject = query.getFirst();
+        Date localDate = parseObject.getDate("updatedAt");
+
+        return localDate.compareTo(cloudDate) == 0;
+    }
+
+    private void gettingParseObjectsFromNetwork() throws ParseException {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         List<ParseObject> parseObjects;
-        try {
             parseObjects = query.find();
             Radar radar;
             ParseObject parseObject;
-            for (int i = 0; i < parseObjects.size(); i++){
+            for (int i = 0; i < parseObjects.size(); i++) {
                 parseObject = parseObjects.get(i);
                 radar = createRadarFromParse(parseObject);
                 mRadars.add(radar);
+                //Save to local database
+                parseObject.pin();
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        }
+
+    private void gettingParseObjectsFromLocal() throws ParseException {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+        query.fromLocalDatastore();
+        List<ParseObject> parseObjects;
+        parseObjects = query.find();
+        Radar radar;
+        ParseObject parseObject;
+        for (int i = 0; i < parseObjects.size(); i++) {
+            parseObject = parseObjects.get(i);
+            radar = createRadarFromParse(parseObject);
+            mRadars.add(radar);
         }
     }
 

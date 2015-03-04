@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     // Stores the PendingIntent used to request geofence monitoring.
     private PendingIntent mGeofenceRequestIntent;
-    private GoogleApiClient mApiClient;
+    private static GoogleApiClient mApiClient;
 
     NotificationPreference mNotification = new NotificationPreference();
     GeofenceTransitionsIntent mGeofenceTransition;
@@ -115,7 +115,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         setFragmentArguments();
         preparingGeofenceList();
     }
-
+    
     private void gettingParseObjects() {
         try {
             if (isNetworkAvailable() && !isLocalDatabaseUpdated()) {
@@ -151,18 +151,20 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     private void gettingParseObjectsFromNetwork() throws ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+        query.orderByAscending(PARSE_KM);
+        query.orderByAscending(PARSE_KM);
         List<ParseObject> parseObjects;
-            parseObjects = query.find();
-            Radar radar;
-            ParseObject parseObject;
-            for (int i = 0; i < parseObjects.size(); i++) {
-                parseObject = parseObjects.get(i);
-                radar = createRadarFromParse(parseObject);
-                mRadars.add(radar);
-                //Save to local database
-                parseObject.pin();
-            }
+        parseObjects = query.find();
+        Radar radar;
+        ParseObject parseObject;
+        for (int i = 0; i < parseObjects.size(); i++) {
+            parseObject = parseObjects.get(i);
+            radar = createRadarFromParse(parseObject);
+            mRadars.add(radar);
+            //Save to local database
+            parseObject.pin();
         }
+    }
 
     private void gettingParseObjectsFromLocal() throws ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
@@ -234,6 +236,12 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         }
     }
 
+    public static Location getLastLocation() {
+         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mApiClient);
+        return mLastLocation;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -242,8 +250,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     @Override
     public void onConnected(Bundle bundle) {
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mApiClient);
         // Get the PendingIntent for the geofence monitoring request.
         // Send a request to add the current geofences.
         mGeofenceRequestIntent = getGeofenceTransitionPendingIntent();

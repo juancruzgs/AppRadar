@@ -53,8 +53,8 @@ public class SummaryFragment extends Fragment {
         Location nextLocation = new Location(NEXT_LOCATION);
         nextLocation.setLongitude(mRadars.get(0).getLongitude());
         nextLocation.setLatitude(mRadars.get(0).getLatitude());
-        float result = (distanceTo(currentLocation, nextLocation)/1000);
-        return Math.round(result);
+        float distance = (currentLocation.distanceTo(nextLocation)/1000);
+        return Math.round(distance);
     }
 
     private void getFragmentArguments() {
@@ -64,8 +64,8 @@ public class SummaryFragment extends Fragment {
         }
     }
 
-    private void setRefreshTime(int refresh_time) {
-        mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text),Integer.toString(refresh_time)));
+    private void setRefreshTime(int refreshTime) {
+        mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text),Integer.toString(refreshTime)));
     }
 
     private void setDistance(int distance) {
@@ -76,11 +76,6 @@ public class SummaryFragment extends Fragment {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
         mTextViewRefreshTime = (TextView) rootView.findViewById(R.id.text_view_refresh_time);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
-    }
-
-    private float distanceTo(Location currentLocation, Location nextLocation) {
-        float distance = currentLocation.distanceTo(nextLocation);
-        return distance;
     }
 
     @Override

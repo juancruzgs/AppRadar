@@ -116,31 +116,30 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     }
 
     private void gettingParseObjects() {
-//        if (!localDatabaseUpToDate && isNetworkAvailable){
-//            gettingParseObjectsFromNetwork();
-//        }
-//        else{
-//            gettingParseObjectsFromLocal();
-//        }
         try {
-            gettingParseObjectsFromNetwork();
-            gettingParseObjectsFromLocal();
+            if (isNetworkAvailable() && !isLocalDatabaseUpToDate()) {
+                gettingParseObjectsFromNetwork();
+            } else {
+                gettingParseObjectsFromLocal();
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
-    private boolean localDatabaseUpToDate() throws ParseException {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+    private boolean isLocalDatabaseUpToDate() throws ParseException {
+        ParseQuery<ParseObject> queryCloud = ParseQuery.getQuery(RADARS_TABLE);
         ParseObject parseObject;
-        query.orderByDescending("updatedAt");
+        queryCloud.orderByDescending("updatedAt");
 
-        parseObject = query.getFirst();
-        Date cloudDate = parseObject.getDate("updatedAt");
+        parseObject = queryCloud.getFirst();
+        Date cloudDate = parseObject.getUpdatedAt();
 
-        query.fromLocalDatastore();
-        parseObject = query.getFirst();
-        Date localDate = parseObject.getDate("updatedAt");
+        ParseQuery<ParseObject> queryLocal = ParseQuery.getQuery(RADARS_TABLE);
+        queryLocal.orderByDescending("updatedAt");
+        queryLocal.fromLocalDatastore();
+        parseObject = queryLocal.getFirst();
+        Date localDate = parseObject.getUpdatedAt();
 
         return localDate.compareTo(cloudDate) == 0;
     }

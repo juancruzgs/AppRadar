@@ -135,6 +135,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private void gettingParseObjectsFromLocal() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         query.fromLocalDatastore();
+        query.orderByAscending(PARSE_KM);
         List<ParseObject> parseObjects;
         try {
             parseObjects = query.find();
@@ -147,7 +148,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                 radar.setKm(parseObjects.get(i).getNumber(PARSE_KM).floatValue());
                 radar.setMaxSpeed(parseObjects.get(i).getNumber(PARSE_MAXIMUM_SPEED).intValue());
                 radar.setDireccion(parseObjects.get(i).getNumber(PARSE_DIRECTION).intValue());
-                mRadars.getmRadars().add(radar);
+                mRadars.add(radar);
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -164,8 +165,8 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         int id = 0;
         float radius = 0;
         SpotGeofence spotGeofence;
-        for (int i = 0; i < mRadars.getmRadars().size(); i++) {
-            Radar radar = mRadars.getmRadars().get(i);
+        for (int i = 0; i < mRadars.size(); i++) {
+            Radar radar = mRadars.get(i);
             Double latitude = radar.getLatitude();
             Double longitude = radar.getLongitude();
             String name = radar.getName();

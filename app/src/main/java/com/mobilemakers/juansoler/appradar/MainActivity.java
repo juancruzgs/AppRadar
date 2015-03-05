@@ -117,22 +117,17 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     
     private void gettingParseObjects() {
         try {
-            if (!isParseObjectsFromLocalExists()) {
+            if (isNetworkAvailable() && (!existsLocalDatabase() || !isLocalDatabaseUpdated()))  {
                 gettingParseObjectsFromNetwork();
-            }
-            else {
-                if (isNetworkAvailable() && !isLocalDatabaseUpdated()) {
-                    gettingParseObjectsFromNetwork();
-                } else {
-                    gettingParseObjectsFromLocal();
-                }
+            } else {
+                gettingParseObjectsFromLocal();
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
-    private boolean isParseObjectsFromLocalExists() {
+    private boolean existsLocalDatabase() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         query.fromLocalDatastore();
         ParseObject parseObject;
@@ -143,7 +138,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
                 exists = true;
             }
         } catch (ParseException e) {
-            exists = false;
+            e.printStackTrace();
         }
         return exists;
     }

@@ -35,4 +35,6 @@
     <string name="factory">Fábrica</string>
     <string name="air_horn">Sirena de aire</string>
     <string name="beep_ping">Ping de beep</string>
+    <string name="ok">Aceptar</string>
+    <string name="cancel">Cancelar</string>
 </resources>

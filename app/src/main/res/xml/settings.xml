@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/pref_customized_first_notification">
-        <com.afollestad.materialdialogs.prefs.MaterialListPreference
+        <ListPreference
             android:key="first_notification_preference_distance"
             android:title="@string/pref_distance_title" android:summary="@string/pref_first_notification_distance_summary"
             android:entries="@array/first_entries"
             android:entryValues="@array/first_values"
             android:defaultValue="10"/>
-        <RingtonePreference android:key="first_notification_preference_sound"
-            android:title="@string/pref_sound_title" android:summary="@string/pref_first_notification_sound_summary"/>
+        <com.mobilemakers.juansoler.appradar.SoundListPreference
+            android:key="first_notification_preference_sound"
+            android:title="@string/pref_sound_title" android:summary="@string/pref_first_notification_sound_summary"
+            android:entries="@array/sound_options"
+            android:entryValues="@array/sound_options"
+            android:defaultValue="Bocina de submarino"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_second_notification">
-        <com.afollestad.materialdialogs.prefs.MaterialListPreference
+        <ListPreference
             android:key="second_notification_preference_distance"
             android:title="@string/pref_distance_title" android:summary="@string/pref_second_notification_distance_summary"
             android:entries="@array/second_entries"
             android:entryValues="@array/second_values"
             android:defaultValue="5"/>
-        <RingtonePreference android:key="second_notification_preference_sound"
-            android:title="@string/pref_sound_title" android:summary="@string/pref_second_notification_sound_summary"/>
+        <com.mobilemakers.juansoler.appradar.SoundListPreference
+            android:key="second_notification_preference_sound"
+            android:title="@string/pref_sound_title" android:summary="@string/pref_second_notification_sound_summary"
+            android:entries="@array/sound_options"
+            android:entryValues="@array/sound_options"
+            android:defaultValue="Bocina de submarino"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_third_notification">
-        <RingtonePreference android:key="third_notification_preference_sound"
-            android:title="@string/pref_sound_title" android:summary="@string/pref_third_notification_sound_summary"/>
+        <com.mobilemakers.juansoler.appradar.SoundListPreference
+            android:key="third_notification_preference_sound"
+            android:title="@string/pref_sound_title" android:summary="@string/pref_third_notification_sound_summary"
+            android:entries="@array/sound_options"
+            android:entryValues="@array/sound_options"
+            android:defaultValue="Bocina de submarino"/>
     </PreferenceCategory>
 </PreferenceScreen>

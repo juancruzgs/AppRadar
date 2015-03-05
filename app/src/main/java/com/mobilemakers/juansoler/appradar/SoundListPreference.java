@@ -3,9 +3,12 @@ package com.mobilemakers.juansoler.appradar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.media.MediaPlayer;
 import android.preference.ListPreference;
 
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 
 
@@ -30,6 +33,16 @@ public class SoundListPreference extends ListPreference {
     }
 
     @Override
+    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+        String temp = restoreValue ? getPersistedString("") : (String)defaultValue;
+
+        if(!restoreValue)
+            persistString(temp);
+
+        mClickedDialogEntryIndex = 2;
+    }
+
+    @Override
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
@@ -41,6 +54,9 @@ public class SoundListPreference extends ListPreference {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mLastClickedDialogEntryIndex = mClickedDialogEntryIndex;
+                        SharedPreferences.Editor editor =  getEditor();
+                        editor.putString(getKey(), "Sirena de aire");
+                        editor.commit();
                     }
                 })
                 .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {

@@ -105,7 +105,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
         // Instantiate the current List of geofences.
         mGeofenceList = new ArrayList<>();
-//        gettingParseObjectsFromNetwork();
         createGeofences();
         mApiClient.connect();
     }
@@ -118,14 +117,35 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     
     private void gettingParseObjects() {
         try {
-            if (isNetworkAvailable() && !isLocalDatabaseUpdated()) {
+            if (!isParseObjectsFromLocalExists()) {
                 gettingParseObjectsFromNetwork();
-            } else {
-                gettingParseObjectsFromLocal();
+            }
+            else {
+                if (isNetworkAvailable() && !isLocalDatabaseUpdated()) {
+                    gettingParseObjectsFromNetwork();
+                } else {
+                    gettingParseObjectsFromLocal();
+                }
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isParseObjectsFromLocalExists() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+        query.fromLocalDatastore();
+        ParseObject parseObject;
+        Boolean exists = false;
+        try {
+            parseObject = query.getFirst();
+            if (parseObject != null) {
+                exists = true;
+            }
+        } catch (ParseException e) {
+            exists = false;
+        }
+        return exists;
     }
 
     private boolean isLocalDatabaseUpdated() throws ParseException {

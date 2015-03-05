@@ -20,7 +20,7 @@
     <string name="pref_third_notification_distance_summary">Enter the distance for the third notification.</string>
     <string name="pref_third_notification_sound_summary">Choose a sound for the third notification.</string>
     <string name="text_view_next_text">Next Radar:</string>
-    <string name="text_view_refresh_time_text">Last update: %s minutes ago.</string>
+    <string name="text_view_refresh_time_text">Last update: %s hs.</string>
     <string name="text_view_speed_limit_text">Speed Limit:</string>
     <string name="title_activity_settings">Settings</string>
     <string name="ok">Ok</string>

@@ -6,7 +6,7 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="text_view_next_text">Próximo radar:</string>
-    <string name="text_view_refresh_time_text">Última actualización: Hace %s minutos.</string>
+    <string name="text_view_refresh_time_text">Última actualización: %s hs.</string>
     <string name="text_view_speed_limit_text">Máxima velocidad:</string>
     <string name="text_view_distance_value" translatable="false">%s Km</string>
     <string name="text_view_speed_limit_value_text" translatable="false">%s</string>

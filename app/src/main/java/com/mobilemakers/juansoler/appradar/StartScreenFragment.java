@@ -19,6 +19,7 @@ import android.widget.Button;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
+import java.util.Collections;
 import java.util.Iterator;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener {
@@ -27,6 +28,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private static final long ANIMATION_DURATION = 1000;
     private static final float ANIMATION_ALPHA_FROM = 0.0f;
     private static final float ANIMATION_ALPHA_TO = 1.0f;
+    private static final String CITY = "Mar del Plata";
     FragmentManager mFragmentManager;
 
     Button mButtonSetDestination;
@@ -71,6 +73,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER )){
                     showAlertDialog();
                 } else {
+                    getFragmentArguments();
                     int direction = getDirection();
                     mRadars = filterRadars(direction);
                     SummaryFragment summaryFragment = new SummaryFragment();
@@ -100,13 +103,21 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 alert.show();
             }
 
+            private void getFragmentArguments () {
+                Bundle bundle = getArguments();
+                if (bundle != null && bundle.containsKey(MainActivity.RADARS_LIST)) {
+                    mRadars = bundle.getParcelable(MainActivity.RADARS_LIST);
+                }
+            }
+
             private int getDirection() {
                 int direction;
-                if (mButtonSetDestination.getText().equals("Mar del Plata")) {
+                if (mButtonSetDestination.getText().equals(CITY)) {
                     direction = 0;
                 }
                 else {
                     direction = 1;
+                    Collections.reverse(mRadars.getRadars());
                 }
                 return direction;
             }
@@ -118,19 +129,15 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
 
             public RadarList filterRadars (int direction) {
-                Bundle bundle = getArguments();
-                RadarList radarList = null;
-                if (bundle != null && bundle.containsKey(MainActivity.RADARS_LIST)) {
-                    radarList = bundle.getParcelable(MainActivity.RADARS_LIST);
-                    Iterator iterator = radarList.getmRadars().iterator();
+                    Iterator iterator = mRadars.iterator();
+                    Radar radar;
                     while (iterator.hasNext()) {
-                        Radar radar = (Radar) iterator.next();
-                        if (radar.getDireccion() == direction) {
-                            radarList.getmRadars().remove(radar); // PARCEL ERROR
+                        radar = (Radar) iterator.next();
+                        if (radar.getDirection() != direction) {
+                            iterator.remove();
                         }
                     }
-                }
-                return radarList;
+                return mRadars;
             }
         });
     }

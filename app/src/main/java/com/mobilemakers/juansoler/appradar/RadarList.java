@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -17,16 +18,28 @@ public class RadarList implements Parcelable {
         mRadars = new ArrayList<>();
     }
 
-    public RadarList(List<Radar> radars) {
-        mRadars = radars;
-    }
-
-    public List<Radar> getmRadars() {
+    public List<Radar> getRadars() {
         return mRadars;
     }
 
-    public void setmRadars(List<Radar> mRadars) {
+    public void setRadars(List<Radar> mRadars) {
         this.mRadars = mRadars;
+    }
+
+    public void add (Radar radar) {
+        mRadars.add(radar);
+    }
+
+    public Radar get (int index) {
+        return mRadars.get(index);
+    }
+
+    public int size () {
+        return mRadars.size();
+    }
+
+    public Iterator iterator () {
+        return mRadars.iterator();
     }
 
     @Override

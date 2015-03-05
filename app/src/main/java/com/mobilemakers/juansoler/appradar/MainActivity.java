@@ -1,10 +1,13 @@
 package com.mobilemakers.juansoler.appradar;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -24,6 +27,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements ConnectionCallbacks,
@@ -38,6 +42,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     private final static String PARSE_KM = "km";
     private final static String PARSE_MAXIMUM_SPEED = "max_speed";
     private final static String PARSE_DIRECTION = "direction";
+    private final static String PARSE_UPDATED_AT = "updatedAt";
     private final static int FIRST_FENCE = 5000;
     private final static int SECOND_FENCE = 2000;
     private final static int THIRD_FENCE = 300;
@@ -45,7 +50,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     // Stores the PendingIntent used to request geofence monitoring.
     private PendingIntent mGeofenceRequestIntent;
-    private GoogleApiClient mApiClient;
+    private static GoogleApiClient mApiClient;
 
     NotificationPreference mNotification = new NotificationPreference();
     GeofenceTransitionsIntent mGeofenceTransition;
@@ -106,52 +111,84 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
     }
 
     private void createGeofences() {
-        gettingParseObjectsFromNetwork();
-        gettingParseObjectsFromLocal();
+        gettingParseObjects();
         setFragmentArguments();
         preparingGeofenceList();
     }
-
-    private void gettingParseObjectsFromNetwork() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
-        query.orderByAscending(PARSE_KM);
-        List<ParseObject> parseObjects;
+    
+    private void gettingParseObjects() {
         try {
-            parseObjects = query.find();
-            if (parseObjects.size() > 0) {
-                for (int i = 0; i < parseObjects.size(); i++) {
-                    try {
-                        parseObjects.get(i).pin();
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
-                    }
-                }
+            if (isNetworkAvailable() && !isLocalDatabaseUpdated()) {
+                gettingParseObjectsFromNetwork();
+            } else {
+                gettingParseObjectsFromLocal();
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
-    private void gettingParseObjectsFromLocal() {
+    private boolean isLocalDatabaseUpdated() throws ParseException {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+        ParseObject parseObject;
+        query.orderByDescending(PARSE_UPDATED_AT);
+
+        parseObject = query.getFirst();
+        Date cloudDate = parseObject.getUpdatedAt();
+
+        query.fromLocalDatastore();
+        parseObject = query.getFirst();
+        Date localDate = parseObject.getUpdatedAt();
+
+        return localDate.compareTo(cloudDate) == 0;
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void gettingParseObjectsFromNetwork() throws ParseException {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+        query.orderByAscending(PARSE_KM);
+        List<ParseObject> parseObjects;
+        parseObjects = query.find();
+        Radar radar;
+        ParseObject parseObject;
+        for (int i = 0; i < parseObjects.size(); i++) {
+            parseObject = parseObjects.get(i);
+            radar = createRadarFromParse(parseObject);
+            mRadars.add(radar);
+            //Save to local database
+            parseObject.pin();
+        }
+    }
+
+    private void gettingParseObjectsFromLocal() throws ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         query.fromLocalDatastore();
+        query.orderByAscending(PARSE_KM);
         List<ParseObject> parseObjects;
-        try {
-            parseObjects = query.find();
-            Radar radar;
-            for (int i = 0; i < parseObjects.size(); i++){
-                radar = new Radar();
-                radar.setLatitude(parseObjects.get(i).getNumber(PARSE_LATITUDE).doubleValue());
-                radar.setLongitude(parseObjects.get(i).getNumber(PARSE_LONGITUDE).doubleValue());
-                radar.setName(parseObjects.get(i).getString(PARSE_NAME));
-                radar.setKm(parseObjects.get(i).getNumber(PARSE_KM).floatValue());
-                radar.setMaxSpeed(parseObjects.get(i).getNumber(PARSE_MAXIMUM_SPEED).intValue());
-                radar.setDireccion(parseObjects.get(i).getNumber(PARSE_DIRECTION).intValue());
-                mRadars.getmRadars().add(radar);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        parseObjects = query.find();
+        Radar radar;
+        ParseObject parseObject;
+        for (int i = 0; i < parseObjects.size(); i++) {
+            parseObject = parseObjects.get(i);
+            radar = createRadarFromParse(parseObject);
+            mRadars.add(radar);
         }
+    }
+
+    private Radar createRadarFromParse(ParseObject parseObject) {
+        Radar radar = new Radar();
+        radar.setLatitude(parseObject.getNumber(PARSE_LATITUDE).doubleValue());
+        radar.setLongitude(parseObject.getNumber(PARSE_LONGITUDE).doubleValue());
+        radar.setName(parseObject.getString(PARSE_NAME));
+        radar.setKm(parseObject.getNumber(PARSE_KM).floatValue());
+        radar.setMaxSpeed(parseObject.getNumber(PARSE_MAXIMUM_SPEED).intValue());
+        radar.setDirection(parseObject.getNumber(PARSE_DIRECTION).intValue());
+        return radar;
     }
 
     private void setFragmentArguments() {
@@ -164,14 +201,14 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         int id = 0;
         float radius = 0;
         SpotGeofence spotGeofence;
-        for (int i = 0; i < mRadars.getmRadars().size(); i++) {
-            Radar radar = mRadars.getmRadars().get(i);
+        for (int i = 0; i < mRadars.size(); i++) {
+            Radar radar = mRadars.get(i);
             Double latitude = radar.getLatitude();
             Double longitude = radar.getLongitude();
             String name = radar.getName();
             Float km = radar.getKm();
             int maxSpeed = radar.getMaxSpeed();
-            int direction = radar.getDireccion();
+            int direction = radar.getDirection();
             for (int j = 0; j < 3; j++) {
                 spotGeofence = new SpotGeofence();
                 spotGeofence.setId(Integer.toString(id));
@@ -199,6 +236,12 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         }
     }
 
+    public static Location getLastLocation() {
+         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mApiClient);
+        return mLastLocation;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -207,8 +250,6 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
     @Override
     public void onConnected(Bundle bundle) {
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mApiClient);
         // Get the PendingIntent for the geofence monitoring request.
         // Send a request to add the current geofences.
         mGeofenceRequestIntent = getGeofenceTransitionPendingIntent();

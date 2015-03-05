@@ -21,6 +21,9 @@ public class SoundListPreference extends ListPreference {
     private Context context;
     private int mClickedDialogEntryIndex = 0;
     private int mLastClickedDialogEntryIndex = 0;
+    private CharSequence[] mEntries;
+    private CharSequence[] mEntryValues;
+    private MediaPlayer mPlayer;
 
     public SoundListPreference(final Context context) {
         super(context);
@@ -39,15 +42,30 @@ public class SoundListPreference extends ListPreference {
         if(!restoreValue)
             persistString(temp);
 
-        mClickedDialogEntryIndex = 2;
+        switch (temp){
+            case "Bocina de submarino":
+                mClickedDialogEntryIndex = 0;
+                break;
+            case "Fábrica":
+                mClickedDialogEntryIndex = 1;
+                break;
+            case "Sirena de aire":
+                mClickedDialogEntryIndex = 2;
+                break;
+            default:
+                mClickedDialogEntryIndex = 3;
+                break;
+        }
+
+        mLastClickedDialogEntryIndex = mClickedDialogEntryIndex;
     }
 
     @Override
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
-        CharSequence[] entries = getEntries();
-        final CharSequence[] entryValues = getEntryValues();
+        mEntries = getEntries();
+        mEntryValues = getEntryValues();
 
         builder
                 .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -55,7 +73,24 @@ public class SoundListPreference extends ListPreference {
                     public void onClick(DialogInterface dialog, int which) {
                         mLastClickedDialogEntryIndex = mClickedDialogEntryIndex;
                         SharedPreferences.Editor editor =  getEditor();
-                        editor.putString(getKey(), "Sirena de aire");
+                        String selectedSound= "";
+
+                        switch (mClickedDialogEntryIndex){
+                            case 0:
+                                selectedSound = getContext().getString(R.string.sub_klaxon);
+                                break;
+                            case 1:
+                                selectedSound = getContext().getString(R.string.factory);
+                                break;
+                            case 2:
+                                selectedSound = getContext().getString(R.string.air_horn);
+                                break;
+                            default:
+                                selectedSound = getContext().getString(R.string.beep_ping);
+                                break;
+                        }
+
+                        editor.putString(getKey(), selectedSound);
                         editor.commit();
                     }
                 })
@@ -65,13 +100,12 @@ public class SoundListPreference extends ListPreference {
                         mClickedDialogEntryIndex = mLastClickedDialogEntryIndex;
                     }
                 })
-                .setSingleChoiceItems(entries, mClickedDialogEntryIndex ,
+                .setSingleChoiceItems(mEntries, mClickedDialogEntryIndex ,
                         new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int which) {
                                 mClickedDialogEntryIndex = which;
-                                String value = entryValues[which].toString();
-                                MediaPlayer mPlayer;
+                                String value = mEntryValues[which].toString();
 
                                 switch (value) {
                                     case "Bocina de submarino":
@@ -90,6 +124,22 @@ public class SoundListPreference extends ListPreference {
                                 mPlayer.start();
                             }
                         });
+    }
+
+    @Override
+    protected void onDialogClosed(boolean positiveResult) {
+        super.onDialogClosed(positiveResult);
+
+        if (positiveResult && mClickedDialogEntryIndex >= 0 && mEntryValues != null) {
+            String value = mEntryValues[mClickedDialogEntryIndex].toString();
+            if (callChangeListener(value)) {
+                setValue(value);
+            }
+        }
+
+        if (mPlayer != null) {
+            mPlayer.release();
+        }
     }
 
 }

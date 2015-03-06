@@ -10,6 +10,7 @@ import android.content.IntentSender;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -174,20 +175,39 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        ExecutorService taskExecutor = Executors.newSingleThreadExecutor();
-        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        Future<RadarList> results = taskExecutor.submit(new ParseTask(connectivityManager));
-        try {
-            mRadars = results.get();
-//            taskExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        new LongOperation().execute();
+
+//        ExecutorService taskExecutor = Executors.newSingleThreadExecutor();
+//        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+//        Future<RadarList> results = taskExecutor.submit(new ParseTask(connectivityManager));
+//        try {
+//            //get() blocks until completion
+//            mRadars = results.get();
+//            setFragmentArguments();
+//            preparingGeofenceList();
+//            mApiClient.connect();
+//        } catch (InterruptedException|ExecutionException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    private class LongOperation extends AsyncTask<Void, Void, RadarList> {
+        @Override
+        protected RadarList doInBackground(Void... params) {
+            ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            ParseDataBase parseDataBase = new ParseDataBase(connectivityManager);
+            RadarList radarList = parseDataBase.getParseObjects();
+            return radarList;
+        }
+
+        @Override
+        protected void onPostExecute(RadarList radarList) {
+            mRadars = radarList;
             setFragmentArguments();
             preparingGeofenceList();
             mApiClient.connect();
-        } catch (InterruptedException|ExecutionException e) {
-            e.printStackTrace();
         }
     }
-
     private boolean isGooglePlayServicesAvailable() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
         if (ConnectionResult.SUCCESS == resultCode) {

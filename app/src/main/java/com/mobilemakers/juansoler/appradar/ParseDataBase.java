@@ -26,6 +26,7 @@ public class ParseDataBase {
     }
 
     public RadarList getParseObjects() {
+        //TODO Create threads
         RadarList radars = new RadarList();
         try {
             if (NetworkConnections.isNetworkAvailable(mConnectivityManager)

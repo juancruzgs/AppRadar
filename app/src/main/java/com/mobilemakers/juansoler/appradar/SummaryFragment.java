@@ -55,8 +55,8 @@ public class SummaryFragment extends Fragment {
 
     private void getFragmentArguments() {
         Bundle bundle = getArguments();
-        if (bundle != null && bundle.containsKey(MainActivity.RADARS_LIST)) {
-            mRadars = bundle.getParcelable(MainActivity.RADARS_LIST);
+        if (bundle != null && bundle.containsKey(StartScreenFragment.RADARS_LIST)) {
+            mRadars = bundle.getParcelable(StartScreenFragment.RADARS_LIST);
         }
     }
 
@@ -73,7 +73,7 @@ public class SummaryFragment extends Fragment {
     }
 
     private float calculateDistanceToTheNextRadar(Double latitude, Double longitude) {
-        Location currentLocation = MainActivity.getLastLocation();
+        Location currentLocation = StartScreenFragment.getLastLocation();
         if (currentLocation == null) {
             return -1;
         }

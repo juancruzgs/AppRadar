@@ -23,16 +23,16 @@ public class ParseDataBase {
 
     RadarList mRadars;
     public ParseDataBase() {
-        mRadars = new RadarList();
     }
 
-    public RadarList gettingParseObjects(Activity activity) {
+    public RadarList gettingParseObjects(Activity activity, int direction) {
+        mRadars = new RadarList();
         try {
             if (NetworkConnections.isNetworkAvailable((ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE))
                     && (!existsLocalDatabase() || !isLocalDatabaseUpdated())) {
-                gettingParseObjectsFromNetwork();
+                gettingParseObjectsFromNetwork(direction);
             } else {
-                gettingParseObjectsFromLocal();
+                gettingParseObjectsFromLocal(direction);
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -71,9 +71,14 @@ public class ParseDataBase {
         return localDate.compareTo(cloudDate) == 0;
     }
 
-    private void gettingParseObjectsFromNetwork() throws ParseException {
+    private void gettingParseObjectsFromNetwork(int direction) throws ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
-        query.orderByAscending(PARSE_KM);
+        query.whereEqualTo(PARSE_DIRECTION, direction);;
+        if (direction == 1) {
+            query.orderByDescending(PARSE_KM); }
+        else {
+            query.orderByAscending(PARSE_KM);
+        }
         List<ParseObject> parseObjects;
         parseObjects = query.find();
         Radar radar;
@@ -87,10 +92,15 @@ public class ParseDataBase {
         }
     }
 
-    private void gettingParseObjectsFromLocal() throws ParseException {
+    private void gettingParseObjectsFromLocal(int direction) throws ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         query.fromLocalDatastore();
-        query.orderByAscending(PARSE_KM);
+        query.whereEqualTo(PARSE_DIRECTION, direction);
+        if (direction == 1) {
+        query.orderByDescending(PARSE_KM); }
+        else {
+          query.orderByAscending(PARSE_KM);
+        }
         List<ParseObject> parseObjects;
         parseObjects = query.find();
         Radar radar;

@@ -78,8 +78,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mFragmentManager = getFragmentManager();
         prepareButtonDestination(rootView);
         prepareButtonStart(rootView);
-
-        initializeGooglePlayServices();
         return rootView;
     }
 
@@ -109,8 +107,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER )){
                     showAlertDialog();
                 } else {
-                    int direction = getDirection();
-                    mRadars = filterRadars(direction);
+                    initializeGooglePlayServices(getDirection());
                     mFragmentManager.beginTransaction().replace(R.id.container, mSummaryFragment)
                             .addToBackStack(null).commit();
                 }
@@ -143,27 +140,13 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 }
                 else {
                     direction = 1;
-                    Collections.reverse(mRadars.getRadars());
                 }
                 return direction;
-            }
-
-
-            public RadarList filterRadars (int direction) {
-                    Iterator iterator = mRadars.iterator();
-                    Radar radar;
-                    while (iterator.hasNext()) {
-                        radar = (Radar) iterator.next();
-                        if (radar.getDirection() != direction) {
-                            iterator.remove();
-                        }
-                    }
-                return mRadars;
             }
         });
     }
 
-    private void initializeGooglePlayServices() {
+    private void initializeGooglePlayServices(int direction) {
         if (!isGooglePlayServicesAvailable()) {
             Log.e(TAG, "Google Play services unavailable.");
             return;
@@ -177,7 +160,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         // Instantiate the current List of geofences.
         mGeofenceList = new ArrayList<>();
-        createGeofences();
+        createGeofences(direction);
         mApiClient.connect();
     }
 
@@ -194,8 +177,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         }
     }
 
-    private void createGeofences() {
-        mRadars = mParseDataBase.gettingParseObjects(getActivity());
+    private void createGeofences(int direction) {
+        mRadars = mParseDataBase.gettingParseObjects(getActivity(), direction);
         setFragmentArguments();
         preparingGeofenceList();
     }

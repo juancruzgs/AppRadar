@@ -1,7 +1,10 @@
 package com.mobilemakers.juansoler.appradar;
 
 
+import android.content.Context;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -12,10 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -25,6 +28,9 @@ import java.util.Date;
 public class SummaryFragment extends Fragment {
 
     private final static String NEXT_LOCATION = "nextLocation";
+
+    private final static long MIN_TIME_UPDATES_S = 1000;
+    private final static float MIN_DISTANCE_UPDATES_M = 10;
 
     TextView mTextViewDistance;
     TextView mTextViewRefreshTime;
@@ -43,6 +49,7 @@ public class SummaryFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
         wireUpViews(rootView);
         getFragmentArguments();
+        monitorGpsStatus();
         setScreenInformation();
         return rootView;
     }
@@ -58,6 +65,32 @@ public class SummaryFragment extends Fragment {
         if (bundle != null && bundle.containsKey(StartScreenFragment.RADARS_LIST)) {
             mRadars = bundle.getParcelable(StartScreenFragment.RADARS_LIST);
         }
+    }
+
+    private void monitorGpsStatus() {
+        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_UPDATES_S, MIN_DISTANCE_UPDATES_M,
+                new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+                        Toast.makeText(getActivity(), "GPS Enabled", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+                        Toast.makeText(getActivity(), "GPS Disabled", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private void setScreenInformation() {

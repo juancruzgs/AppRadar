@@ -1,7 +1,5 @@
 package com.mobilemakers.juansoler.appradar;
 
-import android.app.Activity;
-import android.content.Context;
 import android.net.ConnectivityManager;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -21,14 +19,17 @@ public class ParseDataBase {
     private final static String PARSE_UPDATED_AT = "updatedAt";
     private final static String RADARS_TABLE = "Radars";
 
+    ConnectivityManager mConnectivityManager;
     RadarList mRadars;
-    public ParseDataBase() {
+
+    public ParseDataBase(ConnectivityManager connectivityManager) {
         mRadars = new RadarList();
+        mConnectivityManager = connectivityManager;
     }
 
-    public RadarList gettingParseObjects(Activity activity) {
+    public RadarList gettingParseObjects() {
         try {
-            if (NetworkConnections.isNetworkAvailable((ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE))
+            if (NetworkConnections.isNetworkAvailable(mConnectivityManager)
                     && (!existsLocalDatabase() || !isLocalDatabaseUpdated())) {
                 gettingParseObjectsFromNetwork();
             } else {

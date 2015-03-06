@@ -10,7 +10,6 @@ import android.content.IntentSender;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -32,12 +31,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationServices;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener, ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
@@ -66,7 +66,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     Button mButtonSetDestination;
     SummaryFragment mSummaryFragment = new SummaryFragment();
-    ParseDataBase mParseDataBase = new ParseDataBase();
 
     public StartScreenFragment() {
     }
@@ -177,8 +176,18 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         // Instantiate the current List of geofences.
         mGeofenceList = new ArrayList<>();
-        createGeofences();
-        mApiClient.connect();
+        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ExecutorService taskExecutor = Executors.newFixedThreadPool(2);
+        Future<RadarList> results = taskExecutor.submit(new ParseTask(connectivityManager));
+        try {
+            mRadars = results.get();
+//            taskExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            setFragmentArguments();
+            preparingGeofenceList();
+            mApiClient.connect();
+        } catch (InterruptedException|ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean isGooglePlayServicesAvailable() {
@@ -195,9 +204,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     private void createGeofences() {
-        mRadars = mParseDataBase.gettingParseObjects(getActivity());
-        setFragmentArguments();
-        preparingGeofenceList();
+//        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE)
+//        mRadars = mParseDataBase.gettingParseObjects(connectivityManager);
     }
 
 

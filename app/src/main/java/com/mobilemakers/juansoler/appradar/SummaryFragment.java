@@ -95,21 +95,13 @@ public class SummaryFragment extends Fragment {
 
     private void setScreenInformation() {
         mDistance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
-        if (mDistance > -1) {
-            setDistance(mDistance);
-        }
-        else {
-            showLocationUnavailableMessage();
-        }
+        setDistance(mDistance);
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.get(0).getMaxSpeed()));
         setRefreshTime(getCurrentTime());
     }
 
     private float calculateDistanceToTheNextRadar(Double latitude, Double longitude) {
         Location currentLocation = StartScreenFragment.getLastLocation();
-        if (currentLocation == null) {
-            return -1;
-        }
         Location nextLocation = createTheNextLocation(latitude, longitude);
         float distance = (currentLocation.distanceTo(nextLocation)/1000);
         return new BigDecimal(distance).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue();
@@ -127,10 +119,6 @@ public class SummaryFragment extends Fragment {
 
     private void setRefreshTime(String refreshTime) {
         mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text), refreshTime));
-    }
-
-    private void showLocationUnavailableMessage() {
-        mTextViewDistance.setText(R.string.text_view_distance_location_unavailable);
     }
 
     private String getCurrentTime () {

@@ -175,6 +175,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 .addOnConnectionFailedListener(this)
                 .build();
 
+        //TODO Show loading icon
         new LongOperation().execute();
 
 //        ExecutorService taskExecutor = Executors.newSingleThreadExecutor();
@@ -346,6 +347,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
                 mGeofenceRequestIntent);
+        //TODO Delete loading icon
     }
 
     private PendingIntent getGeofenceTransitionPendingIntent() {

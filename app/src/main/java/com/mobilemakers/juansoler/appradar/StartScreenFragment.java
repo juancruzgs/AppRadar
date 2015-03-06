@@ -9,9 +9,8 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,9 +21,8 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import java.util.Collections;
-import java.util.Iterator;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -32,11 +30,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationServices;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener, ConnectionCallbacks,
@@ -104,12 +99,24 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
             private void checkGPSStatus() {
                 LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-                if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER )){
+                if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER )) {
                     showAlertDialog();
-                } else {
+                }
+                else {
                     initializeGooglePlayServices(getDirection());
-                    mFragmentManager.beginTransaction().replace(R.id.container, mSummaryFragment)
-                            .addToBackStack(null).commit();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (getLastLocation() == null) {
+                                showNoLocationDialog();
+                            }
+                            else {
+                                    mFragmentManager.beginTransaction().replace(R.id.container, mSummaryFragment)
+                                            .addToBackStack(null).commit();
+                            }
+                        }
+                    }, 100);
                 }
             }
 
@@ -127,6 +134,18 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                         .setNegativeButton(getString(R.string.cancelGPS_dialog), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
+                            }
+                        });
+                final AlertDialog alert = builder.create();
+                alert.show();
+            }
+
+            private void showNoLocationDialog() {
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+                builder.setMessage(getString(R.string.message_no_location_dialog))
+                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
                             }
                         });
                 final AlertDialog alert = builder.create();

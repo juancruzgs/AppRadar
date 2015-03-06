@@ -20,25 +20,24 @@ public class ParseDataBase {
     private final static String RADARS_TABLE = "Radars";
 
     ConnectivityManager mConnectivityManager;
-    RadarList mRadars;
 
     public ParseDataBase(ConnectivityManager connectivityManager) {
-        mRadars = new RadarList();
         mConnectivityManager = connectivityManager;
     }
 
-    public RadarList gettingParseObjects() {
+    public RadarList getParseObjects() {
+        RadarList radars = new RadarList();
         try {
             if (NetworkConnections.isNetworkAvailable(mConnectivityManager)
                     && (!existsLocalDatabase() || !isLocalDatabaseUpdated())) {
-                gettingParseObjectsFromNetwork();
+                radars = getParseObjectsFromNetwork();
             } else {
-                gettingParseObjectsFromLocal();
+                radars = getParseObjectsFromLocal();
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return mRadars;
+        return radars;
     }
 
     private boolean existsLocalDatabase() {
@@ -72,35 +71,42 @@ public class ParseDataBase {
         return localDate.compareTo(cloudDate) == 0;
     }
 
-    private void gettingParseObjectsFromNetwork() throws ParseException {
+    private RadarList getParseObjectsFromNetwork() throws ParseException {
+        List<ParseObject> parseObjects;
+        ParseObject parseObject;
+        RadarList radars = new RadarList();
+        Radar radar;
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         query.orderByAscending(PARSE_KM);
-        List<ParseObject> parseObjects;
         parseObjects = query.find();
-        Radar radar;
-        ParseObject parseObject;
         for (int i = 0; i < parseObjects.size(); i++) {
             parseObject = parseObjects.get(i);
             radar = createRadarFromParse(parseObject);
-            mRadars.add(radar);
+            radars.add(radar);
             //Save to local database
-            parseObject.pin();
+            parseObject.pinInBackground();
         }
+        return radars;
     }
 
-    private void gettingParseObjectsFromLocal() throws ParseException {
+    private RadarList getParseObjectsFromLocal() throws ParseException {
+        List<ParseObject> parseObjects;
+        ParseObject parseObject;
+        RadarList radars = new RadarList();
+        Radar radar;
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         query.fromLocalDatastore();
         query.orderByAscending(PARSE_KM);
-        List<ParseObject> parseObjects;
         parseObjects = query.find();
-        Radar radar;
-        ParseObject parseObject;
         for (int i = 0; i < parseObjects.size(); i++) {
             parseObject = parseObjects.get(i);
             radar = createRadarFromParse(parseObject);
-            mRadars.add(radar);
+            radars.add(radar);
         }
+
+        return radars;
     }
 
     private Radar createRadarFromParse(ParseObject parseObject) {

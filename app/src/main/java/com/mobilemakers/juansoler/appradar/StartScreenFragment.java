@@ -53,7 +53,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private PendingIntent mGeofenceRequestIntent;
     private static GoogleApiClient mApiClient;
 
-    List<SpotGeofence> mGeofenceList;
+    List<SpotGeofence> mGeofenceList = new ArrayList<>();
     RadarList mRadars;
     public static Location mLastLocation;
 
@@ -174,10 +174,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        // Instantiate the current List of geofences.
-        mGeofenceList = new ArrayList<>();
+        ExecutorService taskExecutor = Executors.newSingleThreadExecutor();
         ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        ExecutorService taskExecutor = Executors.newFixedThreadPool(2);
         Future<RadarList> results = taskExecutor.submit(new ParseTask(connectivityManager));
         try {
             mRadars = results.get();
@@ -205,7 +203,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     private void createGeofences() {
 //        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE)
-//        mRadars = mParseDataBase.gettingParseObjects(connectivityManager);
+//        mRadars = mParseDataBase.getParseObjects(connectivityManager);
     }
 
 

@@ -14,8 +14,7 @@ public class ParseTask implements Callable<RadarList> {
 
     @Override
     public RadarList call() throws Exception {
-        mParseDataBase.gettingParseObjects();
-
-        return null;
+        RadarList radarList = mParseDataBase.getParseObjects();
+        return radarList;
     }
 }

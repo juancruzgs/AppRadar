@@ -45,11 +45,29 @@ public class GeofenceTransitionsIntent {
                 }
 
                 //Calling notifications
-                createNotification("Atención!", String.format("Se encuentra a %s metros del próximo radar.", radar), R.mipmap.ic_launcher);
+                createNotification(mActivity.getString(R.string.warning_message),
+                        String.format(mActivity.getString(R.string.radar_message), radar),
+                        R.mipmap.ic_launcher, getNotificationId(radar));
                 showActivityAlwaysOnTop();
             } else
             if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType) {
             }
+        }
+    }
+
+    private int getNotificationId(float radar) {
+        int radius = Math.round(radar);
+        switch (radius){
+            case 10000:
+            case 7000:
+            case 5000:
+                return 1;
+            case 4000:
+            case 3000:
+            case 2000:
+                return 2;
+            default:
+                return 3;
         }
     }
 
@@ -74,13 +92,13 @@ public class GeofenceTransitionsIntent {
 
     private Uri getSoundUri(int notification){
         //Creating Uris
-        Uri airhornPath = Uri.parse("android.resource://"
+        Uri airhornPath = Uri.parse(mActivity.getString(R.string.sound_path)
                 + mActivity.getPackageName() + "/" + R.raw.air_horn);
-        Uri subklaxonPath = Uri.parse("android.resource://"
+        Uri subklaxonPath = Uri.parse(mActivity.getString(R.string.sound_path)
                 + mActivity.getPackageName() + "/" + R.raw.sub_klaxon);
-        Uri beeppingPath = Uri.parse("android.resource://"
+        Uri beeppingPath = Uri.parse(mActivity.getString(R.string.sound_path)
                 + mActivity.getPackageName() + "/" + R.raw.beep_ping);
-        Uri factoryPath = Uri.parse("android.resource://"
+        Uri factoryPath = Uri.parse(mActivity.getString(R.string.sound_path)
                 + mActivity.getPackageName() + "/" + R.raw.factory);
 
         //Getting SharedPreference
@@ -101,13 +119,13 @@ public class GeofenceTransitionsIntent {
                 break;
         }
 
-        if (soundName.equals("Bocina de submarino")){
+        if (soundName.equals(mActivity.getString(R.string.sub_klaxon))){
             return subklaxonPath;
         } else {
-            if (soundName.equals("Fábrica")){
+            if (soundName.equals(mActivity.getString(R.string.factory))){
                 return factoryPath;
             } else {
-                if (soundName.equals("Sirena de aire")){
+                if (soundName.equals(mActivity.getString(R.string.air_horn))){
                     return airhornPath;
                 } else {
                     return beeppingPath;

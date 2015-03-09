@@ -10,7 +10,6 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
 
-    NotificationPreference mNotification = new NotificationPreference();
     public GeofenceTransitionsIntent mGeofenceTransition;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +40,6 @@ public class MainActivity extends ActionBarActivity {
         actionBar.setIcon(R.mipmap.ic_launcher);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_color)));
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mNotification.getSharedPreferences(this);
     }
 
     @Override

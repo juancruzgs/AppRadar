@@ -14,6 +14,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,13 @@ import java.util.Date;
  * A simple {@link Fragment} subclass.
  */
 public class SummaryFragment extends Fragment {
+
+    private final static String NEXT_LOCATION = "nextLocation";
+
+    private final static long MIN_TIME_UPDATES_S = 1000;
+    private final static float MIN_DISTANCE_UPDATES_M = 10;
+    private static final float ANIMATION_ALPHA_FROM = 0.0f;
+    private static final float ANIMATION_ALPHA_TO = 1.0f;
 
     TextView mTextViewDistance;
     TextView mTextViewRefreshTime;
@@ -42,6 +52,8 @@ public class SummaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
+        LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
+        transitionIN(layoutMain, 2000);
         wireUpViews(rootView);
         getFragmentArguments();
         monitorGpsStatus();
@@ -154,5 +166,28 @@ public class SummaryFragment extends Fragment {
             handled = super.onOptionsItemSelected(item);
         }
         return handled;
+    }
+
+    public void transitionIN(final View view, long duration) {
+
+        Animation animationIn = new AlphaAnimation(ANIMATION_ALPHA_FROM, ANIMATION_ALPHA_TO);
+        animationIn.setDuration(duration);
+        view.startAnimation(animationIn);
+        animationIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                view.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 }

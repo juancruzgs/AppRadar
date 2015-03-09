@@ -12,9 +12,11 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +24,10 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.gms.common.ConnectionResult;
@@ -41,6 +46,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     private final static String TAG = StartScreenFragment.class.getSimpleName();
     private final static int CONNECTION_TIMEOUT = 9000;
+    private final static int FIRST_FENCE = 5000;
+    private final static int SECOND_FENCE = 2000;
+    private final static int THIRD_FENCE = 300;
+    public final static String RADARS_LIST = "radars_list";
 
     // Stores the PendingIntent used to request geofence monitoring.
     private PendingIntent mGeofenceRequestIntent;
@@ -50,10 +59,17 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     RadarList mRadars;
     public static Location mLastLocation;
 
+    private static final String TAG_DESTINATION_DIALOG = "destinations_dialog";
+    private static final float ANIMATION_ALPHA_FROM = 0.0f;
+    private static final float ANIMATION_ALPHA_TO = 1.0f;
+    private static final String CITY = "Mar del Plata";
     FragmentManager mFragmentManager;
     LinearLayout mProgressLayout;
+    ImageView mImageViewSS;
 
     Button mButtonSetDestination;
+    Button mButtonStart;
+    TextView mTextViewWelcome;
     SummaryFragment mSummaryFragment = new SummaryFragment();
     private NotificationPreference mNotification = new NotificationPreference();
 
@@ -69,10 +85,16 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_start_screen, container, false);
         mFragmentManager = getFragmentManager();
-        mProgressLayout = (LinearLayout)rootView.findViewById(R.id.loadingPanel);
+        wireUpViews(rootView);
         prepareButtonDestination(rootView);
         prepareButtonStart(rootView);
         return rootView;
+    }
+
+    private void wireUpViews(View rootView) {
+        mProgressLayout = (LinearLayout)rootView.findViewById(R.id.loadingPanel);
+        mTextViewWelcome = (TextView)rootView.findViewById(R.id.textView_welcome);
+        mImageViewSS = (ImageView)rootView.findViewById(R.id.imageView_start_screen_image);
     }
 
 
@@ -81,7 +103,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mButtonSetDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transitionOUT();
+                transitionOUT(mButtonSetDestination, 1000, false);
                 DestinationsDialog destinationsDialog = new DestinationsDialog();
                 destinationsDialog.show(mFragmentManager, Constants.TAG_DESTINATION_DIALOG);
             }
@@ -89,8 +111,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     private void prepareButtonStart(View rootView) {
-        Button buttonStart = (Button)rootView.findViewById(R.id.button_start_travel);
-        buttonStart.setOnClickListener(new View.OnClickListener() {
+        mButtonStart = (Button)rootView.findViewById(R.id.button_start_travel);
+        mButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkGPSStatus();
@@ -139,6 +161,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
 
             private void showNoLocationDialog() {
+                transitionOUT(mProgressLayout, 2000, false);
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
                 builder.setMessage(getString(R.string.message_no_location_dialog))
                         .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -165,9 +188,11 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        //TODO Show loading icon
         new LongOperation().execute();
-        mProgressLayout.setVisibility(View.VISIBLE);
+        transitionOUT(mImageViewSS, 1000, false);
+        transitionOUT(mButtonSetDestination,1000,true);
+        transitionOUT(mButtonStart, 1000,true);
+        transitionOUT(mTextViewWelcome, 1000, true, mProgressLayout);
     }
 
     private class LongOperation extends AsyncTask<Void, Void, RadarList> {
@@ -267,18 +292,21 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         if (!destination.equals("")){
             mButtonSetDestination.setText(destination);
         }
-        transitionIN();
+        transitionIN(mButtonSetDestination, 1000);
+        if (mButtonStart.getVisibility() != View.VISIBLE) {
+            transitionIN(mButtonStart, 1000);
+        }
     }
 
-    public void transitionIN() {
+    public void transitionIN(final View view, long duration) {
 
-        Animation animationIn = new AlphaAnimation(Constants.ANIMATION_ALPHA_FROM, Constants.ANIMATION_ALPHA_TO);
-        animationIn.setDuration(Constants.ANIMATION_DURATION);
-        mButtonSetDestination.startAnimation(animationIn);
+        Animation animationIn = new AlphaAnimation(ANIMATION_ALPHA_FROM, ANIMATION_ALPHA_TO);
+        animationIn.setDuration(duration);
+        view.startAnimation(animationIn);
         animationIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                mButtonSetDestination.setVisibility(View.VISIBLE);
+                view.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -293,11 +321,11 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         });
     }
 
-    public void transitionOUT() {
+    public void transitionOUT(final View view, long duration,final Boolean gone) {
 
-        Animation animationOut = new AlphaAnimation(Constants.ANIMATION_ALPHA_TO, Constants.ANIMATION_ALPHA_FROM);
-        animationOut.setDuration(Constants.ANIMATION_DURATION);
-        mButtonSetDestination.startAnimation(animationOut);
+        Animation animationOut = new AlphaAnimation(ANIMATION_ALPHA_TO, ANIMATION_ALPHA_FROM);
+        animationOut.setDuration(duration);
+        view.startAnimation(animationOut);
         animationOut.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -306,7 +334,39 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mButtonSetDestination.setVisibility(View.INVISIBLE);
+                if (gone) {
+                    view.setVisibility(View.GONE);
+                }else {
+                    view.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    public void transitionOUT(final View view, long duration,final Boolean gone, final View replaceWith) {
+
+        Animation animationOut = new AlphaAnimation(ANIMATION_ALPHA_TO, ANIMATION_ALPHA_FROM);
+        animationOut.setDuration(duration);
+        view.startAnimation(animationOut);
+        animationOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (gone) {
+                    view.setVisibility(View.GONE);
+                    transitionIN(replaceWith, 1000);
+                }else {
+                    view.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
@@ -335,8 +395,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     private void prepareNewFragment() {
-        mProgressLayout.setVisibility(View.VISIBLE);
         mFragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, mSummaryFragment)
                 .addToBackStack(null)
                 .commit();

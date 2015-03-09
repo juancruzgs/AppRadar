@@ -5,7 +5,9 @@
     android:gravity="center"
     android:paddingLeft="@dimen/summary_fragment_padding"
     android:paddingRight="@dimen/summary_fragment_padding"
-    android:paddingTop="@dimen/summary_fragment_padding">
+    android:paddingTop="@dimen/summary_fragment_padding"
+    android:visibility="invisible"
+    android:id="@+id/Layout_Main">
 
     <TextView
         android:layout_width="wrap_content"

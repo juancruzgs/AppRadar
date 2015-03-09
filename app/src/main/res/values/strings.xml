@@ -35,5 +35,6 @@
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="message_no_location_dialog">No puedo obtener una ubicación. Pruebe en otro lugar.</string>
-    <string name="loading">Cargando...</string>
+    <string name="loading">Cargando&#8230;</string>
+    <string name="Destinations_dialog_title">Elija destino&#8230;</string>
 </resources>

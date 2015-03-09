@@ -36,13 +36,15 @@ import com.google.android.gms.location.LocationServices;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mobilemakers.juansoler.appradar.Constants.ANIMATION_ALPHA_FROM;
+import static com.mobilemakers.juansoler.appradar.Constants.ANIMATION_ALPHA_TO;
+import static com.mobilemakers.juansoler.appradar.Constants.ANIMATION_DURATION;
+
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener, ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     private final static String TAG = StartScreenFragment.class.getSimpleName();
     private final static int CONNECTION_TIMEOUT = 9000;
-    private final static int THIRD_FENCE = 300;
-    public final static String RADARS_LIST = "radars_list";
 
     // Stores the PendingIntent used to request geofence monitoring.
     private PendingIntent mGeofenceRequestIntent;
@@ -57,7 +59,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     Button mButtonSetDestination;
     SummaryFragment mSummaryFragment = new SummaryFragment();
-    ParseDataBase mParseDataBase = new ParseDataBase();
     private NotificationPreference mNotification = new NotificationPreference();
 
     public StartScreenFragment() {
@@ -246,7 +247,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                         radius = Float.parseFloat(mNotification.getFirstNotificationDistance()) * 1000;
                         break;
                     case 1:
-                        radius = Float.parseFloat(mNotification.getSecondNotificationDistance()) * 1000;;
+                        radius = Float.parseFloat(mNotification.getSecondNotificationDistance()) * 1000;
                         break;
                     case 2:
                         radius = Constants.THIRD_FENCE;

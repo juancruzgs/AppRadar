@@ -191,7 +191,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         new LongOperation().execute();
         transitionOUT(mImageViewSS, 1000, false);
         transitionOUT(mButtonSetDestination,1000,true);
-        transitionOUT(mButtonStart, 1000,true);
+        transitionOUT(mButtonStart, 1000, true);
         transitionOUT(mTextViewWelcome, 1000, true, mProgressLayout);
     }
 
@@ -279,6 +279,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 id++;
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mNotification.getSharedPreferences(getActivity());
     }
 
     public static Location getLastLocation() {

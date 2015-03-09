@@ -1,10 +1,7 @@
 <resources>
     <string name="app_name">AppRadar</string>
-    <string name="hello_world" translatable="false">Hello world!</string>
     <string name="action_settings">Opciones</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="text_view_next_text">Próximo radar:</string>
     <string name="text_view_refresh_time_text">Última actualización: %s hs.</string>
     <string name="text_view_speed_limit_text">Máxima velocidad:</string>
@@ -38,4 +35,5 @@
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="message_no_location_dialog">No puedo obtener una ubicación. Pruebe en otro lugar.</string>
+    <string name="loading">Cargando...</string>
 </resources>

@@ -23,6 +23,9 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -59,6 +62,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private static final float ANIMATION_ALPHA_TO = 1.0f;
     private static final String CITY = "Mar del Plata";
     FragmentManager mFragmentManager;
+    LinearLayout mProgressLayout;
 
     Button mButtonSetDestination;
     SummaryFragment mSummaryFragment = new SummaryFragment();
@@ -71,6 +75,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_start_screen, container, false);
         mFragmentManager = getFragmentManager();
+        mProgressLayout = (LinearLayout)rootView.findViewById(R.id.loadingPanel);
         prepareButtonDestination(rootView);
         prepareButtonStart(rootView);
         return rootView;
@@ -98,11 +103,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
 
             private void checkGPSStatus() {
-                LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-                if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER )){
+                LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     showAlertDialog();
-                }
-                else {
+                } else {
                     initializeGooglePlayServices();
 //                    Handler handler = new Handler();
 //                    handler.postDelayed(new Runnable() {
@@ -169,6 +173,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         //TODO Show loading icon
         new LongOperation().execute();
+        mProgressLayout.setVisibility(View.VISIBLE);
     }
 
     private class LongOperation extends AsyncTask<Void, Void, RadarList> {
@@ -331,8 +336,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
                 mGeofenceRequestIntent);
-        //TODO Delete loading icon
 
+        prepareNewFragment();
+    }
+
+    private void prepareNewFragment() {
+        mProgressLayout.setVisibility(View.VISIBLE);
         mFragmentManager.beginTransaction()
                 .replace(R.id.container, mSummaryFragment)
                 .addToBackStack(null)

@@ -37,4 +37,7 @@
     <string name="message_no_location_dialog">No puedo obtener una ubicación. Pruebe en otro lugar.</string>
     <string name="loading">Cargando&#8230;</string>
     <string name="Destinations_dialog_title">Elija destino&#8230;</string>
+    <string name="warning_message">Atención!</string>
+    <string name="radar_message">Se encuentra a %s metros del próximo radar.</string>
+    <string name="sound_path">android.resource://</string>
 </resources>

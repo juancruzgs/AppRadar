@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -21,7 +23,6 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
-
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -48,7 +49,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private PendingIntent mGeofenceRequestIntent;
     private static GoogleApiClient mApiClient;
 
-    List<SpotGeofence> mGeofenceList;
+    List<SpotGeofence> mGeofenceList = new ArrayList<>();
     RadarList mRadars;
     public static Location mLastLocation;
 
@@ -61,7 +62,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     Button mButtonSetDestination;
     SummaryFragment mSummaryFragment = new SummaryFragment();
-    ParseDataBase mParseDataBase = new ParseDataBase();
 
     public StartScreenFragment() {
     }
@@ -73,6 +73,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mFragmentManager = getFragmentManager();
         prepareButtonDestination(rootView);
         prepareButtonStart(rootView);
+
+        initializeGooglePlayServices();
         return rootView;
     }
 
@@ -99,7 +101,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
             private void checkGPSStatus() {
                 LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-                if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER )) {
+                if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER )){
                     showAlertDialog();
                 }
                 else {
@@ -165,7 +167,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         });
     }
 
-    private void initializeGooglePlayServices(int direction) {
+    private void initializeGooglePlayServices() {
         if (!isGooglePlayServicesAvailable()) {
             Log.e(TAG, "Google Play services unavailable.");
             return;
@@ -177,10 +179,26 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        // Instantiate the current List of geofences.
-        mGeofenceList = new ArrayList<>();
-        createGeofences(direction);
-        mApiClient.connect();
+        //TODO Show loading icon
+        new LongOperation().execute();
+    }
+
+    private class LongOperation extends AsyncTask<Void, Void, RadarList> {
+        @Override
+        protected RadarList doInBackground(Void... params) {
+            ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            ParseDataBase parseDataBase = new ParseDataBase(connectivityManager);
+            RadarList radarList = parseDataBase.getParseObjects(getActivity(), direction);
+            return radarList;
+        }
+
+        @Override
+        protected void onPostExecute(RadarList radarList) {
+            mRadars = radarList;
+            setFragmentArguments();
+            preparingGeofenceList();
+            mApiClient.connect();
+        }
     }
 
     private boolean isGooglePlayServicesAvailable() {
@@ -195,13 +213,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             return false;
         }
     }
-
-    private void createGeofences(int direction) {
-        mRadars = mParseDataBase.gettingParseObjects(getActivity(), direction);
-        setFragmentArguments();
-        preparingGeofenceList();
-    }
-
 
     private void setFragmentArguments() {
         Bundle bundle = new Bundle();
@@ -322,6 +333,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
                 mGeofenceRequestIntent);
+        //TODO Delete loading icon
     }
 
     private PendingIntent getGeofenceTransitionPendingIntent() {

@@ -1,13 +1,15 @@
 package com.mobilemakers.juansoler.appradar;
 
-import android.app.Activity;
-import android.content.Context;
 import android.net.ConnectivityManager;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 public class ParseDataBase {
@@ -18,26 +20,49 @@ public class ParseDataBase {
     private final static String PARSE_KM = "km";
     private final static String PARSE_MAXIMUM_SPEED = "max_speed";
     private final static String PARSE_DIRECTION = "direction";
-    private final static String PARSE_UPDATED_AT = "updatedAt";
     private final static String RADARS_TABLE = "Radars";
 
-    RadarList mRadars;
-    public ParseDataBase() {
+    ConnectivityManager mConnectivityManager;
+
+    public ParseDataBase(ConnectivityManager connectivityManager) {
+        mConnectivityManager = connectivityManager;
     }
 
-    public RadarList gettingParseObjects(Activity activity, int direction) {
-        mRadars = new RadarList();
+    public RadarList getParseObjects() {
+        RadarList radars = new RadarList();
+
         try {
-            if (NetworkConnections.isNetworkAvailable((ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE))
-                    && (!existsLocalDatabase() || !isLocalDatabaseUpdated())) {
-                gettingParseObjectsFromNetwork(direction);
-            } else {
-                gettingParseObjectsFromLocal(direction);
+            if  (!existsLocalDatabase()) {
+                if (NetworkConnections.isNetworkAvailable(mConnectivityManager)) {
+                    radars = getParseObjectsFromNetwork();
+                }
+                //TODO Else the user has to connect the device to internet
             }
-        } catch (ParseException e) {
+            else {
+                if (NetworkConnections.isNetworkAvailable(mConnectivityManager)){
+                    ExecutorService taskExecutor = Executors.newFixedThreadPool(2);
+                    Future<Date> resultLocalDate = taskExecutor.submit(new DatabaseDateTask(false));
+                    Future<Date> resultCloudDate = taskExecutor.submit(new DatabaseDateTask(true));
+
+                    Date localDatabaseDate = resultLocalDate.get();
+                    Date cloudDatabaseDate = resultCloudDate.get();
+
+                    if (localDatabaseDate.compareTo(cloudDatabaseDate) != 0){
+                        radars = getParseObjectsFromNetwork();
+                    }
+                    else {
+                        radars = getParseObjectsFromLocal();
+                    }
+                }
+                else {
+                    radars = getParseObjectsFromLocal();
+                }
+            }
+        } catch (InterruptedException|ExecutionException|ParseException e) {
             e.printStackTrace();
         }
-        return mRadars;
+
+        return radars;
     }
 
     private boolean existsLocalDatabase() {
@@ -56,60 +81,53 @@ public class ParseDataBase {
         return exists;
     }
 
-    private boolean isLocalDatabaseUpdated() throws ParseException {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+    private RadarList getParseObjectsFromNetwork(int direction) throws ParseException {
+        List<ParseObject> parseObjects;
         ParseObject parseObject;
-        query.orderByDescending(PARSE_UPDATED_AT);
+        RadarList radars = new RadarList();
+        Radar radar;
 
-        parseObject = query.getFirst();
-        Date cloudDate = parseObject.getUpdatedAt();
-
-        query.fromLocalDatastore();
-        parseObject = query.getFirst();
-        Date localDate = parseObject.getUpdatedAt();
-
-        return localDate.compareTo(cloudDate) == 0;
-    }
-
-    private void gettingParseObjectsFromNetwork(int direction) throws ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
-        query.whereEqualTo(PARSE_DIRECTION, direction);;
+        query.whereEqualTo(PARSE_DIRECTION, direction);
         if (direction == 1) {
             query.orderByDescending(PARSE_KM); }
         else {
             query.orderByAscending(PARSE_KM);
         }
-        List<ParseObject> parseObjects;
+
         parseObjects = query.find();
-        Radar radar;
-        ParseObject parseObject;
         for (int i = 0; i < parseObjects.size(); i++) {
             parseObject = parseObjects.get(i);
             radar = createRadarFromParse(parseObject);
-            mRadars.add(radar);
+            radars.add(radar);
             //Save to local database
-            parseObject.pin();
+            parseObject.pinInBackground();
         }
+        return radars;
     }
 
-    private void gettingParseObjectsFromLocal(int direction) throws ParseException {
+    private RadarList getParseObjectsFromLocal(int direction) throws ParseException {
+        List<ParseObject> parseObjects;
+        ParseObject parseObject;
+        RadarList radars = new RadarList();
+        Radar radar;
+        
         ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
         query.fromLocalDatastore();
         query.whereEqualTo(PARSE_DIRECTION, direction);
         if (direction == 1) {
-        query.orderByDescending(PARSE_KM); }
+            query.orderByDescending(PARSE_KM); }
         else {
-          query.orderByAscending(PARSE_KM);
+            query.orderByAscending(PARSE_KM);
         }
-        List<ParseObject> parseObjects;
+
         parseObjects = query.find();
-        Radar radar;
-        ParseObject parseObject;
         for (int i = 0; i < parseObjects.size(); i++) {
             parseObject = parseObjects.get(i);
             radar = createRadarFromParse(parseObject);
-            mRadars.add(radar);
+            radars.add(radar);
         }
+        return radars;
     }
 
     private Radar createRadarFromParse(ParseObject parseObject) {

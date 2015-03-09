@@ -36,10 +36,6 @@ import com.google.android.gms.location.LocationServices;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mobilemakers.juansoler.appradar.Constants.ANIMATION_ALPHA_FROM;
-import static com.mobilemakers.juansoler.appradar.Constants.ANIMATION_ALPHA_TO;
-import static com.mobilemakers.juansoler.appradar.Constants.ANIMATION_DURATION;
-
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener, ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
@@ -299,8 +295,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     public void transitionOUT() {
 
-        Animation animationOut = new AlphaAnimation(ANIMATION_ALPHA_TO, ANIMATION_ALPHA_FROM);
-        animationOut.setDuration(ANIMATION_DURATION);
+        Animation animationOut = new AlphaAnimation(Constants.ANIMATION_ALPHA_TO, Constants.ANIMATION_ALPHA_FROM);
+        animationOut.setDuration(Constants.ANIMATION_DURATION);
         mButtonSetDestination.startAnimation(animationOut);
         animationOut.setAnimationListener(new Animation.AnimationListener() {
             @Override

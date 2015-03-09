@@ -20,6 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,10 +47,15 @@ public class SummaryFragment extends Fragment {
     float mDistance;
     RadarList mRadars;
 
+    private GoogleApiClient mApiClient;
+
     public SummaryFragment() {
         // Required empty public constructor
     }
 
+    public SummaryFragment(GoogleApiClient apiClient) {
+        mApiClient = apiClient;
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -108,10 +116,15 @@ public class SummaryFragment extends Fragment {
     }
 
     private float calculateDistanceToTheNextRadar(Double latitude, Double longitude) {
-        Location currentLocation = StartScreenFragment.getLastLocation();
+        Location currentLocation = getLastLocation();
         Location nextLocation = createTheNextLocation(latitude, longitude);
         float distance = (currentLocation.distanceTo(nextLocation)/1000);
         return new BigDecimal(distance).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue();
+    }
+
+    private Location getLastLocation() {
+        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mApiClient);
+        return lastLocation;
     }
 
     private Location createTheNextLocation(Double latitude, Double longitude) {

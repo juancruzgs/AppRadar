@@ -1,9 +1,11 @@
 package com.mobilemakers.juansoler.appradar;
 
 import android.net.ConnectivityManager;
+
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -11,8 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-
-public class ParseDataBase {
+public class ParseDatabase {
 
     private final static String PARSE_LATITUDE = "latitude";
     private final static String PARSE_LONGITUDE = "longitude";
@@ -23,7 +24,7 @@ public class ParseDataBase {
 
     ConnectivityManager mConnectivityManager;
 
-    public ParseDataBase(ConnectivityManager connectivityManager) {
+    public ParseDatabase(ConnectivityManager connectivityManager) {
         mConnectivityManager = connectivityManager;
     }
 
@@ -57,7 +58,7 @@ public class ParseDataBase {
                     radars = getParseObjectsFromLocal(direction);
                 }
             }
-        } catch (InterruptedException|ExecutionException|ParseException e) {
+        } catch (InterruptedException|ExecutionException |ParseException e) {
             e.printStackTrace();
         }
 
@@ -110,7 +111,7 @@ public class ParseDataBase {
         ParseObject parseObject;
         RadarList radars = new RadarList();
         Radar radar;
-        
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Constants.RADARS_TABLE);
         query.fromLocalDatastore();
         query.whereEqualTo(PARSE_DIRECTION, direction);

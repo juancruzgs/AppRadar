@@ -6,6 +6,10 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 public class ParseDataBase {
@@ -16,7 +20,6 @@ public class ParseDataBase {
     private final static String PARSE_KM = "km";
     private final static String PARSE_MAXIMUM_SPEED = "max_speed";
     private final static String PARSE_DIRECTION = "direction";
-    private final static String PARSE_UPDATED_AT = "updatedAt";
     private final static String RADARS_TABLE = "Radars";
 
     ConnectivityManager mConnectivityManager;
@@ -26,18 +29,39 @@ public class ParseDataBase {
     }
 
     public RadarList getParseObjects() {
-        //TODO Create threads
         RadarList radars = new RadarList();
+
         try {
-            if (NetworkConnections.isNetworkAvailable(mConnectivityManager)
-                    && (!existsLocalDatabase() || !isLocalDatabaseUpdated())) {
-                radars = getParseObjectsFromNetwork();
-            } else {
-                radars = getParseObjectsFromLocal();
+            if  (!existsLocalDatabase()) {
+                if (NetworkConnections.isNetworkAvailable(mConnectivityManager)) {
+                    radars = getParseObjectsFromNetwork();
+                }
+                //TODO Else the user has to connect the device to internet
             }
-        } catch (ParseException e) {
+            else {
+                if (NetworkConnections.isNetworkAvailable(mConnectivityManager)){
+                    ExecutorService taskExecutor = Executors.newFixedThreadPool(2);
+                    Future<Date> resultLocalDate = taskExecutor.submit(new DatabaseDateTask(false));
+                    Future<Date> resultCloudDate = taskExecutor.submit(new DatabaseDateTask(true));
+
+                    Date localDatabaseDate = resultLocalDate.get();
+                    Date cloudDatabaseDate = resultCloudDate.get();
+
+                    if (localDatabaseDate.compareTo(cloudDatabaseDate) != 0){
+                        radars = getParseObjectsFromNetwork();
+                    }
+                    else {
+                        radars = getParseObjectsFromLocal();
+                    }
+                }
+                else {
+                    radars = getParseObjectsFromLocal();
+                }
+            }
+        } catch (InterruptedException|ExecutionException|ParseException e) {
             e.printStackTrace();
         }
+
         return radars;
     }
 
@@ -55,21 +79,6 @@ public class ParseDataBase {
             e.printStackTrace();
         }
         return exists;
-    }
-
-    private boolean isLocalDatabaseUpdated() throws ParseException {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
-        ParseObject parseObject;
-        query.orderByDescending(PARSE_UPDATED_AT);
-
-        parseObject = query.getFirst();
-        Date cloudDate = parseObject.getUpdatedAt();
-
-        query.fromLocalDatastore();
-        parseObject = query.getFirst();
-        Date localDate = parseObject.getUpdatedAt();
-
-        return localDate.compareTo(cloudDate) == 0;
     }
 
     private RadarList getParseObjectsFromNetwork() throws ParseException {

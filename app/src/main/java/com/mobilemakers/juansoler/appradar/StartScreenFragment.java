@@ -35,10 +35,6 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener, ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
@@ -82,7 +78,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         initializeGooglePlayServices();
         return rootView;
     }
-
 
     private void prepareButtonDestination(View rootView) {
         mButtonSetDestination = (Button)rootView.findViewById(R.id.button_select_desntination);
@@ -177,19 +172,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         //TODO Show loading icon
         new LongOperation().execute();
-
-//        ExecutorService taskExecutor = Executors.newSingleThreadExecutor();
-//        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-//        Future<RadarList> results = taskExecutor.submit(new ParseTask(connectivityManager));
-//        try {
-//            //get() blocks until completion
-//            mRadars = results.get();
-//            setFragmentArguments();
-//            preparingGeofenceList();
-//            mApiClient.connect();
-//        } catch (InterruptedException|ExecutionException e) {
-//            e.printStackTrace();
-//        }
     }
 
     private class LongOperation extends AsyncTask<Void, Void, RadarList> {
@@ -209,6 +191,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             mApiClient.connect();
         }
     }
+
     private boolean isGooglePlayServicesAvailable() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
         if (ConnectionResult.SUCCESS == resultCode) {
@@ -221,12 +204,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             return false;
         }
     }
-
-    private void createGeofences() {
-//        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE)
-//        mRadars = mParseDataBase.getParseObjects(connectivityManager);
-    }
-
 
     private void setFragmentArguments() {
         Bundle bundle = new Bundle();

@@ -28,13 +28,13 @@ public class ParseDataBase {
         mConnectivityManager = connectivityManager;
     }
 
-    public RadarList getParseObjects() {
+    public RadarList getParseObjects(int direction) {
         RadarList radars = new RadarList();
 
         try {
             if  (!existsLocalDatabase()) {
                 if (NetworkConnections.isNetworkAvailable(mConnectivityManager)) {
-                    radars = getParseObjectsFromNetwork();
+                    radars = getParseObjectsFromNetwork(direction);
                 }
                 //TODO Else the user has to connect the device to internet
             }
@@ -48,14 +48,14 @@ public class ParseDataBase {
                     Date cloudDatabaseDate = resultCloudDate.get();
 
                     if (localDatabaseDate.compareTo(cloudDatabaseDate) != 0){
-                        radars = getParseObjectsFromNetwork();
+                        radars = getParseObjectsFromNetwork(direction);
                     }
                     else {
-                        radars = getParseObjectsFromLocal();
+                        radars = getParseObjectsFromLocal(direction);
                     }
                 }
                 else {
-                    radars = getParseObjectsFromLocal();
+                    radars = getParseObjectsFromLocal(direction);
                 }
             }
         } catch (InterruptedException|ExecutionException|ParseException e) {

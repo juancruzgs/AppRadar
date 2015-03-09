@@ -73,8 +73,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mFragmentManager = getFragmentManager();
         prepareButtonDestination(rootView);
         prepareButtonStart(rootView);
-
-        initializeGooglePlayServices();
         return rootView;
     }
 
@@ -105,20 +103,20 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                     showAlertDialog();
                 }
                 else {
-                    initializeGooglePlayServices(getDirection());
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (getLastLocation() == null) {
-                                showNoLocationDialog();
-                            }
-                            else {
-                                    mFragmentManager.beginTransaction().replace(R.id.container, mSummaryFragment)
-                                            .addToBackStack(null).commit();
-                            }
-                        }
-                    }, 100);
+                    initializeGooglePlayServices();
+//                    Handler handler = new Handler();
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (getLastLocation() == null) {
+//                                showNoLocationDialog();
+//                            }
+//                            else {
+//                                    mFragmentManager.beginTransaction().replace(R.id.container, mSummaryFragment)
+//                                            .addToBackStack(null).commit();
+//                            }
+//                        }
+//                    }, 1000);
                 }
             }
 
@@ -154,16 +152,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 alert.show();
             }
 
-            private int getDirection() {
-                int direction;
-                if (mButtonSetDestination.getText().equals(CITY)) {
-                    direction = 0;
-                }
-                else {
-                    direction = 1;
-                }
-                return direction;
-            }
         });
     }
 
@@ -188,8 +176,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         protected RadarList doInBackground(Void... params) {
             ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             ParseDataBase parseDataBase = new ParseDataBase(connectivityManager);
-            RadarList radarList = parseDataBase.getParseObjects(getActivity(), direction);
-            return radarList;
+            return parseDataBase.getParseObjects(getDirection());
         }
 
         @Override
@@ -199,6 +186,17 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             preparingGeofenceList();
             mApiClient.connect();
         }
+    }
+
+    private int getDirection() {
+        int direction;
+        if (mButtonSetDestination.getText().equals(CITY)) {
+            direction = 0;
+        }
+        else {
+            direction = 1;
+        }
+        return direction;
     }
 
     private boolean isGooglePlayServicesAvailable() {
@@ -334,6 +332,11 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
                 mGeofenceRequestIntent);
         //TODO Delete loading icon
+
+        mFragmentManager.beginTransaction()
+                .replace(R.id.container, mSummaryFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private PendingIntent getGeofenceTransitionPendingIntent() {

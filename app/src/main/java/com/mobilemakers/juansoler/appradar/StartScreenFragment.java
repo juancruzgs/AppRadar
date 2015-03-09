@@ -39,8 +39,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     private final static String TAG = StartScreenFragment.class.getSimpleName();
     private final static int CONNECTION_TIMEOUT = 9000;
-    private final static int FIRST_FENCE = 5000;
-    private final static int SECOND_FENCE = 2000;
     private final static int THIRD_FENCE = 300;
     public final static String RADARS_LIST = "radars_list";
 
@@ -62,6 +60,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     Button mButtonSetDestination;
     SummaryFragment mSummaryFragment = new SummaryFragment();
     ParseDataBase mParseDataBase = new ParseDataBase();
+    private NotificationPreference mNotification = new NotificationPreference();
 
     public StartScreenFragment() {
     }
@@ -112,8 +111,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                                 showNoLocationDialog();
                             }
                             else {
-                                    mFragmentManager.beginTransaction().replace(R.id.container, mSummaryFragment)
-                                            .addToBackStack(null).commit();
+                                mFragmentManager.beginTransaction().replace(R.id.container, mSummaryFragment)
+                                        .addToBackStack(null).commit();
                             }
                         }
                     }, 100);
@@ -232,10 +231,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 spotGeofence.setDirection(direction);
                 switch (j){
                     case 0:
-                        radius = FIRST_FENCE;
+                        radius = Float.parseFloat(mNotification.getFirstNotificationDistance()) * 1000;
                         break;
                     case 1:
-                        radius = SECOND_FENCE;
+                        radius = Float.parseFloat(mNotification.getSecondNotificationDistance()) * 1000;;
                         break;
                     case 2:
                         radius = THIRD_FENCE;
@@ -353,6 +352,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             int errorCode = connectionResult.getErrorCode();
             Log.e(TAG, "Connection to Google Play services failed with error code " + errorCode);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mNotification.getSharedPreferences(getActivity());
     }
 
     @Override

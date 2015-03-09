@@ -1,6 +1,6 @@
 package com.mobilemakers.juansoler.appradar;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -20,52 +20,52 @@ public class NotificationPreference {
     public NotificationPreference() {
     }
 
-    public String getmFirstNotificationDistance() {
+    public String getFirstNotificationDistance() {
         return mFirstNotificationDistance;
     }
 
-    public void setmFirstNotificationDistance(String mFirstNotificationDistance) {
+    public void setFirstNotificationDistance(String mFirstNotificationDistance) {
         this.mFirstNotificationDistance = mFirstNotificationDistance;
     }
 
-    public String getmFirstNotificationSound() {
+    public String getFirstNotificationSound() {
         return mFirstNotificationSound;
     }
 
-    public void setmFirstNotificationSound(String mFirstNotificationSound) {
+    public void setFirstNotificationSound(String mFirstNotificationSound) {
         this.mFirstNotificationSound = mFirstNotificationSound;
     }
 
-    public String getmSecondNotificationDistance() {
+    public String getSecondNotificationDistance() {
         return mSecondNotificationDistance;
     }
 
-    public void setmSecondNotificationDistance(String mSecondNotificationDistance) {
+    public void setSecondNotificationDistance(String mSecondNotificationDistance) {
         this.mSecondNotificationDistance = mSecondNotificationDistance;
     }
 
-    public String getmSecondNotificationSound() {
+    public String getSecondNotificationSound() {
         return mSecondNotificationSound;
     }
 
-    public void setmSecondNotificationSound(String mSecondNotificationSound) {
+    public void setSecondNotificationSound(String mSecondNotificationSound) {
         this.mSecondNotificationSound = mSecondNotificationSound;
     }
 
-    public String getmThirdNotificationSound() {
+    public String getThirdNotificationSound() {
         return mThirdNotificationSound;
     }
 
-    public void setmThirdNotificationSound(String mThirdNotificationSound) {
+    public void setThirdNotificationSound(String mThirdNotificationSound) {
         this.mThirdNotificationSound = mThirdNotificationSound;
     }
 
-    public void getSharedPreferences (Activity activity) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        setmFirstNotificationDistance(sharedPreferences.getString(FIRST_NOTIFICATION_DISTANCE, ""));
-        setmFirstNotificationSound(sharedPreferences.getString(FIRST_NOTIFICATION_SOUND, ""));
-        setmSecondNotificationDistance(sharedPreferences.getString(SECOND_NOTIFICATION_DISTANCE, ""));
-        setmSecondNotificationSound(sharedPreferences.getString(SECOND_NOTIFICATION_SOUND, ""));
-        setmThirdNotificationSound(sharedPreferences.getString(THIRD_NOTIFICATION_SOUND, ""));
+    public void getSharedPreferences (Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        setFirstNotificationDistance(sharedPreferences.getString(FIRST_NOTIFICATION_DISTANCE, ""));
+        setFirstNotificationSound(sharedPreferences.getString(FIRST_NOTIFICATION_SOUND, ""));
+        setSecondNotificationDistance(sharedPreferences.getString(SECOND_NOTIFICATION_DISTANCE, ""));
+        setSecondNotificationSound(sharedPreferences.getString(SECOND_NOTIFICATION_SOUND, ""));
+        setThirdNotificationSound(sharedPreferences.getString(THIRD_NOTIFICATION_SOUND, ""));
     }
 }

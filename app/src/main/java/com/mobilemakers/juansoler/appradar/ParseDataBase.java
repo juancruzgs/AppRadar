@@ -20,7 +20,6 @@ public class ParseDataBase {
     private final static String PARSE_KM = "km";
     private final static String PARSE_MAXIMUM_SPEED = "max_speed";
     private final static String PARSE_DIRECTION = "direction";
-    private final static String RADARS_TABLE = "Radars";
 
     ConnectivityManager mConnectivityManager;
 
@@ -66,7 +65,7 @@ public class ParseDataBase {
     }
 
     private boolean existsLocalDatabase() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(Constants.RADARS_TABLE);
         query.fromLocalDatastore();
         ParseObject parseObject;
         Boolean exists = false;
@@ -87,7 +86,7 @@ public class ParseDataBase {
         RadarList radars = new RadarList();
         Radar radar;
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(Constants.RADARS_TABLE);
         query.whereEqualTo(PARSE_DIRECTION, direction);
         if (direction == 1) {
             query.orderByDescending(PARSE_KM); }
@@ -112,7 +111,7 @@ public class ParseDataBase {
         RadarList radars = new RadarList();
         Radar radar;
         
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(RADARS_TABLE);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(Constants.RADARS_TABLE);
         query.fromLocalDatastore();
         query.whereEqualTo(PARSE_DIRECTION, direction);
         if (direction == 1) {

@@ -27,11 +27,6 @@ import java.util.Date;
  */
 public class SummaryFragment extends Fragment {
 
-    private final static String NEXT_LOCATION = "nextLocation";
-
-    private final static long MIN_TIME_UPDATES_S = 1000;
-    private final static float MIN_DISTANCE_UPDATES_M = 10;
-
     TextView mTextViewDistance;
     TextView mTextViewRefreshTime;
     TextView mTextViewSpeedLimitValue;
@@ -62,14 +57,14 @@ public class SummaryFragment extends Fragment {
 
     private void getFragmentArguments() {
         Bundle bundle = getArguments();
-        if (bundle != null && bundle.containsKey(StartScreenFragment.RADARS_LIST)) {
-            mRadars = bundle.getParcelable(StartScreenFragment.RADARS_LIST);
+        if (bundle != null && bundle.containsKey(Constants.RADARS_LIST)) {
+            mRadars = bundle.getParcelable(Constants.RADARS_LIST);
         }
     }
 
     private void monitorGpsStatus() {
         LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_UPDATES_S, MIN_DISTANCE_UPDATES_M,
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, Constants.MIN_TIME_UPDATES_S, Constants.MIN_DISTANCE_UPDATES_M,
                 new LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
@@ -108,7 +103,7 @@ public class SummaryFragment extends Fragment {
     }
 
     private Location createTheNextLocation(Double latitude, Double longitude) {
-        Location nextLocation = new Location(NEXT_LOCATION);
+        Location nextLocation = new Location(Constants.NEXT_LOCATION);
         nextLocation.setLongitude(longitude);
         nextLocation.setLatitude(latitude);
         return nextLocation;

@@ -9,9 +9,11 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.WindowManager;
-
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class GeofenceTransitionsIntent {
 
@@ -23,16 +25,28 @@ public class GeofenceTransitionsIntent {
         this.mActivity = activity;
     }
 
-    protected void handleTransition(Intent intent) {
+    protected void handleTransition(Intent intent, List<SpotGeofence> geofenceList) {
         GeofencingEvent geoFenceEvent = GeofencingEvent.fromIntent(intent);
         if (!geoFenceEvent.hasError()) {
             int transitionType = geoFenceEvent.getGeofenceTransition();
             if (Geofence.GEOFENCE_TRANSITION_ENTER == transitionType) {
                 String triggeredGeoFenceId = geoFenceEvent.getTriggeringGeofences().get(0)
                         .getRequestId();
+                float radar = 0;
+                Iterator iterator = geofenceList.iterator();
+
+                while (iterator.hasNext()) {
+                    SpotGeofence spotGeofence = (SpotGeofence) iterator.next();
+                    String id = spotGeofence.getId();
+                    if (spotGeofence.getId().equals(triggeredGeoFenceId))
+                    {
+                           radar = spotGeofence.getRadius();
+                    }
+                }
+
                 //Calling notifications
-                //createNotification("title", "text", R.mipmap.ic_launcher);
-                //showActivityAlwaysOnTop
+                createNotification("Atención!", String.format("Se encuentra a %s metros del próximo radar.", radar), R.mipmap.ic_launcher);
+                showActivityAlwaysOnTop();
             } else
             if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType) {
             }

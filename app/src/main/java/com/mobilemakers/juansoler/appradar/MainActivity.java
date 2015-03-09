@@ -7,10 +7,14 @@ import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import java.util.List;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements StartScreenFragment.onHandleTransition{
 
-    public GeofenceTransitionsIntent mGeofenceTransition;
+    NotificationPreference mNotification = new NotificationPreference();
+    GeofenceTransitionsIntent mGeofenceTransition;
+    List<SpotGeofence> mGeofenceList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +28,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         //Location Services Intent
-        mGeofenceTransition.handleTransition(intent);
+        mGeofenceTransition.handleTransition(intent, mGeofenceList);
     }
 
     private void prepareFragment(Bundle savedInstanceState) {
@@ -40,6 +44,17 @@ public class MainActivity extends ActionBarActivity {
         actionBar.setIcon(R.mipmap.ic_launcher);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_color)));
+    }
+
+    @Override
+    public void getGeofenceList(List<SpotGeofence> spotGeofences) {
+        mGeofenceList = spotGeofences;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mNotification.getSharedPreferences(this);
     }
 
     @Override

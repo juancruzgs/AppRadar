@@ -12,7 +12,6 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,7 +23,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.gms.common.ConnectionResult;
@@ -54,11 +52,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     RadarList mRadars;
     public static Location mLastLocation;
 
-    private static final String TAG_DESTINATION_DIALOG = "destinations_dialog";
-    private static final long ANIMATION_DURATION = 1000;
-    private static final float ANIMATION_ALPHA_FROM = 0.0f;
-    private static final float ANIMATION_ALPHA_TO = 1.0f;
-    private static final String CITY = "Mar del Plata";
     FragmentManager mFragmentManager;
     LinearLayout mProgressLayout;
 
@@ -68,6 +61,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private NotificationPreference mNotification = new NotificationPreference();
 
     public StartScreenFragment() {
+    }
+
+    public interface onHandleTransition {
+        void getGeofenceList (List<SpotGeofence> spotGeofences);
     }
 
     @Override
@@ -89,7 +86,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             public void onClick(View v) {
                 transitionOUT();
                 DestinationsDialog destinationsDialog = new DestinationsDialog();
-                destinationsDialog.show(mFragmentManager, TAG_DESTINATION_DIALOG);
+                destinationsDialog.show(mFragmentManager, Constants.TAG_DESTINATION_DIALOG);
             }
         });
     }
@@ -161,7 +158,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     private void initializeGooglePlayServices() {
         if (!isGooglePlayServicesAvailable()) {
-            Log.e(TAG, "Google Play services unavailable.");
+            Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Google Play services unavailable.");
             return;
         }
 
@@ -195,7 +192,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     private int getDirection() {
         int direction;
-        if (mButtonSetDestination.getText().equals(CITY)) {
+        if (mButtonSetDestination.getText().equals(Constants.CITY)) {
             direction = 0;
         }
         else {
@@ -207,19 +204,19 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private boolean isGooglePlayServicesAvailable() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
         if (ConnectionResult.SUCCESS == resultCode) {
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Google Play services is available.");
+            if (Log.isLoggable(Constants.START_SCREEN_FRAGMENT_TAG, Log.DEBUG)) {
+                Log.d(Constants.START_SCREEN_FRAGMENT_TAG, "Google Play services is available.");
             }
             return true;
         } else {
-            Log.e(TAG, "Google Play services is unavailable.");
+            Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Google Play services is unavailable.");
             return false;
         }
     }
 
     private void setFragmentArguments() {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(RADARS_LIST, mRadars);
+        bundle.putParcelable(Constants.RADARS_LIST, mRadars);
         mSummaryFragment.setArguments(bundle);
     }
 
@@ -252,7 +249,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                         radius = Float.parseFloat(mNotification.getSecondNotificationDistance()) * 1000;;
                         break;
                     case 2:
-                        radius = THIRD_FENCE;
+                        radius = Constants.THIRD_FENCE;
                         break;
                 }
                 spotGeofence.setRadius(radius);
@@ -278,8 +275,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     public void transitionIN() {
 
-        Animation animationIn = new AlphaAnimation(ANIMATION_ALPHA_FROM, ANIMATION_ALPHA_TO);
-        animationIn.setDuration(ANIMATION_DURATION);
+        Animation animationIn = new AlphaAnimation(Constants.ANIMATION_ALPHA_FROM, Constants.ANIMATION_ALPHA_TO);
+        animationIn.setDuration(Constants.ANIMATION_DURATION);
         mButtonSetDestination.startAnimation(animationIn);
         animationIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -377,12 +374,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             int errorCode = connectionResult.getErrorCode();
             Log.e(TAG, "Connection to Google Play services failed with error code " + errorCode);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mNotification.getSharedPreferences(getActivity());
     }
 
     @Override

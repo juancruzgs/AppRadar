@@ -18,4 +18,5 @@ public class Constants {
     public final static int THIRD_FENCE = 300;
     public final static String RADARS_LIST = "radars_list";
     public final static String RADARS_TABLE = "Radars";
+    public final static String PARSE_UPDATED_AT = "updatedAt";
 }

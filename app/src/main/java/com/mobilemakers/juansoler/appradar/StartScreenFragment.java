@@ -12,7 +12,6 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,7 +25,6 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -44,13 +42,6 @@ import java.util.List;
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener, ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
-    private final static String TAG = StartScreenFragment.class.getSimpleName();
-    private final static int CONNECTION_TIMEOUT = 9000;
-    private final static int FIRST_FENCE = 5000;
-    private final static int SECOND_FENCE = 2000;
-    private final static int THIRD_FENCE = 300;
-    public final static String RADARS_LIST = "radars_list";
-
     // Stores the PendingIntent used to request geofence monitoring.
     private PendingIntent mGeofenceRequestIntent;
     private static GoogleApiClient mApiClient;
@@ -59,10 +50,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     RadarList mRadars;
     public static Location mLastLocation;
 
-    private static final String TAG_DESTINATION_DIALOG = "destinations_dialog";
-    private static final float ANIMATION_ALPHA_FROM = 0.0f;
-    private static final float ANIMATION_ALPHA_TO = 1.0f;
-    private static final String CITY = "Mar del Plata";
     FragmentManager mFragmentManager;
     LinearLayout mProgressLayout;
     ImageView mImageViewSS;
@@ -306,7 +293,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     public void transitionIN(final View view, long duration) {
 
-        Animation animationIn = new AlphaAnimation(ANIMATION_ALPHA_FROM, ANIMATION_ALPHA_TO);
+        Animation animationIn = new AlphaAnimation(Constants.ANIMATION_ALPHA_FROM, Constants.ANIMATION_ALPHA_TO);
         animationIn.setDuration(duration);
         view.startAnimation(animationIn);
         animationIn.setAnimationListener(new Animation.AnimationListener() {
@@ -329,7 +316,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     public void transitionOUT(final View view, long duration,final Boolean gone) {
 
-        Animation animationOut = new AlphaAnimation(ANIMATION_ALPHA_TO, ANIMATION_ALPHA_FROM);
+        Animation animationOut = new AlphaAnimation(Constants.ANIMATION_ALPHA_TO, Constants.ANIMATION_ALPHA_FROM);
         animationOut.setDuration(duration);
         view.startAnimation(animationOut);
         animationOut.setAnimationListener(new Animation.AnimationListener() {
@@ -356,7 +343,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     public void transitionOUT(final View view, long duration,final Boolean gone, final View replaceWith) {
 
-        Animation animationOut = new AlphaAnimation(ANIMATION_ALPHA_TO, ANIMATION_ALPHA_FROM);
+        Animation animationOut = new AlphaAnimation(Constants.ANIMATION_ALPHA_TO, Constants.ANIMATION_ALPHA_FROM);
         animationOut.setDuration(duration);
         view.startAnimation(animationOut);
         animationOut.setAnimationListener(new Animation.AnimationListener() {
@@ -394,6 +381,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             geoFenceListForLocationServices.add(spotGeofence.toGeofence());
         }
 
+        onHandleTransition onHandleTransition = (onHandleTransition) getActivity();
+        onHandleTransition.getGeofenceList(mGeofenceList);
+
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
                 mGeofenceRequestIntent);
 
@@ -401,6 +391,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     private void prepareNewFragment() {
+        mProgressLayout.setVisibility(View.VISIBLE);
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, mSummaryFragment)
@@ -429,13 +420,13 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         // If the error has a resolution, start a Google Play services activity to resolve it.
         if (connectionResult.hasResolution()) {
             try {
-                connectionResult.startResolutionForResult(getActivity(), CONNECTION_TIMEOUT);
+                connectionResult.startResolutionForResult(getActivity(), Constants.CONNECTION_TIMEOUT);
             } catch (IntentSender.SendIntentException e) {
-                Log.e(TAG, "Exception while resolving connection error.", e);
+                Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Exception while resolving connection error.", e);
             }
         } else {
             int errorCode = connectionResult.getErrorCode();
-            Log.e(TAG, "Connection to Google Play services failed with error code " + errorCode);
+            Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Connection to Google Play services failed with error code " + errorCode);
         }
     }
 

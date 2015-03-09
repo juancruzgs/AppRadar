@@ -17,7 +17,6 @@ import android.util.AttributeSet;
  */
 public class SoundListPreference extends ListPreference {
 
-
     private Context context;
     private int mClickedDialogEntryIndex = 0;
     private int mLastClickedDialogEntryIndex = 0;

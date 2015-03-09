@@ -34,16 +34,13 @@ public class GeofenceTransitionsIntent {
                         .getRequestId();
                 float radar = 0;
                 Iterator iterator = geofenceList.iterator();
-
                 while (iterator.hasNext()) {
                     SpotGeofence spotGeofence = (SpotGeofence) iterator.next();
-                    String id = spotGeofence.getId();
                     if (spotGeofence.getId().equals(triggeredGeoFenceId))
                     {
                            radar = spotGeofence.getRadius();
                     }
                 }
-
                 //Calling notifications
                 createNotification(mActivity.getString(R.string.warning_message),
                         String.format(mActivity.getString(R.string.radar_message), radar),

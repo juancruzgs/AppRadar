@@ -1,6 +1,8 @@
 package com.mobilemakers.juansoler.appradar;
 
+import android.app.Activity;
 import android.net.ConnectivityManager;
+import android.provider.Settings;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -17,7 +19,7 @@ public class ParseDataBase {
         mConnectivityManager = connectivityManager;
     }
 
-    public RadarList getParseObjects(int direction) {
+    public RadarList getParseObjects(int direction, Activity activity) {
         RadarList radars = new RadarList();
         Date localDatabaseDate = getDatabaseDate(false);
 
@@ -26,6 +28,15 @@ public class ParseDataBase {
                 //LocalDatabase does not exist
                 if (NetworkConnections.isNetworkAvailable(mConnectivityManager)) {
                     radars = getParseObjectsFromCloud(direction);
+                }
+                else {
+                    CustomAlertDialog alertDialog = new CustomAlertDialog("sdfsddfs",
+                            "Activar conexión",
+                            "Cancelar",
+                            Settings.ACTION_SETTINGS,
+                            activity);
+                    alertDialog.showAlertDialog();
+
                 }
                 //TODO Else the user has to connect the device to internet
             }
@@ -87,7 +98,7 @@ public class ParseDataBase {
             radar = createRadarFromParse(parseObject);
             radars.add(radar);
             //Save to local database
-            parseObject.pinInBackground();
+            parseObject.pin();
         }
         return radars;
     }

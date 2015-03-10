@@ -1,10 +1,8 @@
 package com.mobilemakers.juansoler.appradar;
 
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.LocationManager;
@@ -23,8 +21,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -104,7 +100,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             public void onClick(View v) {
                 LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    showAlertDialog();
+                    CustomAlertDialog alertDialog = new CustomAlertDialog(getString(R.string.messageGPS_dialog),
+                                                                          getString(R.string.enableGPS_dialog),
+                                                                          getString(R.string.cancelGPS_dialog),
+                                                                          Settings.ACTION_LOCATION_SOURCE_SETTINGS,
+                                                                          getActivity());
+                    alertDialog.showAlertDialog();
                 } else {
                     transitionToLoadingScreen();
                     initializeGooglePlayServices();
@@ -112,32 +113,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 }
             }
 
-            private void showAlertDialog() {
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
-                builder.setMessage(getString(R.string.messageGPS_dialog))
-                        .setCancelable(false)
-                        .setPositiveButton(getString(R.string.enableGPS_dialog), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int id) {
-                                Intent gpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(gpsIntent);
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.cancelGPS_dialog), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                final AlertDialog alert = builder.create();
-                alert.show();
-            }
-
-            private void transitionToLoadingScreen() {
-                Transitions.fadeOUT(mImageViewSS, Constants.TRANSIION_DURATION_1K, false);
-                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, true);
-                Transitions.fadeOUT(mButtonStart, Constants.TRANSIION_DURATION_1K, true);
-                Transitions.fadeOUT(mTextViewWelcome, Constants.TRANSIION_DURATION_1K, true, mProgressLayout);
-            }
+    private void transitionToLoadingScreen() {
+        Transitions.fadeOUT(mImageViewSS, Constants.TRANSIION_DURATION_1K, false);
+        Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, true);
+        Transitions.fadeOUT(mButtonStart, Constants.TRANSIION_DURATION_1K, true);
+        Transitions.fadeOUT(mTextViewWelcome, Constants.TRANSIION_DURATION_1K, true, mProgressLayout);
+    }
         });
     }
 //                    Handler handler = new Handler();
@@ -203,7 +184,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         protected RadarList doInBackground(Void... params) {
             ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             ParseDataBase parseDatabase = new ParseDataBase(connectivityManager);
-            return parseDatabase.getParseObjects(getDirection());
+            return parseDatabase.getParseObjects(getDirection(), getActivity());
         }
 
         @Override

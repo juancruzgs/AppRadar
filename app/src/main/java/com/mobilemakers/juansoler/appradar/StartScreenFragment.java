@@ -20,8 +20,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,7 +88,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mButtonSetDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Transitions.transitionOUT(mButtonSetDestination, 1000, false);
+                Transitions.fadeOUT(mButtonSetDestination, 1000, false);
                 DestinationsDialog destinationsDialog = new DestinationsDialog();
                 destinationsDialog.show(mFragmentManager, Constants.TAG_DESTINATION_DIALOG);
             }
@@ -148,7 +146,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
 
             private void showNoLocationDialog() {
-                Transitions.transitionOUT(mProgressLayout, 2000, false);
+                Transitions.fadeOUT(mProgressLayout, 2000, false);
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
                 builder.setMessage(getString(R.string.message_no_location_dialog))
                         .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -176,10 +174,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 .build();
 
         new LongOperation().execute();
-        Transitions.transitionOUT(mImageViewSS, 1000, false);
-        Transitions.transitionOUT(mButtonSetDestination,1000,true);
-        Transitions.transitionOUT(mButtonStart, 1000, true);
-        Transitions.transitionOUT(mTextViewWelcome, 1000, true, mProgressLayout);
+        Transitions.fadeOUT(mImageViewSS, 1000, false);
+        Transitions.fadeOUT(mButtonSetDestination, 1000, true);
+        Transitions.fadeOUT(mButtonStart, 1000, true);
+        Transitions.fadeOUT(mTextViewWelcome, 1000, true, mProgressLayout);
     }
 
     private class LongOperation extends AsyncTask<Void, Void, RadarList> {
@@ -285,9 +283,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         if (!destination.equals("")){
             mButtonSetDestination.setText(destination);
         }
-        Transitions.transitionIN(mButtonSetDestination, 1000);
+        Transitions.fadeIN(mButtonSetDestination, 1000);
         if (mButtonStart.getVisibility() != View.VISIBLE) {
-            Transitions.transitionIN(mButtonStart, 1000);
+            Transitions.fadeIN(mButtonStart, 1000);
         }
     }
 
@@ -313,7 +311,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     private void prepareNewFragment() {
-        mProgressLayout.setVisibility(View.VISIBLE);
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, mSummaryFragment)

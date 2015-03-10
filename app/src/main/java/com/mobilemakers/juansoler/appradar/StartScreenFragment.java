@@ -90,7 +90,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mButtonSetDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transitionOUT(mButtonSetDestination, 1000, false);
+                Transitions.transitionOUT(mButtonSetDestination, 1000, false);
                 DestinationsDialog destinationsDialog = new DestinationsDialog();
                 destinationsDialog.show(mFragmentManager, Constants.TAG_DESTINATION_DIALOG);
             }
@@ -148,7 +148,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
 
             private void showNoLocationDialog() {
-                transitionOUT(mProgressLayout, 2000, false);
+                Transitions.transitionOUT(mProgressLayout, 2000, false);
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
                 builder.setMessage(getString(R.string.message_no_location_dialog))
                         .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -176,10 +176,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 .build();
 
         new LongOperation().execute();
-        transitionOUT(mImageViewSS, 1000, false);
-        transitionOUT(mButtonSetDestination,1000,true);
-        transitionOUT(mButtonStart, 1000, true);
-        transitionOUT(mTextViewWelcome, 1000, true, mProgressLayout);
+        Transitions.transitionOUT(mImageViewSS, 1000, false);
+        Transitions.transitionOUT(mButtonSetDestination,1000,true);
+        Transitions.transitionOUT(mButtonStart, 1000, true);
+        Transitions.transitionOUT(mTextViewWelcome, 1000, true, mProgressLayout);
     }
 
     private class LongOperation extends AsyncTask<Void, Void, RadarList> {
@@ -285,88 +285,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         if (!destination.equals("")){
             mButtonSetDestination.setText(destination);
         }
-        transitionIN(mButtonSetDestination, 1000);
+        Transitions.transitionIN(mButtonSetDestination, 1000);
         if (mButtonStart.getVisibility() != View.VISIBLE) {
-            transitionIN(mButtonStart, 1000);
+            Transitions.transitionIN(mButtonStart, 1000);
         }
-    }
-
-    public void transitionIN(final View view, long duration) {
-
-        Animation animationIn = new AlphaAnimation(Constants.ANIMATION_ALPHA_FROM, Constants.ANIMATION_ALPHA_TO);
-        animationIn.setDuration(duration);
-        view.startAnimation(animationIn);
-        animationIn.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                view.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-    }
-
-    public void transitionOUT(final View view, long duration,final Boolean gone) {
-
-        Animation animationOut = new AlphaAnimation(Constants.ANIMATION_ALPHA_TO, Constants.ANIMATION_ALPHA_FROM);
-        animationOut.setDuration(duration);
-        view.startAnimation(animationOut);
-        animationOut.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (gone) {
-                    view.setVisibility(View.GONE);
-                }else {
-                    view.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-    }
-
-    public void transitionOUT(final View view, long duration,final Boolean gone, final View replaceWith) {
-
-        Animation animationOut = new AlphaAnimation(Constants.ANIMATION_ALPHA_TO, Constants.ANIMATION_ALPHA_FROM);
-        animationOut.setDuration(duration);
-        view.startAnimation(animationOut);
-        animationOut.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (gone) {
-                    view.setVisibility(View.GONE);
-                    transitionIN(replaceWith, 1000);
-                }else {
-                    view.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
     }
 
     @Override

@@ -24,10 +24,6 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SummaryFragment extends Fragment {
 
     private final static String NEXT_LOCATION = "nextLocation";
@@ -53,7 +49,7 @@ public class SummaryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
-        transitionIN(layoutMain, 2000);
+        Transitions.transitionIN(layoutMain, 2000);
         wireUpViews(rootView);
         getFragmentArguments();
         monitorGpsStatus();
@@ -168,26 +164,4 @@ public class SummaryFragment extends Fragment {
         return handled;
     }
 
-    public void transitionIN(final View view, long duration) {
-
-        Animation animationIn = new AlphaAnimation(ANIMATION_ALPHA_FROM, ANIMATION_ALPHA_TO);
-        animationIn.setDuration(duration);
-        view.startAnimation(animationIn);
-        animationIn.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                view.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-    }
 }

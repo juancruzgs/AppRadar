@@ -43,7 +43,7 @@ public class SummaryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
-        Transitions.fadeIN(layoutMain, 2000);
+        Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
         wireUpViews(rootView);
         getFragmentArguments();
         monitorGpsStatus();

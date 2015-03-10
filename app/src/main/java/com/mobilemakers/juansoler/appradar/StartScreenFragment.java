@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
@@ -40,13 +39,14 @@ import java.util.List;
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener, ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
-    // Stores the PendingIntent used to request geofence monitoring.
-    private PendingIntent mGeofenceRequestIntent;
-    private static GoogleApiClient mApiClient;
+    private static final int REQUEST_RESOLVE_ERROR = 1001;
+    private boolean mResolvingError = false;
+    private static final String STATE_RESOLVING_ERROR = "resolving_error";
+    private static final int RESULT_OK = -1;
 
+    private GoogleApiClient mApiClient;
     List<SpotGeofence> mGeofenceList = new ArrayList<>();
     RadarList mRadars;
-    public static Location mLastLocation;
 
     FragmentManager mFragmentManager;
     LinearLayout mProgressLayout;
@@ -55,7 +55,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     Button mButtonSetDestination;
     Button mButtonStart;
     TextView mTextViewWelcome;
-    SummaryFragment mSummaryFragment = new SummaryFragment();
     private NotificationPreference mNotification = new NotificationPreference();
 
     public StartScreenFragment() {
@@ -63,6 +62,13 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     public interface onHandleTransition {
         void getGeofenceList (List<SpotGeofence> spotGeofences);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mResolvingError = savedInstanceState != null
+                && savedInstanceState.getBoolean(STATE_RESOLVING_ERROR, false);
     }
 
     @Override
@@ -82,7 +88,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mImageViewSS = (ImageView)rootView.findViewById(R.id.imageView_start_screen_image);
     }
 
-
     private void prepareButtonDestination(View rootView) {
         mButtonSetDestination = (Button)rootView.findViewById(R.id.button_select_desntination);
         mButtonSetDestination.setOnClickListener(new View.OnClickListener() {
@@ -100,28 +105,13 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkGPSStatus();
-            }
-
-            private void checkGPSStatus() {
                 LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     showAlertDialog();
                 } else {
+                    mProgressLayout.setVisibility(View.VISIBLE);
                     initializeGooglePlayServices();
-//                    Handler handler = new Handler();
-//                    handler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (getLastLocation() == null) {
-//                                showNoLocationDialog();
-//                            }
-//                            else {
-//                                    mFragmentManager.beginTransaction().replace(R.id.container, mSummaryFragment)
-//                                            .addToBackStack(null).commit();
-//                            }
-//                        }
-//                    }, 1000);
+                    new DatabaseOperations().execute();
                 }
             }
 
@@ -144,68 +134,47 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 final AlertDialog alert = builder.create();
                 alert.show();
             }
-
-            private void showNoLocationDialog() {
-                Transitions.fadeOUT(mProgressLayout, 2000, false);
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
-                builder.setMessage(getString(R.string.message_no_location_dialog))
-                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.dismiss();
-                            }
-                        });
-                final AlertDialog alert = builder.create();
-                alert.show();
-            }
-
         });
     }
+//                    Handler handler = new Handler();
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (getLastLocation() == null) {
+//                                showNoLocationDialog();
+//                            }
+//                            else {
+//                                    mFragmentManager.beginTransaction().replace(R.id.container, mSummaryFragment)
+//                                            .addToBackStack(null).commit();
+//                            }
+//                        }
+//                    }, 1000);
+//            private void showNoLocationDialog() {
+//                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+//                builder.setMessage(getString(R.string.message_no_location_dialog))
+//                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.dismiss();
+//                            }
+//                        });
+//                final AlertDialog alert = builder.create();
+//                alert.show();
+//            }
 
-    private void initializeGooglePlayServices() {
-        if (!isGooglePlayServicesAvailable()) {
-            Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Google Play services unavailable.");
+    private void initializeGooglePlayServices(){
+        if(!isGooglePlayServicesAvailable()){
+            Log.e(Constants.START_SCREEN_FRAGMENT_TAG,"Google Play services unavailable.");
             return;
         }
 
-        mApiClient = new GoogleApiClient.Builder(getActivity())
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+        initializeGoogleApiClient();
 
-        new LongOperation().execute();
+        new DatabaseOperations().execute();
+
         Transitions.fadeOUT(mImageViewSS, 1000, false);
         Transitions.fadeOUT(mButtonSetDestination, 1000, true);
         Transitions.fadeOUT(mButtonStart, 1000, true);
         Transitions.fadeOUT(mTextViewWelcome, 1000, true, mProgressLayout);
-    }
-
-    private class LongOperation extends AsyncTask<Void, Void, RadarList> {
-        @Override
-        protected RadarList doInBackground(Void... params) {
-            ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            ParseDataBase parseDataBase = new ParseDataBase(connectivityManager);
-            return parseDataBase.getParseObjects(getDirection());
-        }
-
-        @Override
-        protected void onPostExecute(RadarList radarList) {
-            mRadars = radarList;
-            setFragmentArguments();
-            preparingGeofenceList();
-            mApiClient.connect();
-        }
-    }
-
-    private int getDirection() {
-        int direction;
-        if (mButtonSetDestination.getText().equals(Constants.CITY)) {
-            direction = 0;
-        }
-        else {
-            direction = 1;
-        }
-        return direction;
     }
 
     private boolean isGooglePlayServicesAvailable() {
@@ -221,10 +190,42 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         }
     }
 
-    private void setFragmentArguments() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.RADARS_LIST, mRadars);
-        mSummaryFragment.setArguments(bundle);
+    private void initializeGoogleApiClient() {
+        mApiClient=new GoogleApiClient.Builder(getActivity())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        AppRadarApplication state = (AppRadarApplication)getActivity().getApplicationContext();
+        state.setApiClient(mApiClient);
+    }
+
+    private class DatabaseOperations extends AsyncTask<Void, Void, RadarList> {
+        @Override
+        protected RadarList doInBackground(Void... params) {
+            ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            ParseDataBase parseDatabase = new ParseDataBase(connectivityManager);
+            return parseDatabase.getParseObjects(getDirection());
+        }
+
+        @Override
+        protected void onPostExecute(RadarList radarList) {
+            mRadars = radarList;
+            preparingGeofenceList();
+            mApiClient.connect();
+        }
+    }
+
+    private int getDirection() {
+        int direction;
+        if (mButtonSetDestination.getText().equals(Constants.CITY)) {
+            direction = 0;
+        }
+        else {
+            direction = 1;
+        }
+        return direction;
     }
 
     private void preparingGeofenceList() {
@@ -272,12 +273,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mNotification.getSharedPreferences(getActivity());
     }
 
-    public static Location getLastLocation() {
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mApiClient);
-        return mLastLocation;
-    }
-
     @Override
     public void onFinishDialog(String destination) {
         if (!destination.equals("")){
@@ -293,7 +288,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     public void onConnected(Bundle bundle) {
         // Get the PendingIntent for the geofence monitoring request.
         // Send a request to add the current geofences.
-        mGeofenceRequestIntent = getGeofenceTransitionPendingIntent();
+        PendingIntent geofenceRequestIntent = getGeofenceTransitionPendingIntent();
 
         List<Geofence> geoFenceListForLocationServices = new ArrayList<>();
         for (int i = 0; i < mGeofenceList.size(); i++) {
@@ -305,12 +300,18 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         onHandleTransition.getGeofenceList(mGeofenceList);
 
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
-                mGeofenceRequestIntent);
+                geofenceRequestIntent);
 
         prepareNewFragment();
     }
 
     private void prepareNewFragment() {
+        mProgressLayout.setVisibility(View.VISIBLE);
+
+        SummaryFragment mSummaryFragment = new SummaryFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.RADARS_LIST, mRadars);
+        mSummaryFragment.setArguments(bundle);
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, mSummaryFragment)
@@ -336,17 +337,40 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        // If the error has a resolution, start a Google Play services activity to resolve it.
-        if (connectionResult.hasResolution()) {
-            try {
-                connectionResult.startResolutionForResult(getActivity(), Constants.CONNECTION_TIMEOUT);
-            } catch (IntentSender.SendIntentException e) {
-                Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Exception while resolving connection error.", e);
+        if (!mResolvingError) {
+            if (connectionResult.hasResolution()) {
+                try {
+                    mResolvingError = true;
+                    connectionResult.startResolutionForResult(getActivity(), REQUEST_RESOLVE_ERROR);
+                } catch (IntentSender.SendIntentException e) {
+                    Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Exception while resolving connection error.", e);
+                    mApiClient.connect();
+                }
+            } else {
+                //TODO Add ErrorDialogFragment. Link: https://developer.android.com/google/auth/api-client.html
+                int errorCode = connectionResult.getErrorCode();
+                Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Connection to Google Play services failed with error code " + errorCode);
             }
-        } else {
-            int errorCode = connectionResult.getErrorCode();
-            Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Connection to Google Play services failed with error code " + errorCode);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_RESOLVE_ERROR) {
+            mResolvingError = false;
+            if (resultCode == RESULT_OK) {
+                // Make sure the app is not already connected or attempting to connect
+                if (!mApiClient.isConnecting() && !mApiClient.isConnected()) {
+                    mApiClient.connect();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_RESOLVING_ERROR, mResolvingError);
     }
 
     @Override

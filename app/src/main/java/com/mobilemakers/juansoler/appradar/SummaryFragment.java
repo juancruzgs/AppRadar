@@ -18,30 +18,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class SummaryFragment extends Fragment {
-
-    private final static String NEXT_LOCATION = "nextLocation";
-
-    private final static long MIN_TIME_UPDATES_S = 1000;
-    private final static float MIN_DISTANCE_UPDATES_M = 10;
-    private static final float ANIMATION_ALPHA_FROM = 0.0f;
-    private static final float ANIMATION_ALPHA_TO = 1.0f;
 
     TextView mTextViewDistance;
     TextView mTextViewRefreshTime;
     TextView mTextViewSpeedLimitValue;
 
-    float mDistance;
     RadarList mRadars;
 
     public SummaryFragment() {
         // Required empty public constructor
     }
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,17 +90,23 @@ public class SummaryFragment extends Fragment {
     }
 
     private void setScreenInformation() {
-        mDistance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
-        setDistance(mDistance);
+        float distance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
+        setDistance(distance);
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.get(0).getMaxSpeed()));
         setRefreshTime(getCurrentTime());
     }
 
     private float calculateDistanceToTheNextRadar(Double latitude, Double longitude) {
-        Location currentLocation = StartScreenFragment.getLastLocation();
+        Location currentLocation = getLastLocation();
         Location nextLocation = createTheNextLocation(latitude, longitude);
         float distance = (currentLocation.distanceTo(nextLocation)/1000);
         return new BigDecimal(distance).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue();
+    }
+
+    private Location getLastLocation() {
+        AppRadarApplication state = (AppRadarApplication)getActivity().getApplicationContext();
+        GoogleApiClient apiClient = state.getApiClient();
+        return LocationServices.FusedLocationApi.getLastLocation(apiClient);
     }
 
     private Location createTheNextLocation(Double latitude, Double longitude) {
@@ -123,11 +124,10 @@ public class SummaryFragment extends Fragment {
     }
 
     private String getCurrentTime () {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        Date date = new Date();
-        return simpleDateFormat.format(date);
+        Calendar date = new GregorianCalendar();
+        date.setTime(new Date());
+        return date.get(Calendar.HOUR_OF_DAY) + ":" + date.get(Calendar.MINUTE);
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

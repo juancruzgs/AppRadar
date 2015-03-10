@@ -33,12 +33,13 @@ public class GeofenceTransitionsIntent {
                 String triggeredGeoFenceId = geoFenceEvent.getTriggeringGeofences().get(0)
                         .getRequestId();
                 float radar = 0;
+                boolean found = false;
                 Iterator iterator = geofenceList.iterator();
-                while (iterator.hasNext()) {
+                while (iterator.hasNext() && !found) {
                     SpotGeofence spotGeofence = (SpotGeofence) iterator.next();
-                    if (spotGeofence.getId().equals(triggeredGeoFenceId))
-                    {
-                           radar = spotGeofence.getRadius();
+                    if (spotGeofence.getId().equals(triggeredGeoFenceId)) {
+                        found = true;
+                        radar = spotGeofence.getRadius();
                     }
                 }
                 //Calling notifications
@@ -46,8 +47,9 @@ public class GeofenceTransitionsIntent {
                         String.format(mActivity.getString(R.string.radar_message), radar),
                         R.mipmap.ic_launcher, getNotificationId(radar));
                 showActivityAlwaysOnTop();
-            } else
-            if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType) {
+//            } else
+//            if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType) {
+//            }
             }
         }
     }

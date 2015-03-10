@@ -19,4 +19,6 @@ public class Constants {
     public final static String RADARS_LIST = "radars_list";
     public final static String RADARS_TABLE = "Radars";
     public final static String PARSE_UPDATED_AT = "updatedAt";
+    public final static long TRANSIION_DURATION_1K = 1000;
+    public final static long TRANSIION_DURATION_2K = 2000;
 }

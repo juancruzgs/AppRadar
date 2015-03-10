@@ -93,7 +93,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mButtonSetDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Transitions.fadeOUT(mButtonSetDestination, 1000, false);
+                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, false);
                 DestinationsDialog destinationsDialog = new DestinationsDialog();
                 destinationsDialog.show(mFragmentManager, Constants.TAG_DESTINATION_DIALOG);
             }
@@ -109,7 +109,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     showAlertDialog();
                 } else {
-                    mProgressLayout.setVisibility(View.VISIBLE);
                     initializeGooglePlayServices();
                     new DatabaseOperations().execute();
                 }
@@ -171,10 +170,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         new DatabaseOperations().execute();
 
-        Transitions.fadeOUT(mImageViewSS, 1000, false);
-        Transitions.fadeOUT(mButtonSetDestination, 1000, true);
-        Transitions.fadeOUT(mButtonStart, 1000, true);
-        Transitions.fadeOUT(mTextViewWelcome, 1000, true, mProgressLayout);
+        Transitions.fadeOUT(mImageViewSS, Constants.TRANSIION_DURATION_1K, false);
+        Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, true);
+        Transitions.fadeOUT(mButtonStart, Constants.TRANSIION_DURATION_1K, true);
+        Transitions.fadeOUT(mTextViewWelcome, Constants.TRANSIION_DURATION_1K, true, mProgressLayout);
     }
 
     private boolean isGooglePlayServicesAvailable() {
@@ -278,9 +277,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         if (!destination.equals("")){
             mButtonSetDestination.setText(destination);
         }
-        Transitions.fadeIN(mButtonSetDestination, 1000);
+        Transitions.fadeIN(mButtonSetDestination, Constants.TRANSIION_DURATION_1K);
         if (mButtonStart.getVisibility() != View.VISIBLE) {
-            Transitions.fadeIN(mButtonStart, 1000);
+            Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
         }
     }
 
@@ -306,7 +305,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     private void prepareNewFragment() {
-        mProgressLayout.setVisibility(View.VISIBLE);
 
         SummaryFragment mSummaryFragment = new SummaryFragment();
         Bundle bundle = new Bundle();

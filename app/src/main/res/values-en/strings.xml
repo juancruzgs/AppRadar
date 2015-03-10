@@ -34,4 +34,6 @@
     <string name="air_horn">Air horn</string>
     <string name="Destinations_dialog_title">Pick a destinaion&#8230;</string>
     <string name="loading">Loading&#8230;</string>
+    <string name="radar_message">You are %s meters away from the next radar.</string>
+    <string name="warning_message">Attention!</string>
 </resources>

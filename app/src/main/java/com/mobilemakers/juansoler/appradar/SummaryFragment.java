@@ -33,10 +33,6 @@ import java.util.Date;
  */
 public class SummaryFragment extends Fragment {
 
-    private final static String NEXT_LOCATION = "nextLocation";
-
-    private final static long MIN_TIME_UPDATES_S = 1000;
-    private final static float MIN_DISTANCE_UPDATES_M = 10;
     private static final float ANIMATION_ALPHA_FROM = 0.0f;
     private static final float ANIMATION_ALPHA_TO = 1.0f;
 
@@ -47,14 +43,8 @@ public class SummaryFragment extends Fragment {
     float mDistance;
     RadarList mRadars;
 
-    private GoogleApiClient mApiClient;
-
     public SummaryFragment() {
         // Required empty public constructor
-    }
-
-    public SummaryFragment(GoogleApiClient apiClient) {
-        mApiClient = apiClient;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,8 +113,9 @@ public class SummaryFragment extends Fragment {
     }
 
     private Location getLastLocation() {
-        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mApiClient);
-        return lastLocation;
+        AppRadarApplication state = (AppRadarApplication)getActivity().getApplicationContext();
+        GoogleApiClient apiClient = state.getApiClient();
+        return LocationServices.FusedLocationApi.getLastLocation(apiClient);
     }
 
     private Location createTheNextLocation(Double latitude, Double longitude) {

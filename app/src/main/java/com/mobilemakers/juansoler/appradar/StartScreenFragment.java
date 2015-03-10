@@ -171,11 +171,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         return;
         }
 
-        mApiClient=new GoogleApiClient.Builder(getActivity())
-        .addApi(LocationServices.API)
-        .addConnectionCallbacks(this)
-        .addOnConnectionFailedListener(this)
-        .build();
+        initializeGoogleApiClient();
 
         new DatabaseOperations().execute();
 
@@ -184,7 +180,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         transitionOUT(mButtonStart,1000,true);
         transitionOUT(mTextViewWelcome,1000,true,mProgressLayout);
         }
-
 
     private boolean isGooglePlayServicesAvailable() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
@@ -197,6 +192,17 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Google Play services is unavailable.");
             return false;
         }
+    }
+
+    private void initializeGoogleApiClient() {
+        mApiClient=new GoogleApiClient.Builder(getActivity())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        AppRadarApplication state = (AppRadarApplication)getActivity().getApplicationContext();
+        state.setApiClient(mApiClient);
     }
 
     private class DatabaseOperations extends AsyncTask<Void, Void, RadarList> {
@@ -384,7 +390,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private void prepareNewFragment() {
         mProgressLayout.setVisibility(View.VISIBLE);
 
-        SummaryFragment mSummaryFragment = new SummaryFragment(mApiClient);
+        SummaryFragment mSummaryFragment = new SummaryFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.RADARS_LIST, mRadars);
         mSummaryFragment.setArguments(bundle);

@@ -34,6 +34,7 @@ import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener, ConnectionCallbacks,
@@ -231,8 +232,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         int id = 0;
         float radius = 0;
         SpotGeofence spotGeofence;
-        for (int i = 0; i < mRadars.size(); i++) {
-            Radar radar = mRadars.get(i);
+        Iterator iterator = mRadars.iterator();
+        while (iterator.hasNext()){
+            Radar radar = (Radar) iterator.next();
             Double latitude = radar.getLatitude();
             Double longitude = radar.getLongitude();
             String name = radar.getName();

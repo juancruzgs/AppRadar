@@ -208,7 +208,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         @Override
         protected RadarList doInBackground(Void... params) {
             ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            ParseDatabase parseDatabase = new ParseDatabase(connectivityManager);
+            ParseDataBase parseDatabase = new ParseDataBase(connectivityManager);
             return parseDatabase.getParseObjects(getDirection());
         }
 

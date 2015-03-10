@@ -22,24 +22,24 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class SummaryFragment extends Fragment {
 
     private static final float ANIMATION_ALPHA_FROM = 0.0f;
     private static final float ANIMATION_ALPHA_TO = 1.0f;
 
-    TextView mTextViewDistance;
-    TextView mTextViewRefreshTime;
-    TextView mTextViewSpeedLimitValue;
-
-    float mDistance;
-    RadarList mRadars;
+    private TextView mTextViewDistance;
+    private TextView mTextViewRefreshTime;
+    private TextView mTextViewSpeedLimitValue;
+    private RadarList mRadars;
 
     public SummaryFragment() {
         // Required empty public constructor
     }
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,7 +93,7 @@ public class SummaryFragment extends Fragment {
     }
 
     private void setScreenInformation() {
-        mDistance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
+        float mDistance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
         setDistance(mDistance);
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.get(0).getMaxSpeed()));
         setRefreshTime(getCurrentTime());
@@ -127,11 +127,10 @@ public class SummaryFragment extends Fragment {
     }
 
     private String getCurrentTime () {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        Date date = new Date();
-        return simpleDateFormat.format(date);
+        Calendar date = new GregorianCalendar();
+        date.setTime(new Date());
+        return date.get(Calendar.HOUR_OF_DAY) + ":" + date.get(Calendar.MINUTE);
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

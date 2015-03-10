@@ -216,7 +216,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     private int getDirection() {
         int direction;
-        if (mButtonSetDestination.getText().equals(Constants.MAR_DEL_PLATA)) {
+        if (mButtonSetDestination.getText().equals(getString(R.string.mdq))) {
             direction = 0;
         }
         else {

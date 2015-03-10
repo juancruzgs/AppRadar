@@ -9,7 +9,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class DestinationsDialog extends DialogFragment {
 
@@ -35,8 +39,7 @@ public class DestinationsDialog extends DialogFragment {
         }
         this.setCancelable(false);
         ListView listView = (ListView) rootView.findViewById(R.id.listView_destinations);
-        mDestinationsList.add(Constants.BUENOS_AIRES);
-        mDestinationsList.add(Constants.MAR_DEL_PLATA);
+        Collections.addAll(mDestinationsList,getResources().getStringArray(R.array.cities));
         mAdapter = new DestinationsAdapter(getActivity(), mDestinationsList);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

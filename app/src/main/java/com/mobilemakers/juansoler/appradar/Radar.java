@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Radar implements Parcelable {
+
     private String mName;
     private Double mLatitude;
     private Double mLongitude;

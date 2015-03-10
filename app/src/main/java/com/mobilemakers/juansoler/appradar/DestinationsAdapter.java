@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 public class DestinationsAdapter extends ArrayAdapter<String> {
 
-    Context mContext;
-    ArrayList<String> mDestinations;
+    private Context mContext;
+    private ArrayList<String> mDestinations;
 
     public class ViewHolder {
         public final TextView textViewDestination;

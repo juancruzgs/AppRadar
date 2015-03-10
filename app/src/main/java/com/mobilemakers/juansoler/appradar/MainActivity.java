@@ -11,9 +11,8 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements StartScreenFragment.onHandleTransition{
 
-    NotificationPreference mNotification = new NotificationPreference();
-    GeofenceTransitionsIntent mGeofenceTransition;
-    List<SpotGeofence> mGeofenceList;
+    private GeofenceTransitionsIntent mGeofenceTransition;
+    private List<SpotGeofence> mGeofenceList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,6 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
     @Override
     protected void onResume() {
         super.onResume();
-        mNotification.getSharedPreferences(this);
     }
 
     @Override

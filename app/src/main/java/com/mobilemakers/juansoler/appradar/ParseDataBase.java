@@ -15,13 +15,6 @@ import java.util.concurrent.Future;
 
 public class ParseDataBase {
 
-    private final static String PARSE_LATITUDE = "latitude";
-    private final static String PARSE_LONGITUDE = "longitude";
-    private final static String PARSE_NAME = "name";
-    private final static String PARSE_KM = "km";
-    private final static String PARSE_MAXIMUM_SPEED = "max_speed";
-    private final static String PARSE_DIRECTION = "direction";
-
     ConnectivityManager mConnectivityManager;
 
     public ParseDataBase(ConnectivityManager connectivityManager) {
@@ -88,11 +81,11 @@ public class ParseDataBase {
         Radar radar;
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Constants.RADARS_TABLE);
-        query.whereEqualTo(PARSE_DIRECTION, direction);
+        query.whereEqualTo(Constants.PARSE_DIRECTION, direction);
         if (direction == 1) {
-            query.orderByDescending(PARSE_KM); }
+            query.orderByDescending(Constants.PARSE_KM); }
         else {
-            query.orderByAscending(PARSE_KM);
+            query.orderByAscending(Constants.PARSE_KM);
         }
 
         parseObjects = query.find();
@@ -114,11 +107,11 @@ public class ParseDataBase {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Constants.RADARS_TABLE);
         query.fromLocalDatastore();
-        query.whereEqualTo(PARSE_DIRECTION, direction);
+        query.whereEqualTo(Constants.PARSE_DIRECTION, direction);
         if (direction == 1) {
-            query.orderByDescending(PARSE_KM); }
+            query.orderByDescending(Constants.PARSE_KM); }
         else {
-            query.orderByAscending(PARSE_KM);
+            query.orderByAscending(Constants.PARSE_KM);
         }
 
         parseObjects = query.find();
@@ -132,12 +125,12 @@ public class ParseDataBase {
 
     private Radar createRadarFromParse(ParseObject parseObject) {
         Radar radar = new Radar();
-        radar.setLatitude(parseObject.getNumber(PARSE_LATITUDE).doubleValue());
-        radar.setLongitude(parseObject.getNumber(PARSE_LONGITUDE).doubleValue());
-        radar.setName(parseObject.getString(PARSE_NAME));
-        radar.setKm(parseObject.getNumber(PARSE_KM).floatValue());
-        radar.setMaxSpeed(parseObject.getNumber(PARSE_MAXIMUM_SPEED).intValue());
-        radar.setDirection(parseObject.getNumber(PARSE_DIRECTION).intValue());
+        radar.setLatitude(parseObject.getNumber(Constants.PARSE_LATITUDE).doubleValue());
+        radar.setLongitude(parseObject.getNumber(Constants.PARSE_LONGITUDE).doubleValue());
+        radar.setName(parseObject.getString(Constants.PARSE_NAME));
+        radar.setKm(parseObject.getNumber(Constants.PARSE_KM).floatValue());
+        radar.setMaxSpeed(parseObject.getNumber(Constants.PARSE_MAXIMUM_SPEED).intValue());
+        radar.setDirection(parseObject.getNumber(Constants.PARSE_DIRECTION).intValue());
         return radar;
     }
 }

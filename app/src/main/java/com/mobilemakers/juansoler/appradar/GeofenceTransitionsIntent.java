@@ -17,9 +17,7 @@ import java.util.List;
 
 public class GeofenceTransitionsIntent {
 
-    Activity mActivity;
-    NotificationCompat.Builder mBuilder;
-    int mId;
+    private Activity mActivity;
 
     public GeofenceTransitionsIntent(Activity activity) {
         this.mActivity = activity;
@@ -52,41 +50,6 @@ public class GeofenceTransitionsIntent {
 //            }
             }
         }
-    }
-
-    private int getNotificationId(float radar) {
-        int radius = Math.round(radar);
-        switch (radius){
-            case 10000:
-            case 7000:
-            case 5000:
-                return 1;
-            case 4000:
-            case 3000:
-            case 2000:
-                return 2;
-            default:
-                return 3;
-        }
-    }
-
-    private void createNotification(String title,String text, int icon, int notification){
-        mBuilder =  new NotificationCompat.Builder(mActivity)
-                .setSmallIcon(icon)
-                .setContentTitle(title)
-                .setContentText(text);
-        Intent resultIntent = new Intent(mActivity, MainActivity.class);
-
-        //Getting sound
-        mBuilder.setSound(getSoundUri(notification));
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(mActivity);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(mId, mBuilder.build());
     }
 
     private Uri getSoundUri(int notification){
@@ -138,6 +101,41 @@ public class GeofenceTransitionsIntent {
             }
         }
 */
+    }
+
+    private void createNotification(String title,String text, int icon, int notification){
+        NotificationCompat.Builder builder =  new NotificationCompat.Builder(mActivity)
+                .setSmallIcon(icon)
+                .setContentTitle(title)
+                .setContentText(text);
+        Intent resultIntent = new Intent(mActivity, MainActivity.class);
+
+        //Getting sound
+        builder.setSound(getSoundUri(notification));
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(mActivity);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(Constants.NOTIFICATION_ID, builder.build());
+    }
+
+    private int getNotificationId(float radar) {
+        int radius = Math.round(radar);
+        switch (radius){
+            case 10000:
+            case 7000:
+            case 5000:
+                return 1;
+            case 4000:
+            case 3000:
+            case 2000:
+                return 2;
+            default:
+                return 3;
+        }
     }
 
     private void showActivityAlwaysOnTop() {

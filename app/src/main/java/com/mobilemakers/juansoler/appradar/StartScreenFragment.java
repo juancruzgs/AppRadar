@@ -40,22 +40,18 @@ import java.util.List;
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener, ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
-    private static final int REQUEST_RESOLVE_ERROR = 1001;
     private boolean mResolvingError = false;
-    private static final String STATE_RESOLVING_ERROR = "resolving_error";
-    private static final int RESULT_OK = -1;
 
     private GoogleApiClient mApiClient;
-    List<SpotGeofence> mGeofenceList = new ArrayList<>();
-    RadarList mRadars;
+    private List<SpotGeofence> mGeofenceList = new ArrayList<>();
+    private RadarList mRadars;
 
-    FragmentManager mFragmentManager;
-    LinearLayout mProgressLayout;
-    ImageView mImageViewSS;
-
-    Button mButtonSetDestination;
-    Button mButtonStart;
-    TextView mTextViewWelcome;
+    private FragmentManager mFragmentManager;
+    private LinearLayout mProgressLayout;
+    private ImageView mImageViewSS;
+    private Button mButtonSetDestination;
+    private Button mButtonStart;
+    private TextView mTextViewWelcome;
     private NotificationPreference mNotification = new NotificationPreference();
 
     public StartScreenFragment() {
@@ -69,7 +65,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mResolvingError = savedInstanceState != null
-                && savedInstanceState.getBoolean(STATE_RESOLVING_ERROR, false);
+                && savedInstanceState.getBoolean(Constants.STATE_RESOLVING_ERROR, false);
     }
 
     @Override
@@ -219,7 +215,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     private int getDirection() {
         int direction;
-        if (mButtonSetDestination.getText().equals(Constants.CITY)) {
+        if (mButtonSetDestination.getText().equals(Constants.MAR_DEL_PLATA)) {
             direction = 0;
         }
         else {
@@ -341,7 +337,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             if (connectionResult.hasResolution()) {
                 try {
                     mResolvingError = true;
-                    connectionResult.startResolutionForResult(getActivity(), REQUEST_RESOLVE_ERROR);
+                    connectionResult.startResolutionForResult(getActivity(), Constants.REQUEST_RESOLVE_ERROR);
                 } catch (IntentSender.SendIntentException e) {
                     Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Exception while resolving connection error.", e);
                     mApiClient.connect();
@@ -356,9 +352,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_RESOLVE_ERROR) {
+        if (requestCode == Constants.REQUEST_RESOLVE_ERROR) {
             mResolvingError = false;
-            if (resultCode == RESULT_OK) {
+            if (resultCode == Constants.RESULT_OK) {
                 // Make sure the app is not already connected or attempting to connect
                 if (!mApiClient.isConnecting() && !mApiClient.isConnected()) {
                     mApiClient.connect();
@@ -370,7 +366,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(STATE_RESOLVING_ERROR, mResolvingError);
+        outState.putBoolean(Constants.STATE_RESOLVING_ERROR, mResolvingError);
     }
 
     @Override

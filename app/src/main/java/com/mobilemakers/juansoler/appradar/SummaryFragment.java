@@ -29,11 +29,11 @@ import java.util.Locale;
 
 public class SummaryFragment extends Fragment {
 
-    TextView mTextViewDistance;
-    TextView mTextViewRefreshTime;
-    TextView mTextViewSpeedLimitValue;
+    private TextView mTextViewDistance;
+    private TextView mTextViewRefreshTime;
+    private TextView mTextViewSpeedLimitValue;
 
-    RadarList mRadars;
+    private RadarList mRadars;
 
     public SummaryFragment() {
         // Required empty public constructor

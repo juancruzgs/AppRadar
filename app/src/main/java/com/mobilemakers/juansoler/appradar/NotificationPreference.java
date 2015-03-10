@@ -5,11 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 public class NotificationPreference {
-    private final static String FIRST_NOTIFICATION_DISTANCE = "first_notification_preference_distance";
-    private final static String FIRST_NOTIFICATION_SOUND = "first_notification_preference_sound";
-    private final static String SECOND_NOTIFICATION_DISTANCE = "second_notification_preference_distance";
-    private final static String SECOND_NOTIFICATION_SOUND = "second_notification_preference_sound";
-    private final static String THIRD_NOTIFICATION_SOUND = "third_notification_preference_sound";
 
     private String mFirstNotificationDistance;
     private String mFirstNotificationSound;
@@ -62,10 +57,10 @@ public class NotificationPreference {
 
     public void getSharedPreferences (Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        setFirstNotificationDistance(sharedPreferences.getString(FIRST_NOTIFICATION_DISTANCE, "10"));
-        setFirstNotificationSound(sharedPreferences.getString(FIRST_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
-        setSecondNotificationDistance(sharedPreferences.getString(SECOND_NOTIFICATION_DISTANCE, "4"));
-        setSecondNotificationSound(sharedPreferences.getString(SECOND_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
-        setThirdNotificationSound(sharedPreferences.getString(THIRD_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
+        setFirstNotificationDistance(sharedPreferences.getString(Constants.FIRST_NOTIFICATION_DISTANCE, "10"));
+        setFirstNotificationSound(sharedPreferences.getString(Constants.FIRST_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
+        setSecondNotificationDistance(sharedPreferences.getString(Constants.SECOND_NOTIFICATION_DISTANCE, "4"));
+        setSecondNotificationSound(sharedPreferences.getString(Constants.SECOND_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
+        setThirdNotificationSound(sharedPreferences.getString(Constants.THIRD_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
     }
 }

@@ -4,23 +4,18 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.media.MediaPlayer;
 import android.preference.ListPreference;
 
-import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
 
-/**
- * Created by paula.baudo on 3/2/2015.
- */
 public class SoundListPreference extends ListPreference {
 
     private Context context;
     private int mClickedDialogEntryIndex = 0;
     private int mLastClickedDialogEntryIndex = 0;
-    private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
     private MediaPlayer mPlayer;
 
@@ -76,11 +71,12 @@ public class SoundListPreference extends ListPreference {
         mLastClickedDialogEntryIndex = mClickedDialogEntryIndex;
     }
 
+
     @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+    protected void onPrepareDialogBuilder(@NonNull AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
-        mEntries = getEntries();
+        CharSequence[] entries = getEntries();
         mEntryValues = getEntryValues();
 
         final String [] strings = getContext().getResources().getStringArray(R.array.sound_options_values);
@@ -122,7 +118,7 @@ public class SoundListPreference extends ListPreference {
                         mClickedDialogEntryIndex = mLastClickedDialogEntryIndex;
                     }
                 })
-                .setSingleChoiceItems(mEntries, mClickedDialogEntryIndex ,
+                .setSingleChoiceItems(entries, mClickedDialogEntryIndex ,
                         new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int which) {

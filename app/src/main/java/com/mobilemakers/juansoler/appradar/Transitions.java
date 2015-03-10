@@ -6,7 +6,7 @@ import android.view.animation.Animation;
 
 public class Transitions {
 
-    public static void transitionIN(final View view, long duration) {
+    public static void fadeIN(final View view, long duration) {
 
         Animation animationIn = new AlphaAnimation(Constants.ANIMATION_ALPHA_FROM, Constants.ANIMATION_ALPHA_TO);
         animationIn.setDuration(duration);
@@ -29,7 +29,7 @@ public class Transitions {
         });
     }
 
-    public static void transitionOUT(final View view, long duration,final Boolean gone) {
+    public static void fadeOUT(final View view, long duration, final Boolean gone) {
 
         Animation animationOut = new AlphaAnimation(Constants.ANIMATION_ALPHA_TO, Constants.ANIMATION_ALPHA_FROM);
         animationOut.setDuration(duration);
@@ -56,7 +56,7 @@ public class Transitions {
         });
     }
 
-    public static void transitionOUT(final View view, long duration,final Boolean gone, final View replaceWith) {
+    public static void fadeOUT(final View view, long duration, final Boolean gone, final View replaceWith) {
 
         Animation animationOut = new AlphaAnimation(Constants.ANIMATION_ALPHA_TO, Constants.ANIMATION_ALPHA_FROM);
         animationOut.setDuration(duration);
@@ -71,7 +71,7 @@ public class Transitions {
             public void onAnimationEnd(Animation animation) {
                 if (gone) {
                     view.setVisibility(View.GONE);
-                    transitionIN(replaceWith, 1000);
+                    fadeIN(replaceWith, 1000);
                 }else {
                     view.setVisibility(View.INVISIBLE);
                 }

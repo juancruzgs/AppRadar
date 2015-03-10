@@ -28,18 +28,15 @@ import java.util.GregorianCalendar;
 
 public class SummaryFragment extends Fragment {
 
-    private static final float ANIMATION_ALPHA_FROM = 0.0f;
-    private static final float ANIMATION_ALPHA_TO = 1.0f;
+    TextView mTextViewDistance;
+    TextView mTextViewRefreshTime;
+    TextView mTextViewSpeedLimitValue;
 
-    private TextView mTextViewDistance;
-    private TextView mTextViewRefreshTime;
-    private TextView mTextViewSpeedLimitValue;
-    private RadarList mRadars;
+    RadarList mRadars;
 
     public SummaryFragment() {
         // Required empty public constructor
     }
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,8 +90,8 @@ public class SummaryFragment extends Fragment {
     }
 
     private void setScreenInformation() {
-        float mDistance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
-        setDistance(mDistance);
+        float distance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
+        setDistance(distance);
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.get(0).getMaxSpeed()));
         setRefreshTime(getCurrentTime());
     }

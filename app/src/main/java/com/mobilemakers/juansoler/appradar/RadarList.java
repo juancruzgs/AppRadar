@@ -18,14 +18,6 @@ public class RadarList implements Parcelable {
         mRadars = new ArrayList<>();
     }
 
-    public List<Radar> getRadars() {
-        return mRadars;
-    }
-
-    public void setRadars(List<Radar> mRadars) {
-        this.mRadars = mRadars;
-    }
-
     public void add (Radar radar) {
         mRadars.add(radar);
     }

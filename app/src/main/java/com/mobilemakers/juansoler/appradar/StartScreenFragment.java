@@ -38,7 +38,7 @@ import java.util.List;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener, ConnectionCallbacks,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
-  
+
     private static final int REQUEST_RESOLVE_ERROR = 1001;
     private boolean mResolvingError = false;
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
@@ -54,7 +54,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     Button mButtonSetDestination;
     Button mButtonStart;
-    TextView mTextViewWelcome;   
+    TextView mTextViewWelcome;
     private NotificationPreference mNotification = new NotificationPreference();
 
     public StartScreenFragment() {
@@ -163,8 +163,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     private void initializeGooglePlayServices(){
         if(!isGooglePlayServicesAvailable()){
-        Log.e(Constants.START_SCREEN_FRAGMENT_TAG,"Google Play services unavailable.");
-        return;
+            Log.e(Constants.START_SCREEN_FRAGMENT_TAG,"Google Play services unavailable.");
+            return;
         }
 
         initializeGoogleApiClient();
@@ -175,7 +175,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         Transitions.fadeOUT(mButtonSetDestination, 1000, true);
         Transitions.fadeOUT(mButtonStart, 1000, true);
         Transitions.fadeOUT(mTextViewWelcome, 1000, true, mProgressLayout);
-        }
+    }
 
     private boolean isGooglePlayServicesAvailable() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
@@ -337,22 +337,20 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        if (mResolvingError){
-            // Already attempting to resolve an error.
-            return;
-        }
-        else if (connectionResult.hasResolution()) {
-            try {
-                mResolvingError = true;
-                connectionResult.startResolutionForResult(getActivity(), REQUEST_RESOLVE_ERROR);
-            } catch (IntentSender.SendIntentException e) {
-                Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Exception while resolving connection error.", e);
-                mApiClient.connect();
+        if (!mResolvingError) {
+            if (connectionResult.hasResolution()) {
+                try {
+                    mResolvingError = true;
+                    connectionResult.startResolutionForResult(getActivity(), REQUEST_RESOLVE_ERROR);
+                } catch (IntentSender.SendIntentException e) {
+                    Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Exception while resolving connection error.", e);
+                    mApiClient.connect();
+                }
+            } else {
+                //TODO Add ErrorDialogFragment. Link: https://developer.android.com/google/auth/api-client.html
+                int errorCode = connectionResult.getErrorCode();
+                Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Connection to Google Play services failed with error code " + errorCode);
             }
-        } else {
-            //TODO Add ErrorDialogFragment. Link: https://developer.android.com/google/auth/api-client.html
-            int errorCode = connectionResult.getErrorCode();
-            Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Connection to Google Play services failed with error code " + errorCode);
         }
     }
 

@@ -20,16 +20,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SummaryFragment extends Fragment {
 
-    private final static String NEXT_LOCATION = "nextLocation";
-
-    private final static long MIN_TIME_UPDATES_S = 1000;
-    private final static float MIN_DISTANCE_UPDATES_M = 10;
     private static final float ANIMATION_ALPHA_FROM = 0.0f;
     private static final float ANIMATION_ALPHA_TO = 1.0f;
 
@@ -43,7 +42,6 @@ public class SummaryFragment extends Fragment {
     public SummaryFragment() {
         // Required empty public constructor
     }
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -104,10 +102,16 @@ public class SummaryFragment extends Fragment {
     }
 
     private float calculateDistanceToTheNextRadar(Double latitude, Double longitude) {
-        Location currentLocation = StartScreenFragment.getLastLocation();
+        Location currentLocation = getLastLocation();
         Location nextLocation = createTheNextLocation(latitude, longitude);
         float distance = (currentLocation.distanceTo(nextLocation)/1000);
         return new BigDecimal(distance).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue();
+    }
+
+    private Location getLastLocation() {
+        AppRadarApplication state = (AppRadarApplication)getActivity().getApplicationContext();
+        GoogleApiClient apiClient = state.getApiClient();
+        return LocationServices.FusedLocationApi.getLastLocation(apiClient);
     }
 
     private Location createTheNextLocation(Double latitude, Double longitude) {

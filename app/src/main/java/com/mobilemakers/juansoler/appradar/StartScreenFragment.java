@@ -47,7 +47,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
     private static final int RESULT_OK = -1;
 
-    private static GoogleApiClient mApiClient;
+    private GoogleApiClient mApiClient;
     List<SpotGeofence> mGeofenceList = new ArrayList<>();
     RadarList mRadars;
 
@@ -90,7 +90,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mTextViewWelcome = (TextView)rootView.findViewById(R.id.textView_welcome);
         mImageViewSS = (ImageView)rootView.findViewById(R.id.imageView_start_screen_image);
     }
-
 
     private void prepareButtonDestination(View rootView) {
         mButtonSetDestination = (Button)rootView.findViewById(R.id.button_select_desntination);

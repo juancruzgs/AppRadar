@@ -63,9 +63,9 @@ public class NotificationPreference {
     public void getSharedPreferences (Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         setFirstNotificationDistance(sharedPreferences.getString(FIRST_NOTIFICATION_DISTANCE, "10"));
-        setFirstNotificationSound(sharedPreferences.getString(FIRST_NOTIFICATION_SOUND, context.getString(R.string.sub_klaxon)));
+        setFirstNotificationSound(sharedPreferences.getString(FIRST_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
         setSecondNotificationDistance(sharedPreferences.getString(SECOND_NOTIFICATION_DISTANCE, "4"));
-        setSecondNotificationSound(sharedPreferences.getString(SECOND_NOTIFICATION_SOUND, context.getString(R.string.sub_klaxon)));
-        setThirdNotificationSound(sharedPreferences.getString(THIRD_NOTIFICATION_SOUND, context.getString(R.string.sub_klaxon)));
+        setSecondNotificationSound(sharedPreferences.getString(SECOND_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
+        setThirdNotificationSound(sharedPreferences.getString(THIRD_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
     }
 }

@@ -22,9 +22,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class SummaryFragment extends Fragment {
 
@@ -124,9 +125,9 @@ public class SummaryFragment extends Fragment {
     }
 
     private String getCurrentTime () {
-        Calendar date = new GregorianCalendar();
-        date.setTime(new Date());
-        return date.get(Calendar.HOUR_OF_DAY) + ":" + date.get(Calendar.MINUTE);
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
     @Override

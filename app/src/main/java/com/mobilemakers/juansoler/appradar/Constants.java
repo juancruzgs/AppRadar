@@ -31,11 +31,6 @@ public class Constants {
     public final static String RADARS_TABLE = "Radars";
     public final static String PARSE_UPDATED_AT = "updatedAt";
 
-    //City Names
-    //TODO Move Cities to XML
-    public final static String BUENOS_AIRES = "Buenos Aires";
-    public final static String MAR_DEL_PLATA = "Mar del Plata";
-
     //Transitions
     public final static long TRANSIION_DURATION_1K = 1000;
     public final static long TRANSIION_DURATION_2K = 2000;
@@ -46,8 +41,6 @@ public class Constants {
     public final static String NEXT_LOCATION = "nextLocation";
     public final static long MIN_TIME_UPDATES_S = 1000;
     public final static float MIN_DISTANCE_UPDATES_M = 10;
-    public final static int FIRST_FENCE = 5000;
-    public final static int SECOND_FENCE = 2000;
     public final static int THIRD_FENCE = 300;
 
 

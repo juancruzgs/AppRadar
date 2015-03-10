@@ -106,6 +106,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     showAlertDialog();
                 } else {
+                    transitionToLoadingScreen();
                     initializeGooglePlayServices();
                     new DatabaseOperations().execute();
                 }
@@ -129,6 +130,13 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                         });
                 final AlertDialog alert = builder.create();
                 alert.show();
+            }
+
+            private void transitionToLoadingScreen() {
+                Transitions.fadeOUT(mImageViewSS, Constants.TRANSIION_DURATION_1K, false);
+                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, true);
+                Transitions.fadeOUT(mButtonStart, Constants.TRANSIION_DURATION_1K, true);
+                Transitions.fadeOUT(mTextViewWelcome, Constants.TRANSIION_DURATION_1K, true, mProgressLayout);
             }
         });
     }
@@ -164,13 +172,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         }
 
         initializeGoogleApiClient();
-
-        new DatabaseOperations().execute();
-
-        Transitions.fadeOUT(mImageViewSS, Constants.TRANSIION_DURATION_1K, false);
-        Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, true);
-        Transitions.fadeOUT(mButtonStart, Constants.TRANSIION_DURATION_1K, true);
-        Transitions.fadeOUT(mTextViewWelcome, Constants.TRANSIION_DURATION_1K, true, mProgressLayout);
     }
 
     private boolean isGooglePlayServicesAvailable() {

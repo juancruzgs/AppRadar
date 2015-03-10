@@ -8,10 +8,6 @@ import com.parse.ParseQuery;
 
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class ParseDataBase {
 
@@ -23,9 +19,11 @@ public class ParseDataBase {
 
     public RadarList getParseObjects(int direction) {
         RadarList radars = new RadarList();
+        Date localDatabaseDate = getDatabaseDate(false);
 
         try {
-            if  (!existsLocalDatabase()) {
+            if  (localDatabaseDate == null) {
+                //LocalDatabase does not exist
                 if (NetworkConnections.isNetworkAvailable(mConnectivityManager)) {
                     radars = getParseObjectsFromNetwork(direction);
                 }
@@ -33,14 +31,9 @@ public class ParseDataBase {
             }
             else {
                 if (NetworkConnections.isNetworkAvailable(mConnectivityManager)){
-                    ExecutorService taskExecutor = Executors.newFixedThreadPool(2);
-                    Future<Date> resultLocalDate = taskExecutor.submit(new DatabaseDateTask(false));
-                    Future<Date> resultCloudDate = taskExecutor.submit(new DatabaseDateTask(true));
+                    Date cloudDatabaseDate = getDatabaseDate(true);
 
-                    Date localDatabaseDate = resultLocalDate.get();
-                    Date cloudDatabaseDate = resultCloudDate.get();
-
-                    if (localDatabaseDate.compareTo(cloudDatabaseDate) != 0){
+                    if (cloudDatabaseDate != null && cloudDatabaseDate.compareTo(localDatabaseDate) != 0){
                         radars = getParseObjectsFromNetwork(direction);
                     }
                     else {
@@ -51,27 +44,27 @@ public class ParseDataBase {
                     radars = getParseObjectsFromLocal(direction);
                 }
             }
-        } catch (InterruptedException|ExecutionException |ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
         return radars;
     }
 
-    private boolean existsLocalDatabase() {
+    private Date getDatabaseDate(boolean cloudDatabase){
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Constants.RADARS_TABLE);
-        query.fromLocalDatastore();
         ParseObject parseObject;
-        Boolean exists = false;
+        query.orderByDescending(Constants.PARSE_UPDATED_AT);
+        if (!cloudDatabase){
+            query.fromLocalDatastore();
+        }
+
         try {
             parseObject = query.getFirst();
-            if (parseObject != null) {
-                exists = true;
-            }
         } catch (ParseException e) {
-            e.printStackTrace();
+            return null;
         }
-        return exists;
+        return parseObject.getUpdatedAt();
     }
 
     private RadarList getParseObjectsFromNetwork(int direction) throws ParseException {

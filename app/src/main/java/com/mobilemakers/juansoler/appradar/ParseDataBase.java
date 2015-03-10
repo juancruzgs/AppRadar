@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class ParseDatabase {
+public class ParseDataBase {
 
     private final static String PARSE_LATITUDE = "latitude";
     private final static String PARSE_LONGITUDE = "longitude";
@@ -24,7 +24,7 @@ public class ParseDatabase {
 
     ConnectivityManager mConnectivityManager;
 
-    public ParseDatabase(ConnectivityManager connectivityManager) {
+    public ParseDataBase(ConnectivityManager connectivityManager) {
         mConnectivityManager = connectivityManager;
     }
 

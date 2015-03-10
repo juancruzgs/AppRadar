@@ -25,7 +25,7 @@ public class ParseDataBase {
             if  (localDatabaseDate == null) {
                 //LocalDatabase does not exist
                 if (NetworkConnections.isNetworkAvailable(mConnectivityManager)) {
-                    radars = getParseObjectsFromNetwork(direction);
+                    radars = getParseObjectsFromCloud(direction);
                 }
                 //TODO Else the user has to connect the device to internet
             }
@@ -34,7 +34,7 @@ public class ParseDataBase {
                     Date cloudDatabaseDate = getDatabaseDate(true);
 
                     if (cloudDatabaseDate != null && cloudDatabaseDate.compareTo(localDatabaseDate) != 0){
-                        radars = getParseObjectsFromNetwork(direction);
+                        radars = getParseObjectsFromCloud(direction);
                     }
                     else {
                         radars = getParseObjectsFromLocal(direction);
@@ -67,7 +67,7 @@ public class ParseDataBase {
         return parseObject.getUpdatedAt();
     }
 
-    private RadarList getParseObjectsFromNetwork(int direction) throws ParseException {
+    private RadarList getParseObjectsFromCloud(int direction) throws ParseException {
         List<ParseObject> parseObjects;
         ParseObject parseObject;
         RadarList radars = new RadarList();

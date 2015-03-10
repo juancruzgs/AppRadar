@@ -90,6 +90,7 @@ public class GeofenceTransitionsIntent {
     }
 
     private Uri getSoundUri(int notification){
+/*
         //Creating Uris
         Uri airhornPath = Uri.parse(mActivity.getString(R.string.sound_path)
                 + mActivity.getPackageName() + "/" + R.raw.air_horn);
@@ -99,6 +100,7 @@ public class GeofenceTransitionsIntent {
                 + mActivity.getPackageName() + "/" + R.raw.beep_ping);
         Uri factoryPath = Uri.parse(mActivity.getString(R.string.sound_path)
                 + mActivity.getPackageName() + "/" + R.raw.factory);
+*/
 
         //Getting SharedPreference
         NotificationPreference notificationPreference = new NotificationPreference();
@@ -118,6 +120,10 @@ public class GeofenceTransitionsIntent {
                 break;
         }
 
+        return Uri.parse(mActivity.getString(R.string.sound_path)
+                + mActivity.getPackageName() + "/" + soundName + ".ogg");
+
+/*
         if (soundName.equals(mActivity.getString(R.string.sub_klaxon))){
             return subklaxonPath;
         } else {
@@ -131,6 +137,7 @@ public class GeofenceTransitionsIntent {
                 }
             }
         }
+*/
     }
 
     private void showActivityAlwaysOnTop() {

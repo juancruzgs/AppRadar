@@ -55,15 +55,6 @@ public class GeofenceTransitionsIntent {
     }
 
     private Uri getSoundUri(int notification){
-        //Creating Uris
-        Uri airhornPath = Uri.parse(mActivity.getString(R.string.sound_path)
-                + mActivity.getPackageName() + "/" + R.raw.air_horn);
-        Uri subklaxonPath = Uri.parse(mActivity.getString(R.string.sound_path)
-                + mActivity.getPackageName() + "/" + R.raw.sub_klaxon);
-        Uri beeppingPath = Uri.parse(mActivity.getString(R.string.sound_path)
-                + mActivity.getPackageName() + "/" + R.raw.beep_ping);
-        Uri factoryPath = Uri.parse(mActivity.getString(R.string.sound_path)
-                + mActivity.getPackageName() + "/" + R.raw.factory);
 
         //Getting SharedPreference
         NotificationPreference notificationPreference = new NotificationPreference();
@@ -84,15 +75,39 @@ public class GeofenceTransitionsIntent {
         }
 
         if (soundName.equals(mActivity.getString(R.string.sub_klaxon))){
-            return subklaxonPath;
+            return Uri.parse(mActivity.getString(R.string.sound_path)
+                    + mActivity.getPackageName() + "/" + R.raw.sub_klaxon);
         } else {
             if (soundName.equals(mActivity.getString(R.string.factory))){
-                return factoryPath;
+                return Uri.parse(mActivity.getString(R.string.sound_path)
+                        + mActivity.getPackageName() + "/" + R.raw.factory);
             } else {
                 if (soundName.equals(mActivity.getString(R.string.air_horn))){
-                    return airhornPath;
+                    return Uri.parse(mActivity.getString(R.string.sound_path)
+                            + mActivity.getPackageName() + "/" + R.raw.air_horn);
                 } else {
-                    return beeppingPath;
+                    if (soundName.equals(mActivity.getString(R.string.beep_ping))) {
+                        return Uri.parse(mActivity.getString(R.string.sound_path)
+                                + mActivity.getPackageName() + "/" + R.raw.beep_ping);
+                    } else {
+                        if (soundName.equals(mActivity.getString(R.string.smb_flagpole))){
+                            return Uri.parse(mActivity.getString(R.string.sound_path)
+                                    + mActivity.getPackageName() + "/" + R.raw.smb_flagpole);
+                        } else {
+                            if (soundName.equals(mActivity.getString(R.string.smb_pipe))){
+                                return Uri.parse(mActivity.getString(R.string.sound_path)
+                                        + mActivity.getPackageName() + "/" + R.raw.smb_pipe);
+                            } else {
+                                if (soundName.equals(mActivity.getString(R.string.smb_vine))){
+                                    return Uri.parse(mActivity.getString(R.string.sound_path)
+                                            + mActivity.getPackageName() + "/" + R.raw.smb_vine);
+                                } else {
+                                    return Uri.parse(mActivity.getString(R.string.sound_path)
+                                            + mActivity.getPackageName() + "/" + R.raw.smb_warning);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

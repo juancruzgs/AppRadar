@@ -10,5 +10,4 @@
         <item name="smb_vine">@string/smb_vine</item>
         <item name="smb_warning">@string/smb_warning</item>
     </string-array>
-
-/resources>
+</resources>

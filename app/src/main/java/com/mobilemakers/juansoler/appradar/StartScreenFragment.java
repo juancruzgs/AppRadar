@@ -189,9 +189,21 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         @Override
         protected void onPostExecute(RadarList radarList) {
-            mRadars = radarList;
-            preparingGeofenceList();
-            mApiClient.connect();
+            if (radarList != null){
+                mRadars = radarList;
+                preparingGeofenceList();
+                mApiClient.connect();
+            }
+            else {
+                CustomAlertDialog alertDialog = new CustomAlertDialog("sdfsddfs",
+                        "Activar",
+                        "Cancelar",
+                        Settings.ACTION_DATA_ROAMING_SETTINGS,
+                        getActivity());
+                alertDialog.showAlertDialog();
+            }
+
+            // TODO Hide the Loading screen
         }
     }
 

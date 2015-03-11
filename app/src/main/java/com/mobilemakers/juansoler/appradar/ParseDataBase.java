@@ -30,15 +30,8 @@ public class ParseDataBase {
                     radars = getParseObjectsFromCloud(direction);
                 }
                 else {
-                    CustomAlertDialog alertDialog = new CustomAlertDialog("sdfsddfs",
-                            "Activar conexión",
-                            "Cancelar",
-                            Settings.ACTION_SETTINGS,
-                            activity);
-                    alertDialog.showAlertDialog();
-
+                    radars = null;
                 }
-                //TODO Else the user has to connect the device to internet
             }
             else {
                 if (NetworkConnections.isNetworkAvailable(mConnectivityManager)){

@@ -15,7 +15,6 @@ import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
@@ -37,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener, ConnectionCallbacks,
+public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     private boolean mResolvingError = false;
@@ -166,25 +164,14 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 //            }
 
     private void initializeGooglePlayServices(){
-        if(!isGooglePlayServicesAvailable()){
-            Log.e(Constants.START_SCREEN_FRAGMENT_TAG,"Google Play services unavailable.");
-            return;
+        if(isGooglePlayServicesAvailable()){
+            initializeGoogleApiClient();
         }
-
-        initializeGoogleApiClient();
     }
 
     private boolean isGooglePlayServicesAvailable() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
-        if (ConnectionResult.SUCCESS == resultCode) {
-            if (Log.isLoggable(Constants.START_SCREEN_FRAGMENT_TAG, Log.DEBUG)) {
-                Log.d(Constants.START_SCREEN_FRAGMENT_TAG, "Google Play services is available.");
-            }
-            return true;
-        } else {
-            Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Google Play services is unavailable.");
-            return false;
-        }
+        return ConnectionResult.SUCCESS == resultCode;
     }
 
     private void initializeGoogleApiClient() {
@@ -323,11 +310,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     @Override
-    public void onDisconnected() {
-
-    }
-
-    @Override
     public void onConnectionSuspended(int i) {
 
     }
@@ -340,13 +322,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                     mResolvingError = true;
                     connectionResult.startResolutionForResult(getActivity(), Constants.REQUEST_RESOLVE_ERROR);
                 } catch (IntentSender.SendIntentException e) {
-                    Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Exception while resolving connection error.", e);
                     mApiClient.connect();
                 }
             } else {
                 //TODO Add ErrorDialogFragment. Link: https://developer.android.com/google/auth/api-client.html
-                int errorCode = connectionResult.getErrorCode();
-                Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Connection to Google Play services failed with error code " + errorCode);
             }
         }
     }
@@ -370,9 +349,4 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         outState.putBoolean(Constants.STATE_RESOLVING_ERROR, mResolvingError);
     }
 
-    @Override
-    public void onDestroy() {
-        mApiClient.disconnect();
-        super.onDestroy();
-    }
 }

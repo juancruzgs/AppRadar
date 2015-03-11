@@ -134,8 +134,20 @@ public class SoundListPreference extends ListPreference {
                                 else if (value.equals(strings[2])) {
                                     mPlayer = MediaPlayer.create(getContext(), R.raw.air_horn);
                                 }
-                                else {
+                                else if (value.equals(strings[3])) {
                                     mPlayer = MediaPlayer.create(getContext(), R.raw.beep_ping);
+                                }
+                                else if (value.equals(strings[4])) {
+                                    mPlayer = MediaPlayer.create(getContext(), R.raw.smb_flagpole);
+                                }
+                                else if (value.equals(strings[5])) {
+                                    mPlayer = MediaPlayer.create(getContext(), R.raw.smb_pipe);
+                                }
+                                else if (value.equals(strings[6])) {
+                                    mPlayer = MediaPlayer.create(getContext(), R.raw.smb_vine);
+                                }
+                                else {
+                                    mPlayer = MediaPlayer.create(getContext(), R.raw.smb_warning);
                                 }
 /*
                                 switch (value) {

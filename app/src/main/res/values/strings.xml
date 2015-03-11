@@ -31,6 +31,10 @@
     <string name="factory">Fábrica</string>
     <string name="air_horn">Sirena de aire</string>
     <string name="beep_ping">Ping de beep</string>
+    <string name="smb_flagpole">Bajar por el mástil</string>
+    <string name="smb_pipe">Cañería</string>
+    <string name="smb_vine">Planta que crece</string>
+    <string name="smb_warning">Poco tiempo</string>
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="message_no_location_dialog">No puedo obtener una ubicación. Pruebe en otro lugar.</string>

@@ -13,7 +13,6 @@ import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,10 +98,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     CustomAlertDialog alertDialog = new CustomAlertDialog(getString(R.string.messageGPS_dialog),
-                                                                          getString(R.string.enableGPS_dialog),
-                                                                          getString(R.string.cancelGPS_dialog),
-                                                                          Settings.ACTION_LOCATION_SOURCE_SETTINGS,
-                                                                          getActivity());
+                            getString(R.string.enableGPS_dialog),
+                            getString(R.string.cancelGPS_dialog),
+                            Settings.ACTION_LOCATION_SOURCE_SETTINGS,
+                            getActivity());
                     alertDialog.showAlertDialog();
                 } else {
                     fadeOutViews();
@@ -111,12 +110,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 }
             }
 
-    private void fadeOutViews() {
-        Transitions.fadeOUT(mImageViewSS, Constants.TRANSIION_DURATION_1K, false);
-        Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, true);
-        Transitions.fadeOUT(mButtonStart, Constants.TRANSIION_DURATION_1K, true);
-        Transitions.fadeOUT(mTextViewWelcome, Constants.TRANSIION_DURATION_1K, true, mProgressLayout);
-    }
+            private void fadeOutViews() {
+                Transitions.fadeOUT(mImageViewSS, Constants.TRANSIION_DURATION_1K, false);
+                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, true);
+                Transitions.fadeOUT(mButtonStart, Constants.TRANSIION_DURATION_1K, true);
+                Transitions.fadeOUT(mTextViewWelcome, Constants.TRANSIION_DURATION_1K, true, mProgressLayout);
+            }
         });
     }
 //                    Handler handler = new Handler();
@@ -191,7 +190,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 alertDialog.showAlertDialog();
                 fadeInViews();
             }
-
         }
 
         private void fadeInViews() {
@@ -329,7 +327,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 int errorCode = connectionResult.getErrorCode();
                 showErrorDialog(errorCode);
                 mResolvingError = true;
-                Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Connection to Google Play services failed with error code " + errorCode);
             }
         }
     }
@@ -339,7 +336,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         Bundle args = new Bundle();
         args.putInt(Constants.DIALOG_ERROR, errorCode);
         dialogFragment.setArguments(args);
-        dialogFragment.show(getFragmentManager(), "errordialog");
+        dialogFragment.show(getFragmentManager(), Constants.ERROR_DIALOG_TAG);
     }
 
     @Override

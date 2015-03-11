@@ -105,13 +105,13 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                                                                           getActivity());
                     alertDialog.showAlertDialog();
                 } else {
-                    FadeOutViews();
+                    fadeOutViews();
                     initializeGooglePlayServices();
                     new DatabaseOperations().execute();
                 }
             }
 
-    private void FadeOutViews() {
+    private void fadeOutViews() {
         Transitions.fadeOUT(mImageViewSS, Constants.TRANSIION_DURATION_1K, false);
         Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, true);
         Transitions.fadeOUT(mButtonStart, Constants.TRANSIION_DURATION_1K, true);
@@ -189,12 +189,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                         Settings.ACTION_DATA_ROAMING_SETTINGS,
                         getActivity());
                 alertDialog.showAlertDialog();
-                FadeInViews();
+                fadeInViews();
             }
 
         }
 
-        private void FadeInViews() {
+        private void fadeInViews() {
             Transitions.fadeIN(mImageViewSS, 1000);
             Transitions.fadeIN(mButtonStart,1000);
             Transitions.fadeIN(mButtonSetDestination,1000);

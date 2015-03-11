@@ -5,6 +5,10 @@
         <item name="factory">@string/factory</item>
         <item name="air_horn">@string/air_horn</item>
         <item name="beep_ping">@string/beep_ping</item>
+        <item name="smb_flagpole">@string/smb_flagpole</item>
+        <item name="smb_pipe">@string/smb_pipe</item>
+        <item name="smb_vine">@string/smb_vine</item>
+        <item name="smb_warning">@string/smb_warning</item>
     </string-array>
 
     <string-array name="sound_options_values">
@@ -24,5 +28,15 @@
         <!-- Beep ping - License: Attribution 3.0 - Recorded by Mike Koenig -->
         <!-- soundbible.com -->
         <item name="beep_ping">beep_ping</item>
+
+        <!-- Super Mario Bros. sounds - from TheMushroomKingdom.net -->
+        <!-- Going down the flagpole (after jumping over it) -->
+        <item name="smb_flagpole">smb_flagpole</item>
+        <!-- Going throw a pipe -->
+        <item name="smb_pipe">smb_pipe</item>
+        <!-- A vine grows from a [?] block -->
+        <item name="smb_vine">smb_vine</item>
+        <!-- Small tune for when is little time to finish the level -->
+        <item name="smb_warning">smb_warning</item>
     </string-array>
 </resources>

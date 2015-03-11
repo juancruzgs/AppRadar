@@ -32,6 +32,10 @@
     <string name="buton_dialog_cancel">Cancel</string>
     <string name="beep_ping">Beep ping</string>
     <string name="air_horn">Air horn</string>
+    <string name="smb_flagpole">Down the flagpole</string>
+    <string name="smb_pipe">Pipe</string>
+    <string name="smb_vine">Growing vine</string>
+    <string name="smb_warning">Little time</string>
     <string name="Destinations_dialog_title">Pick a destination&#8230;</string>
     <string name="loading">Loading&#8230;</string>
     <string name="radar_message">You are %s meters away from the next radar.</string>

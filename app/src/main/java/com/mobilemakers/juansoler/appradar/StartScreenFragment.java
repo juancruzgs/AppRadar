@@ -182,7 +182,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 mApiClient.connect();
             }
             else {
-                Transitions.fadeOUT(mProgressLayout, 1000,true);
+                Transitions.fadeOUT(mProgressLayout, Constants.TRANSIION_DURATION_1K ,true);
                 CustomAlertDialog alertDialog = new CustomAlertDialog("sdfsddfs",
                         "Activar",
                         "Cancelar",
@@ -195,10 +195,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         }
 
         private void fadeInViews() {
-            Transitions.fadeIN(mImageViewSS, 1000);
-            Transitions.fadeIN(mButtonStart,1000);
-            Transitions.fadeIN(mButtonSetDestination,1000);
-            Transitions.fadeIN(mTextViewWelcome,1000);
+            Transitions.fadeIN(mImageViewSS, Constants.TRANSIION_DURATION_1K);
+            Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
+            Transitions.fadeIN(mButtonSetDestination, Constants.TRANSIION_DURATION_1K);
+            Transitions.fadeIN(mTextViewWelcome, Constants.TRANSIION_DURATION_1K);
         }
     }
 

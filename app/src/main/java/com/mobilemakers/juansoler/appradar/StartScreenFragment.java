@@ -2,6 +2,7 @@ package com.mobilemakers.juansoler.appradar;
 
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -102,14 +104,15 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    showAlertDialog();
-                } else {
-                    transitionToLoadingScreen();
-                    initializeGooglePlayServices();
-                    new DatabaseOperations().execute();
-                }
+//                LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+//                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//                    showAlertDialog();
+//                } else {
+//                    transitionToLoadingScreen();
+//                    initializeGooglePlayServices();
+//                    new DatabaseOperations().execute();
+//                }
+                showErrorDialog(403);
             }
 
             private void showAlertDialog() {
@@ -344,11 +347,20 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                     mApiClient.connect();
                 }
             } else {
-                //TODO Add ErrorDialogFragment. Link: https://developer.android.com/google/auth/api-client.html
                 int errorCode = connectionResult.getErrorCode();
+                showErrorDialog(errorCode);
+                mResolvingError = true;
                 Log.e(Constants.START_SCREEN_FRAGMENT_TAG, "Connection to Google Play services failed with error code " + errorCode);
             }
         }
+    }
+
+    private void showErrorDialog(int errorCode) {
+        ErrorDialogFragment dialogFragment = new ErrorDialogFragment();
+        Bundle args = new Bundle();
+        args.putInt(Constants.DIALOG_ERROR, errorCode);
+        dialogFragment.setArguments(args);
+        dialogFragment.show(getFragmentManager(), "errordialog");
     }
 
     @Override
@@ -374,5 +386,27 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     public void onDestroy() {
         mApiClient.disconnect();
         super.onDestroy();
+    }
+
+    public void onDialogDismissed() {
+        mResolvingError = false;
+    }
+
+    public static class ErrorDialogFragment extends DialogFragment {
+        public ErrorDialogFragment() { }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Get the error code and retrieve the appropriate dialog
+            int errorCode = this.getArguments().getInt(Constants.DIALOG_ERROR);
+            return GooglePlayServicesUtil.getErrorDialog(errorCode,
+                    this.getActivity(), Constants.REQUEST_RESOLVE_ERROR);
+        }
+
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            ((StartScreenFragment) getFragmentManager().findFragmentByTag(Constants.START_SCREEN_FRAGMENT_TAG))
+                    .onDialogDismissed();
+        }
     }
 }

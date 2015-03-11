@@ -43,6 +43,8 @@ public class Constants {
     public final static float MIN_DISTANCE_UPDATES_M = 10;
     public final static int THIRD_FENCE = 300;
 
+    //ErrorDialogFragment
+    public final static String DIALOG_ERROR = "dialog_error";
 
     public final static String TAG_DESTINATION_DIALOG = "destinations_dialog";
     public final static String START_SCREEN_FRAGMENT_TAG = StartScreenFragment.class.getSimpleName();

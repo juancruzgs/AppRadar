@@ -1,11 +1,8 @@
 package com.mobilemakers.juansoler.appradar;
 
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.LocationManager;
@@ -13,7 +10,6 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -331,7 +327,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     private void showErrorDialog(int errorCode) {
-        ErrorDialogFragment dialogFragment = new ErrorDialogFragment();
+        ErrorDialog dialogFragment = new ErrorDialog();
         Bundle args = new Bundle();
         args.putInt(Constants.DIALOG_ERROR, errorCode);
         dialogFragment.setArguments(args);
@@ -360,23 +356,5 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     public void onDialogDismissed() {
         mResolvingError = false;
-    }
-
-    public static class ErrorDialogFragment extends DialogFragment {
-        public ErrorDialogFragment() { }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Get the error code and retrieve the appropriate dialog
-            int errorCode = this.getArguments().getInt(Constants.DIALOG_ERROR);
-            return GooglePlayServicesUtil.getErrorDialog(errorCode,
-                    this.getActivity(), Constants.REQUEST_RESOLVE_ERROR);
-        }
-
-        @Override
-        public void onDismiss(DialogInterface dialog) {
-            ((StartScreenFragment) getFragmentManager().findFragmentByTag(Constants.START_SCREEN_FRAGMENT_TAG))
-                    .onDialogDismissed();
-        }
     }
 }

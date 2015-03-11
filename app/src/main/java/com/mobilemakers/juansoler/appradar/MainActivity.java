@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
     private void prepareFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new StartScreenFragment())
+                    .add(R.id.container, new StartScreenFragment(),Constants.START_SCREEN_FRAGMENT_TAG)
                     .commit();
         }
     }

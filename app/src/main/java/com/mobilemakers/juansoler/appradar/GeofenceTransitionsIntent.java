@@ -40,6 +40,7 @@ public class GeofenceTransitionsIntent {
                         radar = spotGeofence.getRadius();
                     }
                 }
+
                 //Calling notifications
                 createNotification(mActivity.getString(R.string.warning_message),
                         String.format(mActivity.getString(R.string.radar_message), radar),

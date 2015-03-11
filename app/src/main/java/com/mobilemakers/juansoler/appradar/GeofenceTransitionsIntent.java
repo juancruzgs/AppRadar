@@ -23,28 +23,38 @@ public class GeofenceTransitionsIntent {
         this.mActivity = activity;
     }
 
-    protected void handleTransition(Intent intent, List<SpotGeofence> geofenceList) {
+    protected void handleTransition(Intent intent, RadarList radars) {
+        NotificationPreference notification = new NotificationPreference();
+        notification.getSharedPreferences(mActivity);
         GeofencingEvent geoFenceEvent = GeofencingEvent.fromIntent(intent);
         if (!geoFenceEvent.hasError()) {
             int transitionType = geoFenceEvent.getGeofenceTransition();
             if (Geofence.GEOFENCE_TRANSITION_ENTER == transitionType) {
-                String triggeredGeoFenceId = geoFenceEvent.getTriggeringGeofences().get(0)
-                        .getRequestId();
-                float radar = 0;
-                boolean found = false;
-                Iterator iterator = geofenceList.iterator();
-                while (iterator.hasNext() && !found) {
-                    SpotGeofence spotGeofence = (SpotGeofence) iterator.next();
-                    if (spotGeofence.getId().equals(triggeredGeoFenceId)) {
-                        found = true;
-                        radar = spotGeofence.getRadius();
-                    }
+                int triggeredGeoFenceId = Integer.valueOf(geoFenceEvent.getTriggeringGeofences().get(0)
+                        .getRequestId());
+
+                int radarIndex = triggeredGeoFenceId / 3;
+                int radiusIndex = triggeredGeoFenceId % 3;
+
+                Radar radar = radars.get(radarIndex);
+
+                float radius = 0;
+                switch (radiusIndex){
+                    case 0:
+                        radius = Float.parseFloat(notification.getFirstNotificationDistance()) * 1000;
+                        break;
+                    case 1:
+                        radius = Float.parseFloat(notification.getSecondNotificationDistance()) * 1000;
+                        break;
+                    case 2:
+                        radius = Constants.THIRD_FENCE;
+                        break;
                 }
 
                 //Calling notifications
                 createNotification(mActivity.getString(R.string.warning_message),
-                        String.format(mActivity.getString(R.string.radar_message), radar),
-                        R.mipmap.ic_launcher, getNotificationId(radar));
+                        String.format(mActivity.getString(R.string.radar_message), radius),
+                        R.mipmap.ic_launcher, getNotificationId(radius));
                 showActivityAlwaysOnTop();
 //            } else
 //            if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType) {

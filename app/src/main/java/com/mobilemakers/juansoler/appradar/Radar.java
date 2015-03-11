@@ -3,8 +3,11 @@ package com.mobilemakers.juansoler.appradar;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.gms.location.Geofence;
+
 public class Radar implements Parcelable {
 
+    private String mId;
     private String mName;
     private Double mLatitude;
     private Double mLongitude;
@@ -63,6 +66,14 @@ public class Radar implements Parcelable {
         mMaxSpeed = maxSpeed;
     }
 
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -76,6 +87,7 @@ public class Radar implements Parcelable {
         dest.writeFloat(mKm);
         dest.writeInt(mDirection);
         dest.writeInt(mMaxSpeed);
+        dest.writeString(mId);
     }
 
     private Radar(Parcel in){
@@ -85,6 +97,7 @@ public class Radar implements Parcelable {
         mKm = in.readFloat();
         mDirection = in.readInt();
         mMaxSpeed = in.readInt();
+        mId = in.readString();
     }
 
     public static final Parcelable.Creator<Radar> CREATOR = new Parcelable.Creator<Radar>() {
@@ -99,4 +112,18 @@ public class Radar implements Parcelable {
             return new Radar[size];
         }
     };
+
+    /**
+     * Creates a Location Services Geofence object for the alert.
+     * @return A Geofence object.
+     */
+    public Geofence toGeofence(float radius) {
+        return new Geofence.Builder()
+                .setRequestId(mId)
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                .setCircularRegion(mLatitude, mLongitude, radius)
+                .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                .build();
+    }
+
 }

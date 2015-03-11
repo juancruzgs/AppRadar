@@ -11,7 +11,7 @@
             android:key="first_notification_preference_sound"
             android:title="@string/pref_sound_title" android:summary="@string/pref_first_notification_sound_summary"
             android:entries="@array/sound_options"
-            android:entryValues="@array/sound_options_values"
+            android:entryValues="@array/sound_options"
             android:defaultValue="sub_klaxon"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_second_notification">
@@ -25,7 +25,7 @@
             android:key="second_notification_preference_sound"
             android:title="@string/pref_sound_title" android:summary="@string/pref_second_notification_sound_summary"
             android:entries="@array/sound_options"
-            android:entryValues="@array/sound_options_values"
+            android:entryValues="@array/sound_options"
             android:defaultValue="sub_klaxon"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_third_notification">
@@ -33,7 +33,7 @@
             android:key="third_notification_preference_sound"
             android:title="@string/pref_sound_title" android:summary="@string/pref_third_notification_sound_summary"
             android:entries="@array/sound_options"
-            android:entryValues="@array/sound_options_values"
+            android:entryValues="@array/sound_options"
             android:defaultValue="sub_klaxon"/>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -1,6 +1,7 @@
 package com.mobilemakers.juansoler.appradar;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -54,7 +55,6 @@ public class GeofenceTransitionsIntent {
     }
 
     private Uri getSoundUri(int notification){
-/*
         //Creating Uris
         Uri airhornPath = Uri.parse(mActivity.getString(R.string.sound_path)
                 + mActivity.getPackageName() + "/" + R.raw.air_horn);
@@ -64,7 +64,6 @@ public class GeofenceTransitionsIntent {
                 + mActivity.getPackageName() + "/" + R.raw.beep_ping);
         Uri factoryPath = Uri.parse(mActivity.getString(R.string.sound_path)
                 + mActivity.getPackageName() + "/" + R.raw.factory);
-*/
 
         //Getting SharedPreference
         NotificationPreference notificationPreference = new NotificationPreference();
@@ -84,10 +83,6 @@ public class GeofenceTransitionsIntent {
                 break;
         }
 
-        return Uri.parse(mActivity.getString(R.string.sound_path)
-                + mActivity.getPackageName() + "/" + soundName + ".ogg");
-
-/*
         if (soundName.equals(mActivity.getString(R.string.sub_klaxon))){
             return subklaxonPath;
         } else {
@@ -101,24 +96,18 @@ public class GeofenceTransitionsIntent {
                 }
             }
         }
-*/
     }
 
     private void createNotification(String title,String text, int icon, int notification){
         NotificationCompat.Builder builder =  new NotificationCompat.Builder(mActivity)
                 .setSmallIcon(icon)
                 .setContentTitle(title)
-                .setContentText(text);
-        Intent resultIntent = new Intent(mActivity, MainActivity.class);
+                .setContentText(text)
+                .setAutoCancel(true)
+                .setSound(getSoundUri(notification))
+                .setDefaults(Notification.DEFAULT_LIGHTS)
+                .setContentIntent(PendingIntent.getActivity(mActivity, 0, new Intent(), 0));
 
-        //Getting sound
-        builder.setSound(getSoundUri(notification));
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(mActivity);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(Constants.NOTIFICATION_ID, builder.build());
     }

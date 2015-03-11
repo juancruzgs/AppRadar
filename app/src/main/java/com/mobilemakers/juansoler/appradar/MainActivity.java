@@ -12,7 +12,7 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity implements StartScreenFragment.onHandleTransition{
 
     private GeofenceTransitionsIntent mGeofenceTransition;
-    private List<SpotGeofence> mGeofenceList;
+    private RadarList mRadars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         //Location Services Intent
-        mGeofenceTransition.handleTransition(intent, mGeofenceList);
+        mGeofenceTransition.handleTransition(intent, mRadars);
     }
 
     private void prepareFragment(Bundle savedInstanceState) {
@@ -46,8 +46,8 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
     }
 
     @Override
-    public void getGeofenceList(List<SpotGeofence> spotGeofences) {
-        mGeofenceList = spotGeofences;
+    public void getGeofenceList(RadarList radars) {
+        mRadars = radars;
     }
 
     @Override

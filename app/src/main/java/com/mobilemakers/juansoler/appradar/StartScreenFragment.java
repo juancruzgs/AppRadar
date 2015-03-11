@@ -33,10 +33,9 @@ import java.util.List;
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener,
         OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
-    private boolean mResolvingError = false;
+    private boolean mResolvingError;
 
     private GoogleApiClient mApiClient;
-    private List<SpotGeofence> mGeofenceList = new ArrayList<>();
     private RadarList mRadars;
 
     private FragmentManager mFragmentManager;
@@ -45,13 +44,17 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private Button mButtonSetDestination;
     private Button mButtonStart;
     private TextView mTextViewWelcome;
-    private NotificationPreference mNotification = new NotificationPreference();
+    private NotificationPreference mNotification;
+    private CustomAlertDialog mAlertDialog;
 
     public StartScreenFragment() {
+        mNotification = new NotificationPreference();
+        mRadars = new RadarList();
+        mResolvingError = false;
     }
 
     public interface onHandleTransition {
-        void getGeofenceList (List<SpotGeofence> spotGeofences);
+        void getGeofenceList (RadarList radars);
     }
 
     @Override
@@ -174,10 +177,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         }
 
         @Override
-        protected void onPostExecute(RadarList radarList) {
-            if (radarList != null){
-                mRadars = radarList;
-                preparingGeofenceList();
+        protected void onPostExecute(RadarList radars) {
+            if (radars != null){
+                mRadars = radars;
                 mApiClient.connect();
             }
             else {
@@ -211,46 +213,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         return direction;
     }
 
-    private void preparingGeofenceList() {
-        int id = 0;
-        float radius = 0;
-        SpotGeofence spotGeofence;
-        Iterator iterator = mRadars.iterator();
-        while (iterator.hasNext()){
-            Radar radar = (Radar) iterator.next();
-            Double latitude = radar.getLatitude();
-            Double longitude = radar.getLongitude();
-            String name = radar.getName();
-            Float km = radar.getKm();
-            int maxSpeed = radar.getMaxSpeed();
-            int direction = radar.getDirection();
-            for (int j = 0; j < 3; j++) {
-                spotGeofence = new SpotGeofence();
-                spotGeofence.setId(Integer.toString(id));
-                spotGeofence.setLatitude(latitude);
-                spotGeofence.setLongitude(longitude);
-                spotGeofence.setName(name);
-                spotGeofence.setKm(km);
-                spotGeofence.setMaxSpeed(maxSpeed);
-                spotGeofence.setDirection(direction);
-                switch (j){
-                    case 0:
-                        radius = Float.parseFloat(mNotification.getFirstNotificationDistance()) * 1000;
-                        break;
-                    case 1:
-                        radius = Float.parseFloat(mNotification.getSecondNotificationDistance()) * 1000;
-                        break;
-                    case 2:
-                        radius = Constants.THIRD_FENCE;
-                        break;
-                }
-                spotGeofence.setRadius(radius);
-                mGeofenceList.add(spotGeofence);
-                id++;
-            }
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -274,14 +236,32 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         // Send a request to add the current geofences.
         PendingIntent geofenceRequestIntent = getGeofenceTransitionPendingIntent();
 
+        int id = 0;
+        float radius = 0;
         List<Geofence> geoFenceListForLocationServices = new ArrayList<>();
-        for (int i = 0; i < mGeofenceList.size(); i++) {
-            SpotGeofence spotGeofence = mGeofenceList.get(i);
-            geoFenceListForLocationServices.add(spotGeofence.toGeofence());
+        Iterator iterator = mRadars.iterator();
+        while (iterator.hasNext()) {
+            Radar radar = (Radar) iterator.next();
+            for (int j = 0; j < 3; j++) {
+                radar.setId(Integer.toString(id));
+                switch (j){
+                    case 0:
+                        radius = Float.parseFloat(mNotification.getFirstNotificationDistance()) * 1000;
+                        break;
+                    case 1:
+                        radius = Float.parseFloat(mNotification.getSecondNotificationDistance()) * 1000;
+                        break;
+                    case 2:
+                        radius = Constants.THIRD_FENCE;
+                        break;
+                }
+                geoFenceListForLocationServices.add(radar.toGeofence(radius));
+                id++;
+            }
         }
 
         onHandleTransition onHandleTransition = (onHandleTransition) getActivity();
-        onHandleTransition.getGeofenceList(mGeofenceList);
+        onHandleTransition.getGeofenceList(mRadars);
 
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
                 geofenceRequestIntent);
@@ -293,7 +273,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         SummaryFragment mSummaryFragment = new SummaryFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.RADARS_LIST, mRadars);
+        bundle.putParcelable(Constants.RADARS_LIST, (android.os.Parcelable) mRadars);
         mSummaryFragment.setArguments(bundle);
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

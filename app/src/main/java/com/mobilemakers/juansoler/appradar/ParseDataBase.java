@@ -123,7 +123,6 @@ public class ParseDataBase {
         radar.setName(parseObject.getString(Constants.PARSE_NAME));
         radar.setKm(parseObject.getNumber(Constants.PARSE_KM).floatValue());
         radar.setMaxSpeed(parseObject.getNumber(Constants.PARSE_MAXIMUM_SPEED).intValue());
-        radar.setDirection(parseObject.getNumber(Constants.PARSE_DIRECTION).intValue());
         return radar;
     }
 }

@@ -1,7 +1,6 @@
 package com.mobilemakers.juansoler.appradar;
 
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -109,13 +108,13 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                                                                           getActivity());
                     alertDialog.showAlertDialog();
                 } else {
-                    transitionToLoadingScreen();
+                    FadeOutViews();
                     initializeGooglePlayServices();
                     new DatabaseOperations().execute();
                 }
             }
 
-    private void transitionToLoadingScreen() {
+    private void FadeOutViews() {
         Transitions.fadeOUT(mImageViewSS, Constants.TRANSIION_DURATION_1K, false);
         Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, true);
         Transitions.fadeOUT(mButtonStart, Constants.TRANSIION_DURATION_1K, true);
@@ -186,15 +185,23 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 mApiClient.connect();
             }
             else {
+                Transitions.fadeOUT(mProgressLayout, 1000,true);
                 CustomAlertDialog alertDialog = new CustomAlertDialog("sdfsddfs",
                         "Activar",
                         "Cancelar",
                         Settings.ACTION_DATA_ROAMING_SETTINGS,
                         getActivity());
                 alertDialog.showAlertDialog();
+                FadeInViews();
             }
 
-            // TODO Hide the Loading screen
+        }
+
+        private void FadeInViews() {
+            Transitions.fadeIN(mImageViewSS, 1000);
+            Transitions.fadeIN(mButtonStart,1000);
+            Transitions.fadeIN(mButtonSetDestination,1000);
+            Transitions.fadeIN(mTextViewWelcome,1000);
         }
     }
 

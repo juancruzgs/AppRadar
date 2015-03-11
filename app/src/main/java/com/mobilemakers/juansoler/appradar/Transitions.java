@@ -1,8 +1,10 @@
 package com.mobilemakers.juansoler.appradar;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 
 public class Transitions {
 

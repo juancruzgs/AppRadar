@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class SummaryFragment extends Fragment {
     private TextView mTextViewDistance;
     private TextView mTextViewRefreshTime;
     private TextView mTextViewSpeedLimitValue;
+    private View mGenericView;
 
     private RadarList mRadars;
 
@@ -134,6 +136,7 @@ public class SummaryFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_summary, menu);
+        mGenericView = menu.findItem(R.id.action_refresh).getActionView();
     }
 
     @Override

@@ -50,14 +50,6 @@ public class Radar implements Parcelable {
         mKm = km;
     }
 
-    public int getDirection() {
-        return mDirection;
-    }
-
-    public void setDirection(int direction) {
-        mDirection = direction;
-    }
-
     public int getMaxSpeed() {
         return mMaxSpeed;
     }

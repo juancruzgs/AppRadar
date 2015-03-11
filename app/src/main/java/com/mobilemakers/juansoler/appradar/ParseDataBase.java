@@ -1,13 +1,9 @@
 package com.mobilemakers.juansoler.appradar;
 
-import android.app.Activity;
 import android.net.ConnectivityManager;
-import android.provider.Settings;
-
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +15,7 @@ public class ParseDataBase {
         mConnectivityManager = connectivityManager;
     }
 
-    public RadarList getParseObjects(int direction, Activity activity) {
+    public RadarList getParseObjects(int direction) {
         RadarList radars = new RadarList();
         Date localDatabaseDate = getDatabaseDate(false);
 

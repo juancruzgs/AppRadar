@@ -26,7 +26,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationServices;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -171,7 +170,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         protected RadarList doInBackground(Void... params) {
             ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             ParseDataBase parseDatabase = new ParseDataBase(connectivityManager);
-            return parseDatabase.getParseObjects(getDirection(), getActivity());
+            return parseDatabase.getParseObjects(getDirection());
         }
 
         @Override

@@ -182,9 +182,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
             else {
                 Transitions.fadeOUT(mProgressLayout, Constants.TRANSIION_DURATION_1K ,true);
-                CustomAlertDialog alertDialog = new CustomAlertDialog("sdfsddfs",
-                        "Activar",
-                        "Cancelar",
+                CustomAlertDialog alertDialog = new CustomAlertDialog(getString(R.string.intenetDataDiagloTitle),
+                        getString(R.string.internetDialogAccept),
+                        getString(R.string.internetDialogCancel),
                         Settings.ACTION_DATA_ROAMING_SETTINGS,
                         getActivity());
                 alertDialog.showAlertDialog();

@@ -40,4 +40,7 @@
     <string name="loading">Loading&#8230;</string>
     <string name="radar_message">You are %s meters away from the next radar.</string>
     <string name="warning_message">Attention!</string>
+    <string name="intenetDataDiagloTitle">Su wi-fi/datos moviles no se encuentran activos...</string>
+    <string name="internetDialogAccept">Activar</string>
+    <string name="internetDialogCancel">Cancelar</string>
 </resources>

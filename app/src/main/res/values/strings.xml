@@ -44,4 +44,7 @@
     <string name="radar_message">Se encuentra a %s metros del próximo radar.</string>
     <string name="sound_path" translatable="false">android.resource://</string>
     <string name="mdq" translatable="false">Mar del Plata</string>
+    <string name="intenetDataDiagloTitle">Your wi-fi/mobile data is not active...</string>
+    <string name="internetDialogAccept">Activate</string>
+    <string name="internetDialogCancel">Cancel</string>
 </resources>

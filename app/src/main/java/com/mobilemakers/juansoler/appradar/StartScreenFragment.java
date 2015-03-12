@@ -14,6 +14,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -58,8 +61,15 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_fragment_start_fragment, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mResolvingError = savedInstanceState != null
                 && savedInstanceState.getBoolean(Constants.STATE_RESOLVING_ERROR, false);
     }
@@ -341,5 +351,28 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     public void onDialogDismissed() {
         mResolvingError = false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Boolean handled = false;
+
+        switch(id) {
+            case R.id.action_bar:
+                handled = true;
+                break;
+            case R.id.action_settings:
+                handled = true;
+                Intent iSettings = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(iSettings);
+                break;
+        }
+
+        if (!handled) {
+            handled = super.onOptionsItemSelected(item);
+        }
+
+        return handled;
     }
 }

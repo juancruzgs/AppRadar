@@ -43,4 +43,5 @@
     <string name="intenetDataDiagloTitle">Your wi-fi/mobile data is not active...</string>
     <string name="internetDialogAccept">Activate</string>
     <string name="internetDialogCancel">Cancel</string>
+    <string name="first_time_connection">The first time you always need internet connection</string>
 </resources>

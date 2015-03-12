@@ -1,6 +1,7 @@
 package com.mobilemakers.juansoler.appradar;
 
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -71,6 +72,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         setHasOptionsMenu(true);
         mResolvingError = savedInstanceState != null
                 && savedInstanceState.getBoolean(Constants.STATE_RESOLVING_ERROR, false);
+        checkFirstRun();
     }
 
     @Override
@@ -373,5 +375,16 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         }
 
         return handled;
+    }
+
+    public void checkFirstRun(){
+        AppRadarApplication app = (AppRadarApplication) getActivity().getApplication();
+        if (app.getFirstRun()){
+            app.setRunned();
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.warning_message)
+                    .setMessage(R.string.first_time_connection)
+                    .setNeutralButton(R.string.ok, null).show();
+        }
     }
 }

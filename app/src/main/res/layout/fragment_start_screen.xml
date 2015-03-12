@@ -59,13 +59,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/button_select_destination"
-            android:elevation="0dp"
+            android:elevation="6dp"
             android:background="@color/accent"
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
-            android:paddingTop="5dp"/>
+            android:paddingTop="5dp"
+            android:layout_marginRight="@dimen/button_padding"
+            android:layout_marginLeft="@dimen/button_padding"/>
 
         <Space
             android:layout_width="match_parent"
@@ -79,7 +81,9 @@
             android:id="@+id/button_start_travel"
             android:elevation="6dp"
             android:background="@color/accent"
-            android:visibility="invisible"/>
+            android:visibility="invisible"
+            android:layout_marginLeft="@dimen/button_padding"
+            android:layout_marginRight="@dimen/button_padding"/>
 
     </LinearLayout>
 </LinearLayout>

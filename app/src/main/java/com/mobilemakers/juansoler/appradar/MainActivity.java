@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements StartScreenFragment.onHandleTransition{
 
@@ -53,24 +52,5 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            Intent iSettings = new Intent(this, SettingsActivity.class);
-            startActivity(iSettings);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

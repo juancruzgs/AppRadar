@@ -38,7 +38,7 @@ public class SoundListPreference extends ListPreference {
 
         boolean detected = false;
         int pos = 0;
-        String [] strings = context.getResources().getStringArray(R.array.sound_options_values);
+        String [] strings = context.getResources().getStringArray(R.array.sound_options);
         while(!detected && pos < strings.length) {
             if (temp.equals(strings[pos])) {
                 detected = true;
@@ -79,7 +79,7 @@ public class SoundListPreference extends ListPreference {
         CharSequence[] entries = getEntries();
         mEntryValues = getEntryValues();
 
-        final String [] strings = getContext().getResources().getStringArray(R.array.sound_options_values);
+        final String [] strings = getContext().getResources().getStringArray(R.array.sound_options);
 
         builder
                 .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {

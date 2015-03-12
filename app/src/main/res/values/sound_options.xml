@@ -10,33 +10,4 @@
         <item name="smb_vine">@string/smb_vine</item>
         <item name="smb_warning">@string/smb_warning</item>
     </string-array>
-
-    <string-array name="sound_options_values">
-        <!-- WWII submarine dive klaxon -->
-        <!-- Freely available on the U.S. Department of Defense media page.
-            Public Domain as a work of the U.S. government. -->
-        <!-- Wikimedia Commons (commons.wikimedia.org) -->
-        <item name="sub_klaxon">sub_klaxon</item>
-
-        <!-- Factory noise by Lionel Allorge - Free Art License - lunerouge.org -->
-        <item name="factory">factory</item>
-
-        <!-- Air horn - License: Attribution 3.0 - Recorded by Mike Koenig -->
-        <!-- soundbible.com -->
-        <item name="air_horn">air_horn</item>
-
-        <!-- Beep ping - License: Attribution 3.0 - Recorded by Mike Koenig -->
-        <!-- soundbible.com -->
-        <item name="beep_ping">beep_ping</item>
-
-        <!-- Super Mario Bros. sounds - from TheMushroomKingdom.net -->
-        <!-- Going down the flagpole (after jumping over it) -->
-        <item name="smb_flagpole">smb_flagpole</item>
-        <!-- Going throw a pipe -->
-        <item name="smb_pipe">smb_pipe</item>
-        <!-- A vine grows from a [?] block -->
-        <item name="smb_vine">smb_vine</item>
-        <!-- Small tune for when is little time to finish the level -->
-        <item name="smb_warning">smb_warning</item>
-    </string-array>
 </resources>

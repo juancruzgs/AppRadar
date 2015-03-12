@@ -58,9 +58,9 @@ public class NotificationPreference {
     public void getSharedPreferences (Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         setFirstNotificationDistance(sharedPreferences.getString(Constants.FIRST_NOTIFICATION_DISTANCE, "10"));
-        setFirstNotificationSound(sharedPreferences.getString(Constants.FIRST_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
+        setFirstNotificationSound(sharedPreferences.getString(Constants.FIRST_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options)[0]));
         setSecondNotificationDistance(sharedPreferences.getString(Constants.SECOND_NOTIFICATION_DISTANCE, "4"));
-        setSecondNotificationSound(sharedPreferences.getString(Constants.SECOND_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
-        setThirdNotificationSound(sharedPreferences.getString(Constants.THIRD_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options_values)[0]));
+        setSecondNotificationSound(sharedPreferences.getString(Constants.SECOND_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options)[0]));
+        setThirdNotificationSound(sharedPreferences.getString(Constants.THIRD_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_options)[0]));
     }
 }

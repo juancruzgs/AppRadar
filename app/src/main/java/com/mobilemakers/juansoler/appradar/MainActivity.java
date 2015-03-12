@@ -41,7 +41,6 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
         ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.mipmap.ic_launcher);
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_color)));
     }
 
     @Override

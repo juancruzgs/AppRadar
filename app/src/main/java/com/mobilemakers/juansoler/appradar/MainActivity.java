@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements StartScreenFragment.onHandleTransition{
 

@@ -48,7 +48,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private Button mButtonStart;
     private TextView mTextViewWelcome;
     private NotificationPreference mNotification;
-    private CustomAlertDialog mAlertDialog;
 
     public StartScreenFragment() {
         mNotification = new NotificationPreference();
@@ -283,7 +282,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         SummaryFragment mSummaryFragment = new SummaryFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.RADARS_LIST, (android.os.Parcelable) mRadars);
+        bundle.putParcelable(Constants.RADARS_LIST, mRadars);
         mSummaryFragment.setArguments(bundle);
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

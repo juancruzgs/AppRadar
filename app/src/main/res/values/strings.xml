@@ -48,4 +48,7 @@
     <string name="intenetDataDiagloTitle">Su wi-fi/datos moviles no se encuentran activos...</string>
     <string name="internetDialogAccept">Activar</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_map">MapActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

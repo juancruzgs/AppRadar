@@ -51,23 +51,6 @@ public class SoundListPreference extends ListPreference {
         }
         mClickedDialogEntryIndex = pos;
 
-/*
-        switch (temp){
-            case "Bocina de submarino":
-                mClickedDialogEntryIndex = 0;
-                break;
-            case "Fábrica":
-                mClickedDialogEntryIndex = 1;
-                break;
-            case "Sirena de aire":
-                mClickedDialogEntryIndex = 2;
-                break;
-            default:
-                mClickedDialogEntryIndex = 3;
-                break;
-        }
-*/
-
         mLastClickedDialogEntryIndex = mClickedDialogEntryIndex;
     }
 
@@ -87,26 +70,7 @@ public class SoundListPreference extends ListPreference {
                     public void onClick(DialogInterface dialog, int which) {
                         mLastClickedDialogEntryIndex = mClickedDialogEntryIndex;
                         SharedPreferences.Editor editor =  getEditor();
-//                        String selectedSound= "";
-
                         String selectedSound = strings[mClickedDialogEntryIndex];
-
-/*
-                        switch (mClickedDialogEntryIndex){
-                            case 0:
-                                selectedSound = getContext().getString(R.string.sub_klaxon);
-                                break;
-                            case 1:
-                                selectedSound = getContext().getString(R.string.factory);
-                                break;
-                            case 2:
-                                selectedSound = getContext().getString(R.string.air_horn);
-                                break;
-                            default:
-                                selectedSound = getContext().getString(R.string.beep_ping);
-                                break;
-                        }
-*/
 
                         editor.putString(getKey(), selectedSound);
                         editor.commit();
@@ -149,22 +113,7 @@ public class SoundListPreference extends ListPreference {
                                 else {
                                     mPlayer = MediaPlayer.create(getContext(), R.raw.smb_warning);
                                 }
-/*
-                                switch (value) {
-                                    case "Bocina de submarino":
-                                        mPlayer = MediaPlayer.create(getContext(), R.raw.sub_klaxon);
-                                        break;
-                                    case "Fábrica":
-                                        mPlayer = MediaPlayer.create(getContext(), R.raw.factory);
-                                        break;
-                                    case "Sirena de aire":
-                                        mPlayer = MediaPlayer.create(getContext(), R.raw.air_horn);
-                                        break;
-                                    default:
-                                        mPlayer = MediaPlayer.create(getContext(), R.raw.beep_ping);
-                                        break;
-                                }
-*/
+
                                 mPlayer.start();
                             }
                         });

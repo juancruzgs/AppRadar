@@ -7,6 +7,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,8 +15,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -31,6 +34,7 @@ public class SummaryFragment extends Fragment {
     private TextView mTextViewDistance;
     private TextView mTextViewRefreshTime;
     private TextView mTextViewSpeedLimitValue;
+    private View mGenericView;
 
     private RadarList mRadars;
 
@@ -45,7 +49,7 @@ public class SummaryFragment extends Fragment {
         Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
         wireUpViews(rootView);
         getFragmentArguments();
-//        monitorGpsStatus();
+        monitorGpsStatus();
         setScreenInformation();
         return rootView;
     }
@@ -63,29 +67,31 @@ public class SummaryFragment extends Fragment {
         }
     }
 
-//    private void monitorGpsStatus() {
-//        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-//        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, Constants.MIN_TIME_UPDATES_S, Constants.MIN_DISTANCE_UPDATES_M,
-//                new LocationListener() {
-//                    @Override
-//                    public void onLocationChanged(Location location) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onProviderEnabled(String provider) {
-//                    }
-//
-//                    @Override
-//                    public void onProviderDisabled(String provider) {
-//                    }
-//                });
-//    }
+    private void monitorGpsStatus() {
+        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, Constants.MIN_TIME_UPDATES_S, Constants.MIN_DISTANCE_UPDATES_M,
+                new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+
+                    }
+                });
+    }
 
     private void setScreenInformation() {
         float distance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
@@ -131,6 +137,7 @@ public class SummaryFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_summary, menu);
+        mGenericView = menu.findItem(R.id.action_refresh).getActionView();
     }
 
     @Override

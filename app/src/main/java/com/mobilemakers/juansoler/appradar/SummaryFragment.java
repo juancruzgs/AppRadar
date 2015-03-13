@@ -135,10 +135,10 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.getNextRadar().getMaxSpeed()));
     }
 
-    private void setRefreshTime() {
-        String refreshTime = getCurrentTime();
-        mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text), refreshTime));
-    }
+//    private void setRefreshTime() {
+//        String refreshTime = getCurrentTime();
+//        mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text), refreshTime));
+//    }
 
     private String getCurrentTime () {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.US);

@@ -12,7 +12,6 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
 
     private GeofenceTransitionsIntent mGeofenceTransition;
     private RadarList mRadars;
-    protected OnBackPressedListener onBackPressedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +30,6 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
         mGeofenceTransition.handleTransition(intent, mRadars);
     }
 
-//    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-//        this.onBackPressedListener = onBackPressedListener;
-//    }
-
     private void prepareFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -51,11 +46,6 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
         } catch (ClassCastException e) {
             super.onBackPressed();
         }
-//
-//        if (onBackPressedListener != null)
-//            onBackPressedListener.doBack();
-//        else
-//            super.onBackPressed();
     }
 
     private void showIconInActionBar() {

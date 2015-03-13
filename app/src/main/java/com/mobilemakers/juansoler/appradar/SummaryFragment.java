@@ -2,15 +2,16 @@ package com.mobilemakers.juansoler.appradar;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -34,7 +36,6 @@ import java.util.Locale;
 public class SummaryFragment extends Fragment implements MainActivity.OnBackPressedListener{
 
     private TextView mTextViewDistance;
-    private TextView mTextViewRefreshTime;
     private TextView mTextViewSpeedLimitValue;
 
     private RadarList mRadars;
@@ -47,13 +48,30 @@ public class SummaryFragment extends Fragment implements MainActivity.OnBackPres
 
     @Override
     public void doBack() {
-        Toast.makeText(getActivity(), "back pressed", Toast.LENGTH_SHORT).show();
-        getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        endTrip();
+    }
+
+    private void endTrip() {
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+        builder.setMessage(getResources().getString(R.string.end_trip))
+                .setCancelable(false)
+                .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int id) {
+                        getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        final android.app.AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        prepareFragmentActivity();
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
         Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
@@ -61,17 +79,21 @@ public class SummaryFragment extends Fragment implements MainActivity.OnBackPres
         getFragmentArguments();
 //        monitorGpsStatus();
         setScreenInformation();
+        prepareEndButton();
         return rootView;
     }
 
-//    private void prepareFragmentActivity() {
-//        FragmentActivity activity = getActivity();
-//        ((MainActivity) activity).setOnBackPressedListener(new BackPressedListener(getActivity()));
-//    }
+    private void prepareEndButton() {
+        mButtonEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endTrip();
+            }
+        });
+    }
 
     private void wireUpViews(View rootView) {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
-//        mTextViewRefreshTime = (TextView) rootView.findViewById(R.id.text_view_refresh_time);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
         mButtonMap = (Button) rootView.findViewById(R.id.button_map);
         mButtonEnd = (Button) rootView.findViewById(R.id.button_end);
@@ -112,7 +134,6 @@ public class SummaryFragment extends Fragment implements MainActivity.OnBackPres
         float distance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
         setDistance(distance);
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.get(0).getMaxSpeed()));
-//        setRefreshTime(getCurrentTime());
     }
 
     private float calculateDistanceToTheNextRadar(Double latitude, Double longitude) {
@@ -137,10 +158,6 @@ public class SummaryFragment extends Fragment implements MainActivity.OnBackPres
     private void setDistance(float distance) {
         mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), Float.toString(distance)));
     }
-
-//    private void setRefreshTime(String refreshTime) {
-//        mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text), refreshTime));
-//    }
 
     private String getCurrentTime () {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.US);

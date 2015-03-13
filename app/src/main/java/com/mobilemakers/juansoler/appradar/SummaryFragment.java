@@ -8,6 +8,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class SummaryFragment extends Fragment {
+public class SummaryFragment extends Fragment implements MainActivity.OnBackPressedListener{
 
     private TextView mTextViewDistance;
     private TextView mTextViewRefreshTime;
@@ -43,8 +45,15 @@ public class SummaryFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void doBack() {
+        Toast.makeText(getActivity(), "back pressed", Toast.LENGTH_SHORT).show();
+        getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        prepareFragmentActivity();
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
         Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
@@ -54,6 +63,11 @@ public class SummaryFragment extends Fragment {
         setScreenInformation();
         return rootView;
     }
+
+//    private void prepareFragmentActivity() {
+//        FragmentActivity activity = getActivity();
+//        ((MainActivity) activity).setOnBackPressedListener(new BackPressedListener(getActivity()));
+//    }
 
     private void wireUpViews(View rootView) {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);

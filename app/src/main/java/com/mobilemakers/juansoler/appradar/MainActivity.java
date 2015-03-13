@@ -12,6 +12,7 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
 
     private GeofenceTransitionsIntent mGeofenceTransition;
     private RadarList mRadars;
+    protected OnBackPressedListener onBackPressedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
         setContentView(R.layout.activity_main);
         mGeofenceTransition = new GeofenceTransitionsIntent(this);
         prepareFragment(savedInstanceState);
+
         showIconInActionBar();
     }
 
@@ -29,12 +31,31 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
         mGeofenceTransition.handleTransition(intent, mRadars);
     }
 
+//    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+//        this.onBackPressedListener = onBackPressedListener;
+//    }
+
     private void prepareFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new StartScreenFragment(),Constants.START_SCREEN_FRAGMENT_TAG)
                     .commit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        try {
+            OnBackPressedListener fragment = (OnBackPressedListener) getSupportFragmentManager().findFragmentById(R.id.container);
+            fragment.doBack();
+        } catch (ClassCastException e) {
+            super.onBackPressed();
+        }
+//
+//        if (onBackPressedListener != null)
+//            onBackPressedListener.doBack();
+//        else
+//            super.onBackPressed();
     }
 
     private void showIconInActionBar() {
@@ -51,5 +72,9 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    public interface OnBackPressedListener {
+        public void doBack();
     }
 }

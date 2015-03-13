@@ -7,15 +7,15 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +34,10 @@ public class SummaryFragment extends Fragment {
     private TextView mTextViewDistance;
     private TextView mTextViewRefreshTime;
     private TextView mTextViewSpeedLimitValue;
-    private View mGenericView;
 
     private RadarList mRadars;
+    private Button mButtonEnd;
+    private Button mButtonMap;
 
     public SummaryFragment() {
         // Required empty public constructor
@@ -49,15 +50,17 @@ public class SummaryFragment extends Fragment {
         Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
         wireUpViews(rootView);
         getFragmentArguments();
-        monitorGpsStatus();
+//        monitorGpsStatus();
         setScreenInformation();
         return rootView;
     }
 
     private void wireUpViews(View rootView) {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
-        mTextViewRefreshTime = (TextView) rootView.findViewById(R.id.text_view_refresh_time);
+//        mTextViewRefreshTime = (TextView) rootView.findViewById(R.id.text_view_refresh_time);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
+        mButtonMap = (Button) rootView.findViewById(R.id.button_map);
+        mButtonEnd = (Button) rootView.findViewById(R.id.button_end);
     }
 
     private void getFragmentArguments() {
@@ -67,37 +70,35 @@ public class SummaryFragment extends Fragment {
         }
     }
 
-    private void monitorGpsStatus() {
-        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, Constants.MIN_TIME_UPDATES_S, Constants.MIN_DISTANCE_UPDATES_M,
-                new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-
-                    }
-
-                    @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String provider) {
-
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String provider) {
-
-                    }
-                });
-    }
+//    private void monitorGpsStatus() {
+//        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+//        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, Constants.MIN_TIME_UPDATES_S, Constants.MIN_DISTANCE_UPDATES_M,
+//                new LocationListener() {
+//                    @Override
+//                    public void onLocationChanged(Location location) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onProviderEnabled(String provider) {
+//                    }
+//
+//                    @Override
+//                    public void onProviderDisabled(String provider) {
+//                    }
+//                });
+//    }
 
     private void setScreenInformation() {
         float distance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
         setDistance(distance);
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.get(0).getMaxSpeed()));
-        setRefreshTime(getCurrentTime());
+//        setRefreshTime(getCurrentTime());
     }
 
     private float calculateDistanceToTheNextRadar(Double latitude, Double longitude) {
@@ -123,9 +124,9 @@ public class SummaryFragment extends Fragment {
         mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), Float.toString(distance)));
     }
 
-    private void setRefreshTime(String refreshTime) {
-        mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text), refreshTime));
-    }
+//    private void setRefreshTime(String refreshTime) {
+//        mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text), refreshTime));
+//    }
 
     private String getCurrentTime () {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.US);
@@ -137,7 +138,6 @@ public class SummaryFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_summary, menu);
-        mGenericView = menu.findItem(R.id.action_refresh).getActionView();
     }
 
     @Override

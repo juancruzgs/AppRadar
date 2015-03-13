@@ -8,14 +8,17 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -33,6 +36,8 @@ public class SummaryFragment extends Fragment {
     private TextView mTextViewSpeedLimitValue;
 
     private RadarList mRadars;
+    private Button mButtonEnd;
+    private Button mButtonMap;
 
     public SummaryFragment() {
         // Required empty public constructor
@@ -52,8 +57,10 @@ public class SummaryFragment extends Fragment {
 
     private void wireUpViews(View rootView) {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
-        mTextViewRefreshTime = (TextView) rootView.findViewById(R.id.text_view_refresh_time);
+//        mTextViewRefreshTime = (TextView) rootView.findViewById(R.id.text_view_refresh_time);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
+        mButtonMap = (Button) rootView.findViewById(R.id.button_map);
+        mButtonEnd = (Button) rootView.findViewById(R.id.button_end);
     }
 
     private void getFragmentArguments() {
@@ -91,7 +98,7 @@ public class SummaryFragment extends Fragment {
         float distance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
         setDistance(distance);
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.get(0).getMaxSpeed()));
-        setRefreshTime(getCurrentTime());
+//        setRefreshTime(getCurrentTime());
     }
 
     private float calculateDistanceToTheNextRadar(Double latitude, Double longitude) {
@@ -117,9 +124,9 @@ public class SummaryFragment extends Fragment {
         mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), Float.toString(distance)));
     }
 
-    private void setRefreshTime(String refreshTime) {
-        mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text), refreshTime));
-    }
+//    private void setRefreshTime(String refreshTime) {
+//        mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text), refreshTime));
+//    }
 
     private String getCurrentTime () {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.US);

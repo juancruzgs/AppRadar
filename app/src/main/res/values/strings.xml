@@ -51,6 +51,6 @@
 
     <string name="button_show_map">Ver mapa</string>
     <string name="button_end">Terminar Viaje</string>
-    <string name="first_time_connection">La primera vez siempre se necesita conexión a Internet</string>
+    <string name="first_time_connection">Se ha detectado que usted no posee los datos necesarios para continuar ejecutando esta app, por favor habilite cualquier tipo de conexion de datos para continuar.</string>
     <string name="end_trip">¿Está seguro que desea terminar el viaje?</string>
 </resources>

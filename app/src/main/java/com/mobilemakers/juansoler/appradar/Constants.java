@@ -52,4 +52,10 @@ public class Constants {
     public final static String TAG_DESTINATION_DIALOG = "destinations_dialog";
     public final static String START_SCREEN_FRAGMENT_TAG = StartScreenFragment.class.getSimpleName();
     public final static String ERROR_DIALOG_TAG = "errordialog";
+
+    //Map
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+
 }

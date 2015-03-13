@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
+
 public class GeofenceTransitionsIntent {
 
     private Activity mActivity;

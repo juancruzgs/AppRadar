@@ -19,8 +19,11 @@ public class MainActivity extends ActionBarActivity{
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        onHandleTransition fragment = (onHandleTransition) getSupportFragmentManager().findFragmentById(R.id.container);
-        fragment.handleTransition(intent);
+        try {
+            onHandleTransition fragment = (onHandleTransition) getSupportFragmentManager().findFragmentById(R.id.container);
+            fragment.handleTransition(intent);
+        } catch (ClassCastException e) {
+        }
     }
 
     public interface onHandleTransition {

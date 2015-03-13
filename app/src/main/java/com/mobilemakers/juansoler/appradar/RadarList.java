@@ -12,9 +12,11 @@ import java.util.List;
 public class RadarList implements Parcelable {
 
     private List<Radar> mRadars;
+    private int mNextRadarIndex;
 
     public RadarList() {
         mRadars = new ArrayList<>();
+        mNextRadarIndex = 0;
     }
 
     public void add (Radar radar) {
@@ -23,6 +25,14 @@ public class RadarList implements Parcelable {
 
     public Radar get (int index) {
         return mRadars.get(index);
+    }
+
+    public Radar getNextRadar(){
+        return mRadars.get(mNextRadarIndex);
+    }
+
+    public void incrementNextRadarIndex(){
+        mNextRadarIndex += 1;
     }
 
     public Iterator iterator () {

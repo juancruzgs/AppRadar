@@ -5,19 +5,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
-public class MainActivity extends ActionBarActivity implements StartScreenFragment.onHandleTransition{
-
-    private GeofenceTransitionsIntent mGeofenceTransition;
-    private RadarList mRadars;
+public class MainActivity extends ActionBarActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mGeofenceTransition = new GeofenceTransitionsIntent(this);
         prepareFragment(savedInstanceState);
         showIconInActionBar();
     }
@@ -25,8 +19,12 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        //Location Services Intent
-        mGeofenceTransition.handleTransition(intent, mRadars);
+        onHandleTransition fragment = (onHandleTransition) getSupportFragmentManager().findFragmentById(R.id.container);
+        fragment.handleTransition(intent);
+    }
+
+    public interface onHandleTransition {
+        void handleTransition (Intent intent);
     }
 
     private void prepareFragment(Bundle savedInstanceState) {
@@ -41,11 +39,6 @@ public class MainActivity extends ActionBarActivity implements StartScreenFragme
         ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.mipmap.ic_launcher);
         actionBar.setDisplayShowHomeEnabled(true);
-    }
-
-    @Override
-    public void getGeofenceList(RadarList radars) {
-        mRadars = radars;
     }
 
     @Override

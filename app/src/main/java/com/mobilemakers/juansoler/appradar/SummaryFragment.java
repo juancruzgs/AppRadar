@@ -1,10 +1,8 @@
 package com.mobilemakers.juansoler.appradar;
 
 
-import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -29,18 +27,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class SummaryFragment extends Fragment {
+public class SummaryFragment extends Fragment implements MainActivity.onHandleTransition  {
 
     private TextView mTextViewDistance;
     private TextView mTextViewRefreshTime;
     private TextView mTextViewSpeedLimitValue;
 
     private RadarList mRadars;
+    private GeofenceTransitionsIntent mGeofenceTransition;
+    
     private Button mButtonEnd;
     private Button mButtonMap;
-
+    
     public SummaryFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void handleTransition(Intent intent) {
+        mGeofenceTransition.handleTransition(intent, mRadars);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +57,7 @@ public class SummaryFragment extends Fragment {
         getFragmentArguments();
 //        monitorGpsStatus();
         setScreenInformation();
+        mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
         return rootView;
     }
 
@@ -95,16 +101,20 @@ public class SummaryFragment extends Fragment {
 //    }
 
     private void setScreenInformation() {
-        float distance = calculateDistanceToTheNextRadar(mRadars.get(0).getLatitude(), mRadars.get(0).getLongitude());
-        setDistance(distance);
-        mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.get(0).getMaxSpeed()));
-//        setRefreshTime(getCurrentTime());
+        setDistance();
+        setMaxSpeed();
+        //setRefreshTime();
     }
 
-    private float calculateDistanceToTheNextRadar(Double latitude, Double longitude) {
+    private void setDistance() {
+        float distance = calculateDistanceToNextRadar();
+        mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), Float.toString(distance)));
+    }
+
+    private float calculateDistanceToNextRadar() {
         Location currentLocation = getLastLocation();
-        Location nextLocation = createTheNextLocation(latitude, longitude);
-        float distance = (currentLocation.distanceTo(nextLocation)/1000);
+        Location nextRadarLocation = createNextRadarLocation();
+        float distance = (currentLocation.distanceTo(nextRadarLocation)/1000);
         return new BigDecimal(distance).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue();
     }
 
@@ -114,17 +124,19 @@ public class SummaryFragment extends Fragment {
         return LocationServices.FusedLocationApi.getLastLocation(apiClient);
     }
 
-    private Location createTheNextLocation(Double latitude, Double longitude) {
-        Location nextLocation = new Location(Constants.NEXT_LOCATION);
-        nextLocation.setLongitude(longitude);
-        nextLocation.setLatitude(latitude);
-        return nextLocation;
-    }
-    private void setDistance(float distance) {
-        mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), Float.toString(distance)));
+    private Location createNextRadarLocation() {
+        Location nextRadarLocation = new Location(Constants.NEXT_LOCATION);
+        nextRadarLocation.setLongitude(mRadars.getNextRadar().getLongitude());
+        nextRadarLocation.setLatitude(mRadars.getNextRadar().getLatitude());
+        return nextRadarLocation;
     }
 
-//    private void setRefreshTime(String refreshTime) {
+    private void setMaxSpeed() {
+        mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.getNextRadar().getMaxSpeed()));
+    }
+
+//    private void setRefreshTime() {
+//        String refreshTime = getCurrentTime();
 //        mTextViewRefreshTime.setText(String.format(getString(R.string.text_view_refresh_time_text), refreshTime));
 //    }
 

@@ -1,8 +1,10 @@
 package com.mobilemakers.juansoler.appradar;
 
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.LocationManager;
@@ -67,6 +69,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         setHasOptionsMenu(true);
         mResolvingError = savedInstanceState != null
                 && savedInstanceState.getBoolean(Constants.STATE_RESOLVING_ERROR, false);
+        checkFirstRun();
     }
 
     @Override
@@ -366,5 +369,17 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         }
 
         return handled;
+    }
+
+    public void checkFirstRun(){
+        AppRadarApplication app = (AppRadarApplication) getActivity().getApplication();
+        if (app.getFirstRun()){
+            app.setRunned();
+            new CustomAlertDialog(getString(R.string.first_time_connection),
+                                    getString(R.string.ok),
+                                    getString(R.string.cancel),
+                                    Settings.ACTION_WIFI_SETTINGS,
+                                    getActivity()).showAlertDialog();
+        }
     }
 }

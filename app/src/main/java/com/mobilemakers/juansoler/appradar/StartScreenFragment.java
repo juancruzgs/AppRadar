@@ -4,6 +4,7 @@ package com.mobilemakers.juansoler.appradar;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.LocationManager;
@@ -381,10 +382,11 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         AppRadarApplication app = (AppRadarApplication) getActivity().getApplication();
         if (app.getFirstRun()){
             app.setRunned();
-            new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.warning_message)
-                    .setMessage(R.string.first_time_connection)
-                    .setNeutralButton(R.string.ok, null).show();
+            new CustomAlertDialog(getString(R.string.first_time_connection),
+                                    getString(R.string.ok),
+                                    getString(R.string.cancel),
+                                    Settings.ACTION_WIFI_SETTINGS,
+                                    getActivity()).showAlertDialog();
         }
     }
 }

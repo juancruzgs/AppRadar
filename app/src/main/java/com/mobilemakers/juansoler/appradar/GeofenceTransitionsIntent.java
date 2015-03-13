@@ -21,30 +21,31 @@ public class GeofenceTransitionsIntent {
         this.mActivity = activity;
     }
 
-    protected void handleTransition(Intent intent, RadarList radars) {
+    protected void handleTransition(Intent intent, RadarList radarList) {
         NotificationPreference notification = new NotificationPreference();
         notification.getSharedPreferences(mActivity);
         GeofencingEvent geoFenceEvent = GeofencingEvent.fromIntent(intent);
         if (!geoFenceEvent.hasError()) {
             int transitionType = geoFenceEvent.getGeofenceTransition();
+
+            int triggeredGeoFenceId = Integer.valueOf(geoFenceEvent.getTriggeringGeofences().get(0)
+                    .getRequestId());
+            int radarIndex = triggeredGeoFenceId / 3;
+            int radiusIndex = triggeredGeoFenceId % 3;
+
             if (Geofence.GEOFENCE_TRANSITION_ENTER == transitionType) {
-                int triggeredGeoFenceId = Integer.valueOf(geoFenceEvent.getTriggeringGeofences().get(0)
-                        .getRequestId());
 
-                int radarIndex = triggeredGeoFenceId / 3;
-                int radiusIndex = triggeredGeoFenceId % 3;
-
-                Radar radar = radars.get(radarIndex);
+                Radar radar = radarList.get(radarIndex);
 
                 float radius = 0;
                 switch (radiusIndex){
-                    case 0:
+                    case Constants.RADIUS_INDEX_FIRST_FENCE:
                         radius = Float.parseFloat(notification.getFirstNotificationDistance()) * 1000;
                         break;
-                    case 1:
+                    case Constants.RADIUS_INDEX_SECOND_FENCE:
                         radius = Float.parseFloat(notification.getSecondNotificationDistance()) * 1000;
                         break;
-                    case 2:
+                    case Constants.RADIUS_INDEX_THIRD_FENCE:
                         radius = Constants.THIRD_FENCE;
                         break;
                 }
@@ -54,9 +55,9 @@ public class GeofenceTransitionsIntent {
                         String.format(mActivity.getString(R.string.radar_message), radius),
                         R.mipmap.ic_launcher, getNotificationId(radius));
                 showActivityAlwaysOnTop();
-//            } else
-//            if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType) {
-//            }
+            } else if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType &&
+                        radiusIndex == Constants.RADIUS_INDEX_THIRD_FENCE) {
+                radarList.incrementNextRadarIndex();
             }
         }
     }

@@ -49,4 +49,6 @@
     <string name="internetDialogAccept">Activar</string>
     <string name="title_activity_map">Mapa</string>
 
+    <string name="button_show_map">Ver mapa</string>
+    <string name="button_end">Terminar Viaje</string>
 </resources>

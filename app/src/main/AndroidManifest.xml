@@ -45,7 +45,7 @@
         </activity>
         <activity
             android:name=".MapActivity"
-            android:label="@string/title_activity_map" >
+            android:label="@string/title_activity_map_activity2" >
         </activity>
     </application>
 

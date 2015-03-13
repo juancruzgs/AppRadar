@@ -99,8 +99,20 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private void wireUpViews(View rootView) {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
-        mButtonMap = (Button) rootView.findViewById(R.id.button_map);
+        prepareButtonMap(rootView);
         mButtonEnd = (Button) rootView.findViewById(R.id.button_end);
+    }
+
+    private void prepareButtonMap(View rootView) {
+        mButtonMap = (Button) rootView.findViewById(R.id.button_map);
+        mButtonMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (getActivity(), MapActivity.class);
+                intent.putExtra(Constants.RADARS_LIST, mRadars);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getFragmentArguments() {

@@ -13,6 +13,7 @@ public class MainActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prepareFragment(savedInstanceState);
+
         showIconInActionBar();
     }
 
@@ -38,6 +39,16 @@ public class MainActivity extends ActionBarActivity{
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        try {
+            OnBackPressedListener fragment = (OnBackPressedListener) getSupportFragmentManager().findFragmentById(R.id.container);
+            fragment.doBack();
+        } catch (ClassCastException e) {
+            super.onBackPressed();
+        }
+    }
+
     private void showIconInActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.mipmap.ic_launcher);
@@ -47,5 +58,9 @@ public class MainActivity extends ActionBarActivity{
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    public interface OnBackPressedListener {
+        public void doBack();
     }
 }

@@ -112,7 +112,7 @@ public class Radar implements Parcelable {
     public Geofence toGeofence(float radius) {
         return new Geofence.Builder()
                 .setRequestId(mId)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
                 .setCircularRegion(mLatitude, mLongitude, radius)
                 .setExpirationDuration(Geofence.NEVER_EXPIRE)
                 .build();

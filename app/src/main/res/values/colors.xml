@@ -8,5 +8,5 @@
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
-    <color name="action_bar_color">#49f44336</color>
+    <color name="yellow">#FFC107</color>
 </resources>

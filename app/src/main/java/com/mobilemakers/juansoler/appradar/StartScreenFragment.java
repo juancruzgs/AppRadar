@@ -36,7 +36,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener,
-        OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+        OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
     private boolean mResolvingError;
 
@@ -55,10 +55,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mNotification = new NotificationPreference();
         mRadars = new RadarList();
         mResolvingError = false;
-    }
-
-    public interface onHandleTransition {
-        void getGeofenceList (RadarList radars);
     }
 
     @Override
@@ -271,9 +267,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 id++;
             }
         }
-
-        onHandleTransition onHandleTransition = (onHandleTransition) getActivity();
-        onHandleTransition.getGeofenceList(mRadars);
 
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
                 geofenceRequestIntent);

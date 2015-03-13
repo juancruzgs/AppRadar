@@ -34,11 +34,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener,
-        OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+        OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MainActivity.onHandleTransition {
 
     private boolean mResolvingError;
 
     private GoogleApiClient mApiClient;
+    private GeofenceTransitionsIntent mGeofenceTransition;
     private RadarList mRadars;
 
     private FragmentManager mFragmentManager;
@@ -55,8 +56,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mResolvingError = false;
     }
 
-    public interface onHandleTransition {
-        void getGeofenceList (RadarList radars);
+    @Override
+    public void handleTransition(Intent intent) {
+        mGeofenceTransition.handleTransition(intent, mRadars);
     }
 
     @Override
@@ -69,6 +71,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
         mResolvingError = savedInstanceState != null
                 && savedInstanceState.getBoolean(Constants.STATE_RESOLVING_ERROR, false);
     }
@@ -268,9 +271,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 id++;
             }
         }
-
-        onHandleTransition onHandleTransition = (onHandleTransition) getActivity();
-        onHandleTransition.getGeofenceList(mRadars);
 
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
                 geofenceRequestIntent);

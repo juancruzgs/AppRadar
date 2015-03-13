@@ -56,35 +56,34 @@
 
         <Button
             android:id="@+id/button_select_desntination"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/button_select_destination"
-            android:elevation="0dp"
-            android:background="@drawable/button_background"
+            android:elevation="6dp"
+            android:background="@color/accent"
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
-            android:paddingTop="5dp"/>
+            android:paddingTop="5dp"
+            android:layout_marginRight="@dimen/button_padding"
+            android:layout_marginLeft="@dimen/button_padding"/>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="30dp"
             />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
         <Button
-            android:layout_width="@dimen/button_start_width"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/button_start_travel"
             android:id="@+id/button_start_travel"
             android:elevation="6dp"
-            android:background="@drawable/button_background"
-            android:visibility="invisible"/>
+            android:background="@color/accent"
+            android:visibility="invisible"
+            android:layout_marginLeft="@dimen/button_padding"
+            android:layout_marginRight="@dimen/button_padding"/>
 
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

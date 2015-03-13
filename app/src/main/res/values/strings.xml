@@ -47,4 +47,6 @@
     <string name="internetDialogCancel">Cancelar</string>
     <string name="intenetDataDiagloTitle">Su wi-fi/datos moviles no se encuentran activos...</string>
     <string name="internetDialogAccept">Activar</string>
+    <string name="button_show_map">Ver mapa</string>
+    <string name="button_end">Terminar Viaje</string>
 </resources>

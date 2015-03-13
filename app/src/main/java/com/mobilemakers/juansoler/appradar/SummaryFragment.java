@@ -6,14 +6,17 @@ import android.location.Location;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -32,7 +35,10 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private RadarList mRadars;
     private GeofenceTransitionsIntent mGeofenceTransition;
-
+    
+    private Button mButtonEnd;
+    private Button mButtonMap;
+    
     public SummaryFragment() {
         // Required empty public constructor
     }
@@ -57,8 +63,10 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private void wireUpViews(View rootView) {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
-        mTextViewRefreshTime = (TextView) rootView.findViewById(R.id.text_view_refresh_time);
+//        mTextViewRefreshTime = (TextView) rootView.findViewById(R.id.text_view_refresh_time);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
+        mButtonMap = (Button) rootView.findViewById(R.id.button_map);
+        mButtonEnd = (Button) rootView.findViewById(R.id.button_end);
     }
 
     private void getFragmentArguments() {
@@ -95,7 +103,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private void setScreenInformation() {
         setDistance();
         setMaxSpeed();
-        setRefreshTime();
+        //setRefreshTime();
     }
 
     private void setDistance() {

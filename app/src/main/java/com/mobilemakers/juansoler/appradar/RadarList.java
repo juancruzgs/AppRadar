@@ -15,7 +15,7 @@ public class RadarList implements Parcelable {
 
     public RadarList() {
         mRadars = new ArrayList<>();
-        mNextRadarIndex = -1;
+        mNextRadarIndex = 0;
     }
 
     public void add (Radar radar) {
@@ -27,16 +27,11 @@ public class RadarList implements Parcelable {
     }
 
     public Radar getNextRadar(){
-        if (mNextRadarIndex == -1){
-            return mRadars.get(0);
-        }
-        else {
-            return mRadars.get(mNextRadarIndex);
-        }
+        return mRadars.get(mNextRadarIndex);
     }
 
-    public void incrementNextRadarIndex(){
-        mNextRadarIndex += 1;
+    public void setNextRadarIndex(int nextRadarIndex) {
+        mNextRadarIndex = nextRadarIndex;
     }
 
     public Iterator iterator () {

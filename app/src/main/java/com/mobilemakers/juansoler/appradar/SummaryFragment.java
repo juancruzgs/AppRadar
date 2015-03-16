@@ -1,7 +1,6 @@
 package com.mobilemakers.juansoler.appradar;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
@@ -135,19 +134,20 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 //    }
 
     private void setScreenInformation() {
-        setDistance();
-        setMaxSpeed();
+        Radar nextRadar = mRadars.getNextRadar();
+        setDistance(nextRadar);
+        setMaxSpeed(nextRadar);
         //setRefreshTime();
     }
 
-    private void setDistance() {
-        float distance = calculateDistanceToNextRadar();
+    private void setDistance(Radar nextRadar) {
+        float distance = calculateDistanceToNextRadar(nextRadar);
         mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), Float.toString(distance)));
     }
 
-    private float calculateDistanceToNextRadar() {
+    private float calculateDistanceToNextRadar(Radar nextRadar) {
         Location currentLocation = getLastLocation();
-        Location nextRadarLocation = createNextRadarLocation();
+        Location nextRadarLocation = createNextRadarLocation(nextRadar);
         float distance = (currentLocation.distanceTo(nextRadarLocation)/1000);
         return new BigDecimal(distance).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue();
     }
@@ -158,15 +158,15 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         return LocationServices.FusedLocationApi.getLastLocation(apiClient);
     }
 
-    private Location createNextRadarLocation() {
+    private Location createNextRadarLocation(Radar nextRadar) {
         Location nextRadarLocation = new Location(Constants.NEXT_LOCATION);
-        nextRadarLocation.setLongitude(mRadars.getNextRadar().getLongitude());
-        nextRadarLocation.setLatitude(mRadars.getNextRadar().getLatitude());
+        nextRadarLocation.setLongitude(nextRadar.getLongitude());
+        nextRadarLocation.setLatitude(nextRadar.getLatitude());
         return nextRadarLocation;
     }
 
-    private void setMaxSpeed() {
-        mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), mRadars.getNextRadar().getMaxSpeed()));
+    private void setMaxSpeed(Radar nextRadar) {
+        mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), nextRadar.getMaxSpeed()));
     }
 
     private String getCurrentTime () {

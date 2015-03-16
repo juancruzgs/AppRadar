@@ -35,7 +35,7 @@ public class GeofenceTransitionsIntent {
 
             if (Geofence.GEOFENCE_TRANSITION_ENTER == transitionType) {
 
-                Radar radar = radarList.get(radarIndex);
+//                Radar radar = radarList.get(radarIndex);
 
                 float radius = 0;
                 switch (radiusIndex){
@@ -57,7 +57,7 @@ public class GeofenceTransitionsIntent {
                 showActivityAlwaysOnTop();
             } else if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType &&
                         radiusIndex == Constants.RADIUS_INDEX_THIRD_FENCE) {
-                radarList.incrementNextRadarIndex();
+                    radarList.setNextRadarIndex(radarIndex+1);
             }
         }
     }

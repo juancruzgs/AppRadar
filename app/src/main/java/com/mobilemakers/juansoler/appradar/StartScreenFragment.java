@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -81,6 +82,30 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         prepareButtonDestination(rootView);
         prepareButtonStart(rootView);
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        prepareLandscape(savedInstanceState);
+    }
+
+    private void prepareLandscape(Bundle savedInstanceState) {
+        if (savedInstanceState!=null){
+            mButtonSetDestination.setText(savedInstanceState.getString(Constants.DESTINATION));
+
+            switch (savedInstanceState.getInt(Constants.VISIBILITY)){
+                case View.VISIBLE:
+                    mButtonStart.setVisibility(View.VISIBLE);
+                    break;
+                case View.INVISIBLE:
+                    mButtonStart.setVisibility(View.INVISIBLE);
+                    break;
+                case View.GONE:
+                    mButtonStart.setVisibility(View.GONE);
+                    break;
+            }
+        }
     }
 
     private void wireUpViews(View rootView) {
@@ -340,9 +365,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(Constants.STATE_RESOLVING_ERROR, mResolvingError);
+        if(getFragmentManager().getBackStackEntryCount() == 0) {
+            outState.putBoolean(Constants.STATE_RESOLVING_ERROR, mResolvingError);
+            outState.putString(Constants.DESTINATION, mButtonSetDestination.getText().toString());
+            outState.putInt(Constants.VISIBILITY, mButtonStart.getVisibility());
+        }
     }
-
 
     public void onDialogDismissed() {
         mResolvingError = false;

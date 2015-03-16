@@ -243,11 +243,11 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     public void onFinishDialog(String destination) {
         if (!destination.equals("")){
             mButtonSetDestination.setText(destination);
+            if (mButtonStart.getVisibility() != View.VISIBLE) {
+                Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
+            }
         }
         Transitions.fadeIN(mButtonSetDestination, Constants.TRANSIION_DURATION_1K);
-        if (mButtonStart.getVisibility() != View.VISIBLE) {
-            Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
-        }
     }
 
     @Override

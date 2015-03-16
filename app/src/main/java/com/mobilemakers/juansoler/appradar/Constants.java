@@ -16,9 +16,16 @@ public class Constants {
     public final static int NOTIFICATION_ID = 1;
     public final static String FIRST_NOTIFICATION_DISTANCE = "first_notification_preference_distance";
     public final static String FIRST_NOTIFICATION_SOUND = "first_notification_preference_sound";
+    public final static String FIRST_NOTIFICATION_LED = "first_notification_preference_led_color";
     public final static String SECOND_NOTIFICATION_DISTANCE = "second_notification_preference_distance";
     public final static String SECOND_NOTIFICATION_SOUND = "second_notification_preference_sound";
+    public final static String SECOND_NOTIFICATION_LED = "second_notification_preference_led_color";
     public final static String THIRD_NOTIFICATION_SOUND = "third_notification_preference_sound";
+    public final static String THIRD_NOTIFICATION_LED = "third_notification_preference_led_color";
+
+    //LED durations
+    public final static int [] LED_DURATION_ON = {0, 1000, 1000, 200};
+    public final static int [] LED_DURATION_OFF = {0, 2000, 500, 200};
 
     //Parse
     public final static String PARSE_LATITUDE = "latitude";

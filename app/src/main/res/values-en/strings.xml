@@ -43,7 +43,7 @@
     <string name="intenetDataDiagloTitle">Your wi-fi/mobile data is not active...</string>
     <string name="internetDialogAccept">Activate</string>
     <string name="internetDialogCancel">Cancel</string>
-    <string name="first_time_connection">It has been detected that you don't have the necessary data to continue running this app, please enable any data connection to continue.</string>
+    <string name="first_time_connection">It has been detected that you don\'t have the necessary data to continue running this app, please enable any data connection to continue.</string>
     <string name="button_end">End Trip</string>
     <string name="button_show_map">Show Map</string>
     <string name="end_trip">Are you sure you want to leave this trip?</string>

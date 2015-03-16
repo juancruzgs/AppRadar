@@ -15,6 +15,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -55,8 +56,15 @@ public class MapActivity extends FragmentActivity
 
     private void refreshMap(Location location) {
         LatLng latLong = new LatLng(location.getLatitude(), location.getLongitude());
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLong));
-        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        CameraPosition cameraPosition = CameraPosition.builder()
+                .target(latLong)
+                .zoom(17)
+                .bearing(90)
+                .build();
+
+        // Animate the change in camera view over 2 seconds
+        mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),
+                2000, null);
     }
 
     private Location getLocation() {

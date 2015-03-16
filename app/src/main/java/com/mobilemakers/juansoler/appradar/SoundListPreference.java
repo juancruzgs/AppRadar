@@ -10,6 +10,8 @@ import android.preference.ListPreference;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
+import java.util.HashMap;
+
 
 public class SoundListPreference extends ListPreference {
 
@@ -18,6 +20,27 @@ public class SoundListPreference extends ListPreference {
     private int mLastClickedDialogEntryIndex = 0;
     private CharSequence[] mEntryValues;
     private MediaPlayer mPlayer;
+
+    static private HashMap<String, Integer> mSoundMap = null;
+
+    static private void initSoundMap() {
+        mSoundMap = new HashMap<>();
+        mSoundMap.put("sub_klaxon", R.raw.sub_klaxon);
+        mSoundMap.put("factory", R.raw.factory);
+        mSoundMap.put("air_horn", R.raw.air_horn);
+        mSoundMap.put("beep_ping", R.raw.beep_ping);
+        mSoundMap.put("smb_flagpole", R.raw.smb_flagpole);
+        mSoundMap.put("smb_pipe", R.raw.smb_pipe);
+        mSoundMap.put("smb_vine", R.raw.smb_vine);
+        mSoundMap.put("smb_warning", R.raw.smb_warning);
+    }
+
+    static public int getSound(String name) {
+        if (mSoundMap == null) {
+            initSoundMap();
+        }
+        return mSoundMap.get(name);
+    }
 
     public SoundListPreference(final Context context) {
         super(context);
@@ -38,7 +61,7 @@ public class SoundListPreference extends ListPreference {
 
         boolean detected = false;
         int pos = 0;
-        String [] strings = context.getResources().getStringArray(R.array.sound_options);
+        String [] strings = context.getResources().getStringArray(R.array.sound_values);
         while(!detected && pos < strings.length) {
             if (temp.equals(strings[pos])) {
                 detected = true;
@@ -62,7 +85,7 @@ public class SoundListPreference extends ListPreference {
         CharSequence[] entries = getEntries();
         mEntryValues = getEntryValues();
 
-        final String [] strings = getContext().getResources().getStringArray(R.array.sound_options);
+        final String [] strings = getContext().getResources().getStringArray(R.array.sound_values);
 
         builder
                 .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -89,6 +112,9 @@ public class SoundListPreference extends ListPreference {
                                 mClickedDialogEntryIndex = which;
                                 String value = mEntryValues[which].toString();
 
+                                mPlayer = MediaPlayer.create(getContext(), SoundListPreference.getSound(value));
+
+/*
                                 if (value.equals(strings[0])) {
                                     mPlayer = MediaPlayer.create(getContext(), R.raw.sub_klaxon);
                                 }
@@ -113,6 +139,7 @@ public class SoundListPreference extends ListPreference {
                                 else {
                                     mPlayer = MediaPlayer.create(getContext(), R.raw.smb_warning);
                                 }
+*/
 
                                 mPlayer.start();
                             }

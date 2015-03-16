@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.view.WindowManager;
+
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
@@ -121,18 +122,44 @@ public class GeofenceTransitionsIntent {
         }
     }
 
-    private void createNotification(String title,String text, int icon, int notification){
+    private int getLedColor(int notificationId) {
+        //Getting SharedPreference
+        NotificationPreference notificationPreference = new NotificationPreference();
+        notificationPreference.getSharedPreferences(mActivity);
+
+        //Checking notification number
+        int ledColor;
+        switch (notificationId){
+            case 1:
+                ledColor = Integer.parseInt(notificationPreference.getFirstNotificationLed(), 16);
+                break;
+            case 2:
+                ledColor = Integer.parseInt(notificationPreference.getSecondNotificationLed(), 16);
+                break;
+            default:
+                ledColor = Integer.parseInt(notificationPreference.getThirdNotificationLed(), 16);
+                break;
+        }
+
+        return ledColor;
+    }
+
+    private void createNotification(String title,String text, int icon, int notificationId){
         NotificationCompat.Builder builder =  new NotificationCompat.Builder(mActivity)
                 .setSmallIcon(icon)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setAutoCancel(true)
-                .setSound(getSoundUri(notification))
-                .setDefaults(Notification.DEFAULT_LIGHTS)
+                .setSound(getSoundUri(notificationId))
+                .setDefaults(0)
+                .setLights(getLedColor(notificationId) + 0xFF000000, Constants.LED_DURATION_ON[notificationId],
+                        Constants.LED_DURATION_OFF[notificationId])
                 .setContentIntent(PendingIntent.getActivity(mActivity, 0, new Intent(), 0));
 
         NotificationManager mNotificationManager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(Constants.NOTIFICATION_ID, builder.build());
+        Notification notification = builder.build();
+        notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+        mNotificationManager.notify(Constants.NOTIFICATION_ID, notification);
     }
 
     private int getNotificationId(float radar) {

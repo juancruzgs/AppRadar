@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:padding="12dp"
+    android:textSize="18sp"
     android:id="@+id/textView_destination">
 
 </TextView>

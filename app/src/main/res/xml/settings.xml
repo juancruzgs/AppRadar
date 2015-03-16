@@ -13,6 +13,12 @@
             android:entries="@array/sound_options"
             android:entryValues="@array/sound_options"
             android:defaultValue="@string/sub_klaxon"/>
+        <ListPreference
+            android:key="first_notification_preference_led_color"
+            android:title="@string/pref_led_color_title" android:summary="@string/pref_first_notification_led_color_summary"
+            android:entries="@array/led_color_entries"
+            android:entryValues="@array/led_color_values"
+            android:defaultValue="FFFFFF"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_second_notification">
         <ListPreference
@@ -20,13 +26,19 @@
             android:title="@string/pref_distance_title" android:summary="@string/pref_second_notification_distance_summary"
             android:entries="@array/second_entries"
             android:entryValues="@array/second_values"
-            android:defaultValue="5"/>
+            android:defaultValue="4"/>
         <com.mobilemakers.juansoler.appradar.SoundListPreference
             android:key="second_notification_preference_sound"
             android:title="@string/pref_sound_title" android:summary="@string/pref_second_notification_sound_summary"
             android:entries="@array/sound_options"
             android:entryValues="@array/sound_options"
             android:defaultValue="@string/air_horn"/>
+        <ListPreference
+            android:key="second_notification_preference_led_color"
+            android:title="@string/pref_led_color_title" android:summary="@string/pref_second_notification_led_color_summary"
+            android:entries="@array/led_color_entries"
+            android:entryValues="@array/led_color_values"
+            android:defaultValue="FFFFFF"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_third_notification">
         <com.mobilemakers.juansoler.appradar.SoundListPreference
@@ -35,5 +47,11 @@
             android:entries="@array/sound_options"
             android:entryValues="@array/sound_options"
             android:defaultValue="@string/smb_vine"/>
+        <ListPreference
+            android:key="third_notification_preference_led_color"
+            android:title="@string/pref_led_color_title" android:summary="@string/pref_third_notification_led_color_summary"
+            android:entries="@array/led_color_entries"
+            android:entryValues="@array/led_color_values"
+            android:defaultValue="FFFFFF"/>
     </PreferenceCategory>
 </PreferenceScreen>

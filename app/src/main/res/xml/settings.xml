@@ -11,8 +11,8 @@
             android:key="first_notification_preference_sound"
             android:title="@string/pref_sound_title" android:summary="@string/pref_first_notification_sound_summary"
             android:entries="@array/sound_options"
-            android:entryValues="@array/sound_options"
-            android:defaultValue="@string/sub_klaxon"/>
+            android:entryValues="@array/sound_values"
+            android:defaultValue="sub_klaxon"/>
         <ListPreference
             android:key="first_notification_preference_led_color"
             android:title="@string/pref_led_color_title" android:summary="@string/pref_first_notification_led_color_summary"
@@ -31,8 +31,8 @@
             android:key="second_notification_preference_sound"
             android:title="@string/pref_sound_title" android:summary="@string/pref_second_notification_sound_summary"
             android:entries="@array/sound_options"
-            android:entryValues="@array/sound_options"
-            android:defaultValue="@string/air_horn"/>
+            android:entryValues="@array/sound_values"
+            android:defaultValue="air_horn"/>
         <ListPreference
             android:key="second_notification_preference_led_color"
             android:title="@string/pref_led_color_title" android:summary="@string/pref_second_notification_led_color_summary"
@@ -45,8 +45,8 @@
             android:key="third_notification_preference_sound"
             android:title="@string/pref_sound_title" android:summary="@string/pref_third_notification_sound_summary"
             android:entries="@array/sound_options"
-            android:entryValues="@array/sound_options"
-            android:defaultValue="@string/smb_vine"/>
+            android:entryValues="@array/sound_values"
+            android:defaultValue="smb_vine"/>
         <ListPreference
             android:key="third_notification_preference_led_color"
             android:title="@string/pref_led_color_title" android:summary="@string/pref_third_notification_led_color_summary"

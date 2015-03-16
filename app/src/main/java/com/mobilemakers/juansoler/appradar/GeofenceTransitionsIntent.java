@@ -83,6 +83,10 @@ public class GeofenceTransitionsIntent {
                 break;
         }
 
+        return Uri.parse(mActivity.getString(R.string.sound_path)
+                + mActivity.getPackageName() + "/" + SoundListPreference.getSound(soundName));
+
+/*
         if (soundName.equals(mActivity.getString(R.string.sub_klaxon))){
             return Uri.parse(mActivity.getString(R.string.sound_path)
                     + mActivity.getPackageName() + "/" + R.raw.sub_klaxon);
@@ -120,6 +124,7 @@ public class GeofenceTransitionsIntent {
                 }
             }
         }
+*/
     }
 
     private int getLedColor(int notificationId) {

@@ -1,10 +1,8 @@
 package com.mobilemakers.juansoler.appradar;
 
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.LocationManager;
@@ -241,7 +239,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     @Override
     public void onFinishDialog(String destination) {
-        if (!destination.equals("")){
+        if (!destination.isEmpty()){
             mButtonSetDestination.setText(destination);
             if (mButtonStart.getVisibility() != View.VISIBLE) {
                 Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);

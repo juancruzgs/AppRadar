@@ -49,7 +49,7 @@
     <string name="led_color_magenta">Magenta</string>
     <string name="Destinations_dialog_title">Pick a destination&#8230;</string>
     <string name="loading">Loading&#8230;</string>
-    <string name="radar_message">You are %s meters away from the next radar.</string>
+    <string name="radar_message">Radar %.1f meters away.</string>
     <string name="warning_message">Attention!</string>
     <string name="intenetDataDiagloTitle">Your wi-fi/mobile data is not active...</string>
     <string name="internetDialogAccept">Activate</string>
@@ -58,4 +58,5 @@
     <string name="button_end">End Trip</string>
     <string name="button_show_map">Show Map</string>
     <string name="end_trip">Are you sure you want to leave this trip?</string>
+    <string name="title_activity_map">Map</string>
 </resources>

@@ -16,10 +16,6 @@ import java.util.Collections;
 
 public class DestinationsDialog extends DialogFragment {
 
-    private static final String TABLE_DIVIDER_NAME = "titleDivider";
-    private static final String TABLE_DIVIDER_TYPE = "id";
-    private static final String TABLE_DIVIDER_PACKAGE = "android";
-
     ArrayList<String> mDestinationsList = new ArrayList<>();
 
     public interface DestinationDialogListener {
@@ -51,7 +47,9 @@ public class DestinationsDialog extends DialogFragment {
         dialog.setTitle(getString(R.string.Destinations_dialog_title));
         TextView title = (TextView)getDialog().findViewById( android.R.id.title );
         title.setTextColor( getResources().getColor( R.color.accent ) );
-        int titleDividerId = getResources().getIdentifier(TABLE_DIVIDER_NAME, TABLE_DIVIDER_TYPE, TABLE_DIVIDER_PACKAGE);
+        int titleDividerId = getResources().getIdentifier(Constants.TABLE_DIVIDER_NAME,
+                                                          Constants.TABLE_DIVIDER_TYPE,
+                                                          Constants.TABLE_DIVIDER_PACKAGE);
         View titleDivider = dialog.findViewById(titleDividerId);
         if (titleDivider != null)
             titleDivider.setBackgroundColor(getResources().getColor(R.color.accent));

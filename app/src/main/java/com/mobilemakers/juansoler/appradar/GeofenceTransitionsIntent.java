@@ -37,30 +37,75 @@ public class GeofenceTransitionsIntent {
             if (Geofence.GEOFENCE_TRANSITION_ENTER == transitionType) {
 
 //                Radar radar = radarList.get(radarIndex);
-
-                float radius = 0;
-                switch (radiusIndex){
-                    case Constants.RADIUS_INDEX_FIRST_FENCE:
-                        radius = Float.parseFloat(notification.getFirstNotificationDistance()) * 1000;
-                        break;
-                    case Constants.RADIUS_INDEX_SECOND_FENCE:
-                        radius = Float.parseFloat(notification.getSecondNotificationDistance()) * 1000;
-                        break;
-                    case Constants.RADIUS_INDEX_THIRD_FENCE:
-                        radius = Constants.THIRD_FENCE;
-                        break;
-                }
+                showActivityAlwaysOnTop();
 
                 //Calling notifications
+                float radius = getRadiusMeters(notification, radiusIndex);
                 createNotification(mActivity.getString(R.string.warning_message),
                         String.format(mActivity.getString(R.string.radar_message), radius),
                         R.mipmap.ic_launcher, getNotificationId(radius));
-                showActivityAlwaysOnTop();
             } else if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType &&
                         radiusIndex == Constants.RADIUS_INDEX_THIRD_FENCE) {
                     radarList.setNextRadarIndex(radarIndex+1);
             }
         }
+    }
+
+    private void showActivityAlwaysOnTop() {
+        mActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                        //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                        //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+    }
+
+    private float getRadiusMeters(NotificationPreference notification, int radiusIndex) {
+        float radius = 0;
+        switch (radiusIndex){
+            case Constants.RADIUS_INDEX_FIRST_FENCE:
+                radius = Float.parseFloat(notification.getFirstNotificationDistance()) * 1000;
+                break;
+            case Constants.RADIUS_INDEX_SECOND_FENCE:
+                radius = Float.parseFloat(notification.getSecondNotificationDistance()) * 1000;
+                break;
+            case Constants.RADIUS_INDEX_THIRD_FENCE:
+                radius = Constants.THIRD_FENCE;
+                break;
+        }
+        return radius;
+    }
+
+    private int getNotificationId(float radius) {
+        if (radius >= Constants.MINIMUM_RADIUS_FIRST_NOTIFICATION){
+            return 1;
+        }
+        else if (radius >= Constants.MINIMUM_RADIUS_SECOND_NOTIFICATION){
+            return 2;
+        }
+        else {
+            return 3;
+        }
+    }
+
+    private void createNotification(String title,String text, int icon, int notificationId){
+        NotificationCompat.Builder builder =  new NotificationCompat.Builder(mActivity)
+                .setSmallIcon(icon)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setAutoCancel(true)
+                .setSound(getSoundUri(notificationId))
+                .setDefaults(0)
+                .setLights(getLedColor(notificationId) + 0xFF000000, Constants.LED_DURATION_ON[notificationId],
+                        Constants.LED_DURATION_OFF[notificationId])
+                .setContentIntent(PendingIntent.getActivity(mActivity, 0, new Intent(), 0));
+
+        NotificationManager mNotificationManager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification = builder.build();
+        notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+        mNotificationManager.notify(Constants.NOTIFICATION_ID, notification);
     }
 
     private Uri getSoundUri(int notification){
@@ -142,51 +187,5 @@ public class GeofenceTransitionsIntent {
         }
 
         return ledColor;
-    }
-
-    private void createNotification(String title,String text, int icon, int notificationId){
-        NotificationCompat.Builder builder =  new NotificationCompat.Builder(mActivity)
-                .setSmallIcon(icon)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setAutoCancel(true)
-                .setSound(getSoundUri(notificationId))
-                .setDefaults(0)
-                .setLights(getLedColor(notificationId) + 0xFF000000, Constants.LED_DURATION_ON[notificationId],
-                        Constants.LED_DURATION_OFF[notificationId])
-                .setContentIntent(PendingIntent.getActivity(mActivity, 0, new Intent(), 0));
-
-        NotificationManager mNotificationManager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = builder.build();
-        notification.flags |= Notification.FLAG_SHOW_LIGHTS;
-        mNotificationManager.notify(Constants.NOTIFICATION_ID, notification);
-    }
-
-    private int getNotificationId(float radar) {
-        int radius = Math.round(radar);
-        switch (radius){
-            case 10000:
-            case 7000:
-            case 5000:
-                return 1;
-            case 4000:
-            case 3000:
-            case 2000:
-                return 2;
-            default:
-                return 3;
-        }
-    }
-
-    private void showActivityAlwaysOnTop() {
-        //Use in alert screen
-        mActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                        //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                        //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
     }
 }

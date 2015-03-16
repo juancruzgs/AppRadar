@@ -62,7 +62,14 @@ public class Constants {
 
     //Map
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
-    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
-            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
 
+    //Destinations Dialog
+    public static final String TABLE_DIVIDER_NAME = "titleDivider";
+    public static final String TABLE_DIVIDER_TYPE = "id";
+    public static final String TABLE_DIVIDER_PACKAGE = "android";
+
+    //Radius
+    public static final float MINIMUM_RADIUS_FIRST_NOTIFICATION = 5000;
+    public static final float MINIMUM_RADIUS_SECOND_NOTIFICATION = 2000;
 }

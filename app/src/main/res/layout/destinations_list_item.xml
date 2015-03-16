@@ -5,6 +5,7 @@
     android:gravity="center"
     android:padding="12dp"
     android:textSize="18sp"
+    android:background="@drawable/list_item_background"
     android:id="@+id/textView_destination">
 
 </TextView>

@@ -5,8 +5,12 @@ package com.mobilemakers.juansoler.appradar;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -21,7 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Iterator;
 
-public class MapActivity extends FragmentActivity
+public class MapActivity extends ActionBarActivity
         implements OnMapReadyCallback, LocationListener {
 
     private RadarList mRadars;
@@ -38,10 +42,21 @@ public class MapActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        showIconInActionBar();
+        getMap();
+        mRadars = getIntent().getExtras().getParcelable(Constants.RADARS_LIST);
+    }
+
+    private void getMap() {
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        mRadars = getIntent().getExtras().getParcelable(Constants.RADARS_LIST);
+    }
+
+    private void showIconInActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setIcon(R.mipmap.ic_launcher);
+        actionBar.setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -56,15 +71,19 @@ public class MapActivity extends FragmentActivity
 
     private void refreshMap(Location location) {
         LatLng latLong = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraPosition cameraPosition = CameraPosition.builder()
-                .target(latLong)
-                .zoom(17)
-                .bearing(90)
-                .build();
+        CameraPosition cameraPosition = getCameraPosition(latLong);
 
         // Animate the change in camera view over 2 seconds
         mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),
                 2000, null);
+    }
+
+    private CameraPosition getCameraPosition(LatLng latLong) {
+        return CameraPosition.builder()
+                    .target(latLong)
+                    .zoom(17)
+                    .bearing(90)
+                    .build();
     }
 
     private Location getLocation() {
@@ -93,7 +112,7 @@ public class MapActivity extends FragmentActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_map_activity2, menu);
+        getMenuInflater().inflate(R.menu.menu_map, menu);
         return true;
     }
 

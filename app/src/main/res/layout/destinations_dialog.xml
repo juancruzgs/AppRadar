@@ -11,17 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listView_destinations">
-
-        </ListView>
+    </ListView>
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 
     <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/yellow"
+        android:elevation="6dp"
+        android:layout_marginLeft="@dimen/button_padding"
+        android:layout_marginRight="@dimen/button_padding"
         android:text="@string/buton_dialog_cancel"
         android:id="@+id/button_cancel_dialog"/>
 

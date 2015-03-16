@@ -3,7 +3,6 @@ package com.mobilemakers.juansoler.appradar;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,7 +15,7 @@ public class RadarList implements Parcelable {
 
     public RadarList() {
         mRadars = new ArrayList<>();
-        mNextRadarIndex = 0;
+        mNextRadarIndex = -1;
     }
 
     public void add (Radar radar) {
@@ -28,7 +27,12 @@ public class RadarList implements Parcelable {
     }
 
     public Radar getNextRadar(){
-        return mRadars.get(mNextRadarIndex);
+        if (mNextRadarIndex == -1){
+            return mRadars.get(0);
+        }
+        else {
+            return mRadars.get(mNextRadarIndex);
+        }
     }
 
     public void incrementNextRadarIndex(){

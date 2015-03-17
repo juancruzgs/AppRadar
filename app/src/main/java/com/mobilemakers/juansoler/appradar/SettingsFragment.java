@@ -3,6 +3,7 @@ package com.mobilemakers.juansoler.appradar;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
+
 /**
  * A placeholder fragment containing a simple view.
  */

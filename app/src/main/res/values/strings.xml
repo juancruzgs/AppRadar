@@ -12,7 +12,7 @@
     <string name="button_start_travel">Iniciar Viaje</string>
     <string name="pref_customized_first_notification">Primera Notificación</string>
     <string name="pref_distance_title">Distancia</string>
-    <string name="pref_first_notification_distance_summary">Ingrese la distancia de la notificación más lejana.</string>
+    <string name="pref_first_notification_distance_summary">Seleccione la distancia al radar para la notificación más lejana.</string>
     <string name="pref_sound_title">Sonido</string>
     <string name="pref_first_notification_sound_summary">Seleccione un tono para la notificación más lejana.</string>
     <string name="pref_led_color_title">Color de LED</string>
@@ -20,10 +20,10 @@
     <string name="title_activity_settings">Opciones</string>
     <string name="pref_customized_second_notification">Segunda Notificación</string>
     <string name="pref_second_notification_sound_summary">Seleccione un tono para la notificación intermedia.</string>
-    <string name="pref_second_notification_distance_summary">Ingrese la distancia de la notificación intermedia.</string>
+    <string name="pref_second_notification_distance_summary">Selccione la distancia al radar de la notificación intermedia.</string>
     <string name="pref_second_notification_led_color_summary">Seleccione el color del LED para la notificación intermedia.</string>
     <string name="pref_customized_third_notification">Tercera Notificación</string>
-    <string name="pref_third_notification_distance_summary">Ingrese la distancia de la notificación más cercana.</string>
+    <string name="pref_third_notification_distance_summary">Seleccione la distancia al radar para la notificación más cercana.</string>
     <string name="pref_third_notification_sound_summary">Seleccione un tono para la notificación más cercana.</string>
     <string name="pref_third_notification_led_color_summary">Seleccione el color del LED para la notificación más cercana.</string>
     <string name="buton_dialog_cancel">Cancelar</string>
@@ -56,14 +56,19 @@
     <string name="sound_path" translatable="false">android.resource://</string>
     <string name="mdq" translatable="false">Mar del Plata</string>
     <string name="internetDialogCancel">Cancelar</string>
-    <string name="intenetDataDiagloTitle">Su wi-fi/datos moviles no se encuentran activos...</string>
+    <string name="intenetDataDiagloTitle">Su wi-fi/datos moviles no se encuentran activos&#8230;</string>
     <string name="internetDialogAccept">Activar</string>
     <string name="title_activity_map">Mapa</string>
-
     <string name="button_show_map">Ver mapa</string>
     <string name="button_end">Terminar Viaje</string>
     <string name="first_time_connection">Se ha detectado que usted no posee los datos necesarios para continuar ejecutando esta app, por favor habilite cualquier tipo de conexion de datos para continuar.</string>
     <string name="end_trip">¿Está seguro que desea terminar el viaje?</string>
     <string name="distance_error_no_gps">No GPS</string>
     <string name="speed_error_no_gps" translatable="false">-</string>
+    <string name="pref_refresh_time">Período de Actualización</string>
+    <string name="refresh_10_seconds">10 Segundos</string>
+    <string name="refresh_1_second">1 Segundo</string>
+    <string name="refresh_5_seconds">5 Segundos</string>
+    <string name="refresh_manual">Actualización manual</string>
+    <string name="pref_refresh_time_summary">Seleccione cada cuanto tiempo desea que se actualice la distancia al radar y su velocidad</string>
 </resources>

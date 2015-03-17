@@ -13,14 +13,14 @@
     <string name="pref_customized_third_notification">Third Notification</string>
     <string name="pref_distance_title">Distance</string>
     <string name="pref_led_color_title">LED Color</string>
-    <string name="pref_first_notification_distance_summary">Select the distance for the farthest notification.</string>
+    <string name="pref_first_notification_distance_summary">Select the distance to the radar for the farthest notification.</string>
     <string name="pref_first_notification_sound_summary">Choose a sound for the farthest notification.</string>
     <string name="pref_first_notification_led_color_summary">Select a LED color for the farthest notification.</string>
-    <string name="pref_second_notification_distance_summary">Select the distance for the intermediate notification.</string>
+    <string name="pref_second_notification_distance_summary">Select the distance to the radar for the intermediate notification.</string>
     <string name="pref_second_notification_sound_summary">Choose a sound for the intermediate notification.</string>
     <string name="pref_second_notification_led_color_summary">Select a LED color for the intermediate notification.</string>
     <string name="pref_sound_title">Sound</string>
-    <string name="pref_third_notification_distance_summary">Select the distance for the closest notification.</string>
+    <string name="pref_third_notification_distance_summary">Select the distance to the radar for the closest notification.</string>
     <string name="pref_third_notification_sound_summary">Choose a sound for the closest notification.</string>
     <string name="pref_third_notification_led_color_summary">Select a LED color for the closest notification.</string>
     <string name="text_view_next_text">Next Radar:</string>
@@ -51,7 +51,7 @@
     <string name="loading">Loading&#8230;</string>
     <string name="radar_message">Radar %1$.0f meters away. Km %2$.0f</string>
     <string name="warning_message">Attention!</string>
-    <string name="intenetDataDiagloTitle">Your wi-fi/mobile data is not active...</string>
+    <string name="intenetDataDiagloTitle">Your wi-fi/mobile data is not active&#8230;</string>
     <string name="internetDialogAccept">Activate</string>
     <string name="internetDialogCancel">Cancel</string>
     <string name="first_time_connection">It has been detected that you don\'t have the necessary data to continue running this app, please enable any data connection to continue.</string>
@@ -60,4 +60,10 @@
     <string name="end_trip">Are you sure you want to leave this trip?</string>
     <string name="title_activity_map">Map</string>
     <string name="distance_error_no_gps">No GPS</string>
+    <string name="refresh_10_seconds">10 Seconds</string>
+    <string name="refresh_5_seconds">5 Seconds</string>
+    <string name="refresh_1_second">1 Second}</string>
+    <string name="refresh_manual">Manual refresh</string>
+    <string name="pref_refresh_time">Refresh Period</string>
+    <string name="pref_refresh_time_summary">Select the refresh time to update the distance to the radar and your speed</string>
 </resources>

@@ -1,16 +1,16 @@
 package com.mobilemakers.juansoler.appradar;
 
 
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -68,6 +68,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                 .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {
+                        setActionBarSubtitle("");
                         getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     }
                 })
@@ -86,12 +87,22 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
         Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
         wireUpViews(rootView);
-        getFragmentArguments();
 //        monitorGpsStatus();
-        setScreenInformation();
         mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
         prepareEndButton();
+
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState!=null){
+            mRadars = savedInstanceState.getParcelable(Constants.RADARS_LIST);
+        } else {
+            getFragmentArguments();
+        }
+        setScreenInformation();
     }
 
     private void prepareEndButton() {
@@ -183,8 +194,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                                     private long getTimeDifference(Location startLoc, Location endLoc)
                                     {
                                         long timeMS;
-                                        timeMS = TimeUnit.NANOSECONDS.toSeconds(startLoc.getElapsedRealtimeNanos() -
-                                                endLoc.getElapsedRealtimeNanos());
+                                        timeMS = TimeUnit.NANOSECONDS.toSeconds(startLoc.getTime() - endLoc.getTime());
 //                                        timeMS = (long)0.000001 * Math.abs((startLoc.getElapsedRealtimeNanos() -
 //                                                endLoc.getElapsedRealtimeNanos()));
 
@@ -199,20 +209,41 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                                 });
     }
 
-    private void setScreenInformation() {
-        Radar nextRadar = mRadars.getNextRadar();
-        setDistance(nextRadar);
-        setMaxSpeed(nextRadar);
-        refreshSpeed();
-        //setRefreshTime();
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(Constants.RADARS_LIST, mRadars);
     }
 
-    private void setDistance(Radar nextRadar) {
+    private void setScreenInformation() {
+        try {
+            Radar nextRadar = mRadars.getNextRadar();
+            setDistance(nextRadar);
+            setMaxSpeed(nextRadar);
+            setRefreshTime();
+            refreshSpeed();
+        } catch (NullPointerException e){
+            mTextViewDistance.setText(getString(R.string.distance_error_no_gps));
+            mTextViewSpeedLimitValue.setText(getString(R.string.speed_error_no_gps));
+        }
+    }
+
+    private void setRefreshTime(){
+        String time = getCurrentTime();
+        setActionBarSubtitle(String.format(getString(R.string.text_view_refresh_time_text),time));
+    }
+
+    private void setActionBarSubtitle(String subtitle){
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        actionBar.setSubtitle(subtitle);
+    }
+
+    private void setDistance(Radar nextRadar) throws NullPointerException{
         float distance = calculateDistanceToNextRadar(nextRadar);
         mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), Float.toString(distance)));
     }
 
-    private float calculateDistanceToNextRadar(Radar nextRadar) {
+    private float calculateDistanceToNextRadar(Radar nextRadar) throws NullPointerException {
         Location currentLocation = getLastLocation();
         Location nextRadarLocation = createNextRadarLocation(nextRadar);
         float distance = (currentLocation.distanceTo(nextRadarLocation)/1000);

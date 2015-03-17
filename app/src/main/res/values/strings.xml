@@ -52,7 +52,7 @@
     <string name="loading">Cargando&#8230;</string>
     <string name="Destinations_dialog_title">Elija destino&#8230;</string>
     <string name="warning_message">Atención!</string>
-    <string name="radar_message">Radar a %.1f metros.</string>
+    <string name="radar_message">Radar a %1$.1f metros. Km %2$.0f</string>
     <string name="sound_path" translatable="false">android.resource://</string>
     <string name="mdq" translatable="false">Mar del Plata</string>
     <string name="internetDialogCancel">Cancelar</string>
@@ -64,4 +64,7 @@
     <string name="button_end">Terminar Viaje</string>
     <string name="first_time_connection">Se ha detectado que usted no posee los datos necesarios para continuar ejecutando esta app, por favor habilite cualquier tipo de conexion de datos para continuar.</string>
     <string name="end_trip">¿Está seguro que desea terminar el viaje?</string>
+    <string name="distance_error_no_gps">No GPS</string>
+    <string name="speed_error_no_gps" translatable="false">-</string>
+    <string name="message_map_toast">Cargando  mapa...</string>
 </resources>

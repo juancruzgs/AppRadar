@@ -86,11 +86,11 @@ public class NotificationPreference {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         setFirstNotificationDistance(sharedPreferences.getString(Constants.FIRST_NOTIFICATION_DISTANCE, "10"));
         setFirstNotificationSound(sharedPreferences.getString(Constants.FIRST_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_values)[0]));
-        setFirstNotificationLed(sharedPreferences.getString(Constants.FIRST_NOTIFICATION_LED, "FFFFFF"));
+        setFirstNotificationLed(sharedPreferences.getString(Constants.FIRST_NOTIFICATION_LED, "00FF00"));
         setSecondNotificationDistance(sharedPreferences.getString(Constants.SECOND_NOTIFICATION_DISTANCE, "4"));
         setSecondNotificationSound(sharedPreferences.getString(Constants.SECOND_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_values)[0]));
-        setSecondNotificationLed(sharedPreferences.getString(Constants.SECOND_NOTIFICATION_LED, "FFFFFF"));
+        setSecondNotificationLed(sharedPreferences.getString(Constants.SECOND_NOTIFICATION_LED, "FFFF00"));
         setThirdNotificationSound(sharedPreferences.getString(Constants.THIRD_NOTIFICATION_SOUND, context.getResources().getStringArray(R.array.sound_values)[0]));
-        setThirdNotificationLed(sharedPreferences.getString(Constants.THIRD_NOTIFICATION_LED, "FFFFFF"));
+        setThirdNotificationLed(sharedPreferences.getString(Constants.THIRD_NOTIFICATION_LED, "FF0000"));
     }
 }

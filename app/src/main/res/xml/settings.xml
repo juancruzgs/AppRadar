@@ -18,7 +18,7 @@
             android:title="@string/pref_led_color_title" android:summary="@string/pref_first_notification_led_color_summary"
             android:entries="@array/led_color_entries"
             android:entryValues="@array/led_color_values"
-            android:defaultValue="FFFFFF"/>
+            android:defaultValue="00FF00"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_second_notification">
         <ListPreference
@@ -38,7 +38,7 @@
             android:title="@string/pref_led_color_title" android:summary="@string/pref_second_notification_led_color_summary"
             android:entries="@array/led_color_entries"
             android:entryValues="@array/led_color_values"
-            android:defaultValue="FFFFFF"/>
+            android:defaultValue="FFFF00"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_third_notification">
         <com.mobilemakers.juansoler.appradar.SoundListPreference
@@ -52,6 +52,6 @@
             android:title="@string/pref_led_color_title" android:summary="@string/pref_third_notification_led_color_summary"
             android:entries="@array/led_color_entries"
             android:entryValues="@array/led_color_values"
-            android:defaultValue="FFFFFF"/>
+            android:defaultValue="FF0000"/>
     </PreferenceCategory>
 </PreferenceScreen>

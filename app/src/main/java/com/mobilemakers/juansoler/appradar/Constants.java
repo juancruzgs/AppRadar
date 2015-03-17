@@ -11,6 +11,8 @@ public class Constants {
     public static final String STATE_RESOLVING_ERROR = "resolving_error";
     public static final int RESULT_OK = -1;
     public static final int REQUEST_RESOLVE_ERROR = 1001;
+    public static final String DESTINATION = "destination";
+    public static final String VISIBILITY = "visibility";
 
     //Notifications
     public final static int NOTIFICATION_ID = 1;
@@ -58,6 +60,7 @@ public class Constants {
 
     public final static String TAG_DESTINATION_DIALOG = "destinations_dialog";
     public final static String START_SCREEN_FRAGMENT_TAG = StartScreenFragment.class.getSimpleName();
+    public final static String SUMMARY_FRAGMENT_TAG = SummaryFragment.class.getSimpleName();
     public final static String ERROR_DIALOG_TAG = "errordialog";
 
     //Map

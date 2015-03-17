@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:id="@+id/Layout_Main"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              android:paddingBottom="@dimen/activity_vertical_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/summary_fragment_padding_landscape">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/text_view_next_text"
+                android:id="@+id/text_view_next"
+                android:layout_gravity="left" />
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_distance"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/card_view_distance_height"
+                android:layout_marginTop="@dimen/elements_spacer"
+                card_view:cardCornerRadius="@dimen/card_view_corner_radius">
+
+                <TextView
+                    android:id="@+id/text_view_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/text_view_distance_value"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/typography_display_3"/>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/summary_fragment_padding_landscape">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/text_view_speed_limit_text"
+                android:id="@+id/text_view_speed_limit"
+                android:layout_gravity="left" />
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_speed_limit"
+                android:layout_width="@dimen/card_view_speed_limit_width_landscape"
+                android:layout_height="@dimen/card_view_speed_limit_height_landscape"
+                android:layout_marginTop="@dimen/elements_spacer"
+                card_view:cardCornerRadius="@dimen/card_view_corner_radius">
+
+                <TextView
+                    android:id="@+id/text_view_speed_limit_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/text_view_speed_limit_value_text"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/typography_speed_limit_landscape"
+                    android:background="@drawable/speed_limit_ring" />
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/button_show_map"
+            android:id="@+id/button_map"
+            android:layout_weight="1"
+            android:background="@color/accent"
+            android:layout_marginRight="@dimen/summary_buttons_margin"
+            android:elevation="6dp"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/button_end"
+            android:id="@+id/button_end"
+            android:layout_weight="1"
+            android:background="@color/yellow"
+            android:layout_marginLeft="@dimen/summary_buttons_margin"
+            android:elevation="6dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

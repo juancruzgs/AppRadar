@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -78,12 +79,22 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
         Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
         wireUpViews(rootView);
-        getFragmentArguments();
 //        monitorGpsStatus();
-        setScreenInformation();
         mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
         prepareEndButton();
+
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState!=null){
+            mRadars = savedInstanceState.getParcelable(Constants.RADARS_LIST);
+        } else {
+            getFragmentArguments();
+        }
+        setScreenInformation();
     }
 
     private void prepareEndButton() {
@@ -144,6 +155,13 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 //                    }
 //                });
 //    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(Constants.RADARS_LIST, mRadars);
+    }
 
     private void setScreenInformation() {
         Radar nextRadar = mRadars.getNextRadar();

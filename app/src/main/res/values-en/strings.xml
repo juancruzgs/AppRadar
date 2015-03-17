@@ -59,4 +59,5 @@
     <string name="button_show_map">Show Map</string>
     <string name="end_trip">Are you sure you want to leave this trip?</string>
     <string name="title_activity_map">Map</string>
+    <string name="distance_error_no_gps">No GPS</string>
 </resources>

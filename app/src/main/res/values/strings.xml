@@ -64,4 +64,6 @@
     <string name="button_end">Terminar Viaje</string>
     <string name="first_time_connection">Se ha detectado que usted no posee los datos necesarios para continuar ejecutando esta app, por favor habilite cualquier tipo de conexion de datos para continuar.</string>
     <string name="end_trip">¿Está seguro que desea terminar el viaje?</string>
+    <string name="distance_error_no_gps">No GPS</string>
+    <string name="speed_error_no_gps" translatable="false">-</string>
 </resources>

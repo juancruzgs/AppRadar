@@ -164,18 +164,23 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private void setScreenInformation() {
-        Radar nextRadar = mRadars.getNextRadar();
-        setDistance(nextRadar);
-        setMaxSpeed(nextRadar);
-        //setRefreshTime();
+        try {
+            Radar nextRadar = mRadars.getNextRadar();
+            setDistance(nextRadar);
+            setMaxSpeed(nextRadar);
+            //setRefreshTime();
+        } catch (NullPointerException e){
+            mTextViewDistance.setText(getString(R.string.distance_error_no_gps));
+            mTextViewSpeedLimitValue.setText(getString(R.string.speed_error_no_gps));
+        }
     }
 
-    private void setDistance(Radar nextRadar) {
+    private void setDistance(Radar nextRadar) throws NullPointerException{
         float distance = calculateDistanceToNextRadar(nextRadar);
         mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), Float.toString(distance)));
     }
 
-    private float calculateDistanceToNextRadar(Radar nextRadar) {
+    private float calculateDistanceToNextRadar(Radar nextRadar) throws NullPointerException {
         Location currentLocation = getLastLocation();
         Location nextRadarLocation = createNextRadarLocation(nextRadar);
         float distance = (currentLocation.distanceTo(nextRadarLocation)/1000);

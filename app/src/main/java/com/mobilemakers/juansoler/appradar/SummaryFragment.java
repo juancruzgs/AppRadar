@@ -245,7 +245,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                 break;
             case R.id.action_refresh:
                 handled = true;
-                setActionBarSubtitle(getString(R.string.loading));
                 setScreenInformation();
                 break;
         }

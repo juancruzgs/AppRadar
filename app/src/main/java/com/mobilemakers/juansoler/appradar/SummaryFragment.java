@@ -155,7 +155,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                                             speed = getSpeed(mLocation, location);
                                         }
                                         ((ActionBarActivity)getActivity()).getSupportActionBar()
-                                                .setSubtitle(String.valueOf(speed));
+                                                .setSubtitle(String.valueOf(speed)+ "km/h");
                                         mLocation = location;
                                     }
 
@@ -181,14 +181,14 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                                         //Use provided speed, if it exists
                                         if(endLoc.hasSpeed())
                                         {
-                                            return endLoc.getSpeed();
+                                            return endLoc.getSpeed()*3.6f;
                                         }
                                         //Get time difference is seconds
                                         timeS = getTimeDifference(startLoc, endLoc);
                                         //Get distance traveled in meters
                                         distM = startLoc.distanceTo(endLoc);
 
-                                        return distM / timeS;
+                                        return (distM / timeS)*3.6f;
                                     }
 
                                     private long getTimeDifference(Location startLoc, Location endLoc)

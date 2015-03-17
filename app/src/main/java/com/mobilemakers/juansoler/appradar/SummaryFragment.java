@@ -149,8 +149,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(Constants.DISTANCE, mTextViewDistance.getText().toString());
-        outState.putString(Constants.SPEED_LIMIT, mTextViewSpeedLimitValue.getText().toString());
         outState.putParcelable(Constants.RADARS_LIST, mRadars);
     }
 

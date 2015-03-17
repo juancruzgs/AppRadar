@@ -14,10 +14,6 @@ public class Constants {
     public static final String DESTINATION = "destination";
     public static final String VISIBILITY = "visibility";
 
-    //SummaryFragment
-    public static final String DISTANCE = "distance";
-    public static final String SPEED_LIMIT = "speed_limit";
-
     //Notifications
     public final static int NOTIFICATION_ID = 1;
     public final static String FIRST_NOTIFICATION_DISTANCE = "first_notification_preference_distance";

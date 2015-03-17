@@ -7,8 +7,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -31,19 +29,16 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private GoogleMap mGoogleMap;
     private GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
-    LinearLayout mProgressLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-//         mProgressLayout = (LinearLayout)findViewById(R.id.loadingPanelMap);
-//         mProgressLayout.setVisibility(View.VISIBLE);
-
         mRadars = getIntent().getExtras().getParcelable(Constants.RADARS_LIST);
 
         if (savedInstanceState == null) {
+            Toast.makeText(this, getString(R.string.message_map_toast), Toast.LENGTH_LONG).show();
             MapFragment mMapFragment = MapFragment.newInstance();
             FragmentTransaction fragmentTransaction =
                     getFragmentManager().beginTransaction();
@@ -68,8 +63,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         refreshMap(getLocation());
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         addMarkerForEachRadar(mGoogleMap);
-//        mProgressLayout.setVisibility(View.GONE);
-//        new MapOperation().execute();
     }
 
     private void refreshMap(Location location) {

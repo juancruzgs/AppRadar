@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener,
-        OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MainActivity.OnBackPressedListener{
+        OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
     private boolean mResolvingError;
 
@@ -49,6 +49,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private Button mButtonStart;
     private TextView mTextViewWelcome;
     private NotificationPreference mNotification;
+    private AsyncTask<Void, Void, RadarList> mDatabaseOperations;
 
     public StartScreenFragment() {
         mNotification = new NotificationPreference();
@@ -154,7 +155,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 } else {
                     fadeOutViews();
                     initializeGooglePlayServices();
-                    new DatabaseOperations().execute();
+                    mDatabaseOperations = new DatabaseOperations().execute();
                 }
             }
 
@@ -211,12 +212,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         AppRadarApplication state = (AppRadarApplication)getActivity().getApplicationContext();
         state.setApiClient(mApiClient);
-    }
-
-    @Override
-    public void doBack() {
-        getActivity().finish();
-        System.exit(0);
     }
 
     private class DatabaseOperations extends AsyncTask<Void, Void, RadarList> {
@@ -415,5 +410,11 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         }
 
         return handled;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mDatabaseOperations.cancel(true);
     }
 }

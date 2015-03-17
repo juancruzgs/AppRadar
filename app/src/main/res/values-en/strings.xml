@@ -49,7 +49,7 @@
     <string name="led_color_magenta">Magenta</string>
     <string name="Destinations_dialog_title">Pick a destination&#8230;</string>
     <string name="loading">Loading&#8230;</string>
-    <string name="radar_message">Radar %.1f meters away.</string>
+    <string name="radar_message">Radar %1$.0f meters away. Km %2$.0f</string>
     <string name="warning_message">Attention!</string>
     <string name="intenetDataDiagloTitle">Your wi-fi/mobile data is not active...</string>
     <string name="internetDialogAccept">Activate</string>

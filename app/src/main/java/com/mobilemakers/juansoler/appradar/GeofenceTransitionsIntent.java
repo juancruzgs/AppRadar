@@ -36,13 +36,15 @@ public class GeofenceTransitionsIntent {
 
             if (Geofence.GEOFENCE_TRANSITION_ENTER == transitionType) {
 
-//                Radar radar = radarList.get(radarIndex);
                 showActivityAlwaysOnTop();
 
                 //Calling notifications
+                Radar radar = radarList.get(radarIndex);
+                Float km = radar.getKm();
                 float radius = getRadiusMeters(notification, radiusIndex);
+
                 createNotification(mActivity.getString(R.string.warning_message),
-                        String.format(mActivity.getString(R.string.radar_message), radius),
+                        String.format(mActivity.getString(R.string.radar_message), radius, km),
                         R.mipmap.ic_launcher, getNotificationId(radius));
             } else if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType &&
                         radiusIndex == Constants.RADIUS_INDEX_THIRD_FENCE) {

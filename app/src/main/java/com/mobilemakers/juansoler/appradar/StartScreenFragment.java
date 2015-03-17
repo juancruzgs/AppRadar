@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class StartScreenFragment extends Fragment implements DestinationsDialog.DestinationDialogListener,
-        OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+        OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MainActivity.OnBackPressedListener{
 
     private boolean mResolvingError;
 
@@ -211,6 +211,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
         AppRadarApplication state = (AppRadarApplication)getActivity().getApplicationContext();
         state.setApiClient(mApiClient);
+    }
+
+    @Override
+    public void doBack() {
+        getActivity().finish();
+        System.exit(0);
     }
 
     private class DatabaseOperations extends AsyncTask<Void, Void, RadarList> {

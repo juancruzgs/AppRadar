@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -61,6 +63,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                 .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {
+                        setActionBarSubtitle("");
                         getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     }
                 })
@@ -156,7 +159,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 //                });
 //    }
 
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -168,11 +170,21 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
             Radar nextRadar = mRadars.getNextRadar();
             setDistance(nextRadar);
             setMaxSpeed(nextRadar);
-            //setRefreshTime();
+            setRefreshTime();
         } catch (NullPointerException e){
             mTextViewDistance.setText(getString(R.string.distance_error_no_gps));
             mTextViewSpeedLimitValue.setText(getString(R.string.speed_error_no_gps));
         }
+    }
+
+    private void setRefreshTime(){
+        String time = getCurrentTime();
+        setActionBarSubtitle(String.format(getString(R.string.text_view_refresh_time_text),time));
+    }
+
+    private void setActionBarSubtitle(String subtitle){
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        actionBar.setSubtitle(subtitle);
     }
 
     private void setDistance(Radar nextRadar) throws NullPointerException{

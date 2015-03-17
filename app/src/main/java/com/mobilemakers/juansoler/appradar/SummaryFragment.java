@@ -1,13 +1,18 @@
 package com.mobilemakers.juansoler.appradar;
 
 
+
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +32,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class SummaryFragment extends Fragment implements MainActivity.onHandleTransition, MainActivity.OnBackPressedListener{
 
@@ -38,7 +44,9 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     
     private Button mButtonEnd;
     private Button mButtonMap;
-    
+
+    private Location mLocation;
+
     public SummaryFragment() {
         // Required empty public constructor
     }
@@ -121,34 +129,81 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         }
     }
 
-//    private void monitorGpsStatus() {
-//        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-//        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, Constants.MIN_TIME_UPDATES_S, Constants.MIN_DISTANCE_UPDATES_M,
-//                new LocationListener() {
-//                    @Override
-//                    public void onLocationChanged(Location location) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onProviderEnabled(String provider) {
-//                    }
-//
-//                    @Override
-//                    public void onProviderDisabled(String provider) {
-//                    }
-//                });
-//    }
+    private void refreshSpeed() {
+        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                                100,
+                                100,
+                                new android.location.LocationListener() {
+                                    @Override
+                                    public void onLocationChanged(Location location) {
+                                        float speed;
+                                        if (mLocation == null){
+                                            speed = 0;
+                                        } else {
+                                            speed = getSpeed(mLocation, location);
+                                        }
+                                        ((ActionBarActivity)getActivity()).getSupportActionBar()
+                                                .setSubtitle(String.valueOf(speed));
+                                        mLocation = location;
+                                    }
+
+                                    @Override
+                                    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                                    }
+
+                                    @Override
+                                    public void onProviderEnabled(String provider) {
+
+                                    }
+
+                                    @Override
+                                    public void onProviderDisabled(String provider) {
+
+                                    }
+
+                                    private float getSpeed(Location startLoc, Location endLoc)
+                                    {
+                                        float distM;
+                                        long timeS;
+                                        //Use provided speed, if it exists
+                                        if(endLoc.hasSpeed())
+                                        {
+                                            return endLoc.getSpeed();
+                                        }
+                                        //Get time difference is seconds
+                                        timeS = getTimeDifference(startLoc, endLoc);
+                                        //Get distance traveled in meters
+                                        distM = startLoc.distanceTo(endLoc);
+
+                                        return distM / timeS;
+                                    }
+
+                                    private long getTimeDifference(Location startLoc, Location endLoc)
+                                    {
+                                        long timeMS;
+                                        timeMS = TimeUnit.NANOSECONDS.toSeconds(startLoc.getElapsedRealtimeNanos() -
+                                                endLoc.getElapsedRealtimeNanos());
+//                                        timeMS = (long)0.000001 * Math.abs((startLoc.getElapsedRealtimeNanos() -
+//                                                endLoc.getElapsedRealtimeNanos()));
+
+//                                        timeMS = startLoc.getTime() - endLoc.getTime();
+//                                        (long)0.001 converts milliseconds to seconds
+
+//                                        return (long)0.001 * timeMS;
+
+//                                        return (long)0.001 * (startLoc.getTime() - endLoc.getTime());
+                                        return timeMS;
+                                    }
+                                });
+    }
 
     private void setScreenInformation() {
         Radar nextRadar = mRadars.getNextRadar();
         setDistance(nextRadar);
         setMaxSpeed(nextRadar);
+        refreshSpeed();
         //setRefreshTime();
     }
 

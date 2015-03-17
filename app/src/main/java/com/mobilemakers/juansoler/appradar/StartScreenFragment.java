@@ -92,18 +92,20 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     private void prepareLandscape(Bundle savedInstanceState) {
         if (savedInstanceState!=null){
-            mButtonSetDestination.setText(savedInstanceState.getString(Constants.DESTINATION));
+            if (savedInstanceState.containsKey(Constants.DESTINATION)) {
+                mButtonSetDestination.setText(savedInstanceState.getString(Constants.DESTINATION));
 
-            switch (savedInstanceState.getInt(Constants.VISIBILITY)){
-                case View.VISIBLE:
-                    mButtonStart.setVisibility(View.VISIBLE);
-                    break;
-                case View.INVISIBLE:
-                    mButtonStart.setVisibility(View.INVISIBLE);
-                    break;
-                case View.GONE:
-                    mButtonStart.setVisibility(View.GONE);
-                    break;
+                switch (savedInstanceState.getInt(Constants.VISIBILITY)) {
+                    case View.VISIBLE:
+                        mButtonStart.setVisibility(View.VISIBLE);
+                        break;
+                    case View.INVISIBLE:
+                        mButtonStart.setVisibility(View.INVISIBLE);
+                        break;
+                    case View.GONE:
+                        mButtonStart.setVisibility(View.GONE);
+                        break;
+                }
             }
         }
     }

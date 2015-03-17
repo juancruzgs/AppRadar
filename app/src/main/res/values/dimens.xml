@@ -18,4 +18,5 @@
     <dimen name="shape_thickness">10dp</dimen>
     <dimen name="ring_size">30dp</dimen>
     <dimen name="button_padding">16dp</dimen>
+    <dimen name="summary_buttons_margin">5dp</dimen>
 </resources>

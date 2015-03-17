@@ -32,15 +32,12 @@
                 android:id="@+id/text_view_next"
                 android:layout_gravity="left" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/elements_spacer" />
-
             <android.support.v7.widget.CardView
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_view_distance"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/card_view_distance_height"
+                android:layout_marginTop="@dimen/elements_spacer"
                 card_view:cardCornerRadius="@dimen/card_view_corner_radius">
 
                 <TextView
@@ -71,15 +68,12 @@
                 android:id="@+id/text_view_speed_limit"
                 android:layout_gravity="left" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/elements_spacer" />
-
             <android.support.v7.widget.CardView
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_view_speed_limit"
                 android:layout_width="@dimen/card_view_speed_limit_width_landscape"
                 android:layout_height="@dimen/card_view_speed_limit_height_landscape"
+                android:layout_marginTop="@dimen/elements_spacer"
                 card_view:cardCornerRadius="@dimen/card_view_corner_radius">
 
                 <TextView
@@ -110,7 +104,7 @@
             android:id="@+id/button_map"
             android:layout_weight="1"
             android:background="@color/accent"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="@dimen/summary_buttons_margin"
             android:elevation="6dp"/>
 
         <Button
@@ -120,7 +114,7 @@
             android:id="@+id/button_end"
             android:layout_weight="1"
             android:background="@color/yellow"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="@dimen/summary_buttons_margin"
             android:elevation="6dp"/>
 
     </LinearLayout>

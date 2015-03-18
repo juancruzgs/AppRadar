@@ -415,6 +415,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     @Override
     public void onStop() {
         super.onStop();
-        mDatabaseOperations.cancel(true);
+        if (mDatabaseOperations != null) {
+            mDatabaseOperations.cancel(true);
+        }
     }
 }

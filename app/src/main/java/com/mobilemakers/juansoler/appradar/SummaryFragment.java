@@ -38,6 +38,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private TextView mTextViewDistance;
     private TextView mTextViewSpeedLimitValue;
+    private TextView mTextViewInfoRadar;
 
     private RadarList mRadars;
     private GeofenceTransitionsIntent mGeofenceTransition;
@@ -89,8 +90,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         wireUpViews(rootView);
 //        monitorGpsStatus();
         mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
-        prepareEndButton();
-
         return rootView;
     }
 
@@ -105,32 +104,10 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         setScreenInformation();
     }
 
-    private void prepareEndButton() {
-        mButtonEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                endTrip();
-            }
-        });
-    }
-
     private void wireUpViews(View rootView) {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
-        prepareButtonMap(rootView);
-        mButtonEnd = (Button) rootView.findViewById(R.id.button_end);
-    }
-
-    private void prepareButtonMap(View rootView) {
-        mButtonMap = (Button) rootView.findViewById(R.id.button_map);
-        mButtonMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (getActivity(), MapActivity.class);
-                intent.putExtra(Constants.RADARS_LIST, mRadars);
-                startActivity(intent);
-            }
-        });
+        mTextViewInfoRadar = (TextView)rootView.findViewById(R.id.text_view_info_radar);
     }
 
     private void getFragmentArguments() {
@@ -218,6 +195,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private void setScreenInformation() {
         try {
             Radar nextRadar = mRadars.getNextRadar();
+            setNameAndKilometer(nextRadar);
             setDistance(nextRadar);
             setMaxSpeed(nextRadar);
             setRefreshTime();
@@ -228,9 +206,13 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         }
     }
 
+    private void setNameAndKilometer(Radar nextRadar){
+        mTextViewInfoRadar.setText(String.format(getString(R.string.text_view_info_radar), nextRadar.getName(), nextRadar.getKm()));
+    }
+
     private void setRefreshTime(){
         String time = getCurrentTime();
-        setActionBarSubtitle(String.format(getString(R.string.text_view_refresh_time_text),time));
+        setActionBarSubtitle(String.format(getString(R.string.text_view_refresh_time_text), time));
     }
 
     private void setActionBarSubtitle(String subtitle){
@@ -268,7 +250,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private String getCurrentTime () {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+        DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         Date date = new Date();
         return dateFormat.format(date);
     }
@@ -297,6 +279,16 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
             case R.id.action_refresh:
                 handled = true;
                 setScreenInformation();
+                break;
+            case R.id.action_show_map:
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                intent.putExtra(Constants.RADARS_LIST, mRadars);
+                startActivity(intent);
+                handled = true;
+                break;
+            case R.id.action_end_trip:
+                endTrip();
+                handled = true;
                 break;
         }
 

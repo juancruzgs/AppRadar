@@ -24,12 +24,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationServices;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -49,6 +51,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private Button mButtonStart;
     private TextView mTextViewWelcome;
     private NotificationPreference mNotification;
+    private AsyncTask<Void, Void, RadarList> mDatabaseOperations;
 
     public StartScreenFragment() {
         mNotification = new NotificationPreference();
@@ -90,18 +93,13 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private void prepareLandscape(Bundle savedInstanceState) {
         if (savedInstanceState!=null){
             if (savedInstanceState.containsKey(Constants.DESTINATION)) {
-                mButtonSetDestination.setText(savedInstanceState.getString(Constants.DESTINATION));
-
-                switch (savedInstanceState.getInt(Constants.VISIBILITY)) {
-                    case View.VISIBLE:
-                        mButtonStart.setVisibility(View.VISIBLE);
-                        break;
-                    case View.INVISIBLE:
-                        mButtonStart.setVisibility(View.INVISIBLE);
-                        break;
-                    case View.GONE:
-                        mButtonStart.setVisibility(View.GONE);
-                        break;
+                String destination = savedInstanceState.getString(Constants.DESTINATION);
+                mButtonSetDestination.setText(destination);
+                if (!destination.equals(getString(R.string.button_select_destination))) {
+                    mButtonStart.setVisibility((View.VISIBLE));
+                }
+                else {
+                    mButtonStart.setVisibility((View.INVISIBLE));
                 }
             }
         }
@@ -154,7 +152,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 } else {
                     fadeOutViews();
                     initializeGooglePlayServices();
-                    new DatabaseOperations().execute();
+                    mDatabaseOperations = new DatabaseOperations().execute();
                 }
             }
 
@@ -228,7 +226,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 mApiClient.connect();
             }
             else {
-                Transitions.fadeOUT(mProgressLayout, Constants.TRANSIION_DURATION_1K ,true);
                 CustomAlertDialog alertDialog = new CustomAlertDialog(getString(R.string.intenetDataDiagloTitle),
                         getString(R.string.internetDialogAccept),
                         getString(R.string.internetDialogCancel),
@@ -238,13 +235,14 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 fadeInViews();
             }
         }
+    }
 
-        private void fadeInViews() {
-            Transitions.fadeIN(mImageViewSS, Constants.TRANSIION_DURATION_1K);
-            Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
-            Transitions.fadeIN(mButtonSetDestination, Constants.TRANSIION_DURATION_1K);
-            Transitions.fadeIN(mTextViewWelcome, Constants.TRANSIION_DURATION_1K);
-        }
+    private void fadeInViews() {
+        Transitions.fadeOUT(mProgressLayout, Constants.TRANSIION_DURATION_1K ,true);
+        Transitions.fadeIN(mImageViewSS, Constants.TRANSIION_DURATION_1K);
+        Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
+        Transitions.fadeIN(mButtonSetDestination, Constants.TRANSIION_DURATION_1K);
+        Transitions.fadeIN(mTextViewWelcome, Constants.TRANSIION_DURATION_1K);
     }
 
     private int getDirection() {
@@ -277,9 +275,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     @Override
     public void onConnected(Bundle bundle) {
-        // Get the PendingIntent for the geofence monitoring request.
-        // Send a request to add the current geofences.
-        PendingIntent geofenceRequestIntent = getGeofenceTransitionPendingIntent();
+        PendingIntent geoFenceRequestIntent = getGeoFenceTransitionPendingIntent();
 
         int id = 0;
         float radius = 0;
@@ -306,13 +302,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         }
 
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
-                geofenceRequestIntent);
+                geoFenceRequestIntent);
 
         prepareNewFragment();
     }
 
     private void prepareNewFragment() {
-
         SummaryFragment mSummaryFragment = new SummaryFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.RADARS_LIST, mRadars);
@@ -324,10 +319,11 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 .commit();
     }
 
-    private PendingIntent getGeofenceTransitionPendingIntent() {
+    private PendingIntent getGeoFenceTransitionPendingIntent() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        return PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.putExtra(Constants.PENDING_INTENT_EXTRA_REQUEST_CODE, Constants.PENDING_INTENT_REQUEST_CODE);
+        return PendingIntent.getActivity(getActivity(), Constants.PENDING_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @Override
@@ -380,7 +376,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         if(getFragmentManager().getBackStackEntryCount() == 0) {
             outState.putBoolean(Constants.STATE_RESOLVING_ERROR, mResolvingError);
             outState.putString(Constants.DESTINATION, mButtonSetDestination.getText().toString());
-            outState.putInt(Constants.VISIBILITY, mButtonStart.getVisibility());
         }
     }
 
@@ -409,5 +404,14 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         }
 
         return handled;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mDatabaseOperations != null && mDatabaseOperations.getStatus() == AsyncTask.Status.RUNNING) {
+            mDatabaseOperations.cancel(true);
+            fadeInViews();
+        }
     }
 }

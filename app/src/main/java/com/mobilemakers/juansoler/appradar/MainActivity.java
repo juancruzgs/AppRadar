@@ -1,12 +1,11 @@
 package com.mobilemakers.juansoler.appradar;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 public class MainActivity extends ActionBarActivity{
 
@@ -16,7 +15,7 @@ public class MainActivity extends ActionBarActivity{
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mContent = getSupportFragmentManager().findFragmentById(R.id.container);
-        getSupportFragmentManager().putFragment(outState, "mContent", mContent);
+        getSupportFragmentManager().putFragment(outState, Constants.FRAGMENT_SAVED, mContent);
     }
 
     @Override
@@ -24,24 +23,18 @@ public class MainActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prepareFragment(savedInstanceState);
-
-        showIconInActionBar();
-    }
-
-
-    private void showIconInActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setIcon(R.mipmap.ic_launcher);
-        actionBar.setDisplayShowHomeEnabled(true);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        try {
-            onHandleTransition fragment = (onHandleTransition) getSupportFragmentManager().findFragmentById(R.id.container);
-            fragment.handleTransition(intent);
-        } catch (ClassCastException e) {
+        int requestCode = intent.getIntExtra(Constants.PENDING_INTENT_EXTRA_REQUEST_CODE, -1);
+        if (requestCode == Constants.PENDING_INTENT_REQUEST_CODE) {
+            try {
+                onHandleTransition fragment = (onHandleTransition) getSupportFragmentManager().findFragmentById(R.id.container);
+                fragment.handleTransition(intent);
+            } catch (ClassCastException e) {
+            }
         }
     }
 
@@ -56,7 +49,7 @@ public class MainActivity extends ActionBarActivity{
         else {
             //Restore the fragment's instance
             mContent = getSupportFragmentManager().getFragment(
-                    savedInstanceState, "mContent");
+                    savedInstanceState, Constants.FRAGMENT_SAVED);
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, mContent, Constants.SUMMARY_FRAGMENT_TAG)

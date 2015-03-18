@@ -315,7 +315,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, mSummaryFragment)
-                .addToBackStack(null)
+                .addToBackStack(Constants.BACKSTACK_START_TO_SUMMARY)
                 .commit();
     }
 

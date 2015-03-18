@@ -35,6 +35,10 @@ public class RadarList implements Parcelable {
         mNextRadarIndex = nextRadarIndex;
     }
 
+    public int size() {
+        return mRadars.size();
+    }
+
     public Iterator iterator () {
         return mRadars.iterator();
     }

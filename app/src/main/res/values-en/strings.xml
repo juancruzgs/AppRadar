@@ -67,4 +67,7 @@
     <string name="pref_refresh_time_summary">Select the refresh time to update the distance to the radar and your speed</string>
     <string name="text_view_speed">Current speed:</string>
     <string name="message_map_toast">Loading map&#8230;</string>
+    <string name="button_last_radar_end">Close</string>
+    <string name="text_view_last_radar_title">Have a calm trip</string>
+    <string name="text_view_last_radar_text">You just passed the last radar of your path</string>
 </resources>

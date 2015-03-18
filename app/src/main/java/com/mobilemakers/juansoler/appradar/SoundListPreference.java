@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.preference.ListPreference;
-
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 

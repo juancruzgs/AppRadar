@@ -3,6 +3,7 @@ package com.mobilemakers.juansoler.appradar;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

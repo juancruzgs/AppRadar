@@ -26,7 +26,7 @@ public class GeofenceTransitionsIntent {
         NotificationPreference notification = new NotificationPreference();
         notification.getSharedPreferences(mActivity);
         GeofencingEvent geoFenceEvent = GeofencingEvent.fromIntent(intent);
-        if (!geoFenceEvent.hasError()) {
+        if (geoFenceEvent != null && !geoFenceEvent.hasError()) {
             int transitionType = geoFenceEvent.getGeofenceTransition();
 
             int triggeredGeoFenceId = Integer.valueOf(geoFenceEvent.getTriggeringGeofences().get(0)

@@ -30,7 +30,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="message_no_location_dialog">I can\'t get a location. Try in other place.</string>
-    <string name="textView_welcome">Welcome to AppRadar!</string>
+    <string name="textView_welcome">Welcome to RadarMe!</string>
     <string name="sub_klaxon">Submarine horn</string>
     <string name="factory">Factory</string>
     <string name="buton_dialog_cancel">Cancel</string>
@@ -66,5 +66,5 @@
     <string name="refresh_manual">Manual refresh</string>
     <string name="pref_refresh_time">Refresh Period</string>
     <string name="pref_refresh_time_summary">Select the refresh time to update the distance to the radar and your speed</string>
-    <string name="message_map_toast">Loading map...</string>
+    <string name="message_map_toast">Loading map&#8230;</string>
 </resources>

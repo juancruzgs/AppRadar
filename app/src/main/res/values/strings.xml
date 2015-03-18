@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">RadarMe</string>
     <string name="action_settings">Opciones</string>
-
     <string name="text_view_next_text">Próximo radar:</string>
     <string name="text_view_refresh_time_text">Última actualización: %s hs.</string>
     <string name="text_view_speed_limit_text">Máxima velocidad:</string>
@@ -52,7 +51,7 @@
     <string name="loading">Cargando&#8230;</string>
     <string name="Destinations_dialog_title">Elija destino&#8230;</string>
     <string name="warning_message">Atención!</string>
-    <string name="radar_message">Radar a %1$.1f metros. Km %2$.0f</string>
+    <string name="radar_message">Radar a %1$.0f metros. Km %2$.0f</string>
     <string name="sound_path" translatable="false">android.resource://</string>
     <string name="mdq" translatable="false">Mar del Plata</string>
     <string name="internetDialogCancel">Cancelar</string>
@@ -65,7 +64,6 @@
     <string name="end_trip">¿Está seguro que desea terminar el viaje?</string>
     <string name="distance_error_no_gps">No GPS</string>
     <string name="speed_error_no_gps" translatable="false">-</string>
-    <string name="message_map_toast">Cargando  mapa...</string>
     <string name="pref_refresh_time">Período de Actualización</string>
     <string name="refresh_10_seconds">10 Segundos</string>
     <string name="refresh_1_second">1 Segundo</string>
@@ -73,6 +71,5 @@
     <string name="refresh_manual">Actualización manual</string>
     <string name="pref_refresh_time_summary">Seleccione cada cuanto tiempo desea que se actualice la distancia al radar y su velocidad</string>
     <string name="map_activity_km"  translatable="false">%s km %s</string>
-
-
+    <string name="message_map_toast">Cargando  mapa&#8230;</string>
 </resources>

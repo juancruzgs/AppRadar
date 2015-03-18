@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
+import com.google.android.gms.location.GeofencingEvent;
+
 public class MainActivity extends ActionBarActivity{
 
     private Fragment mContent;
@@ -26,7 +28,6 @@ public class MainActivity extends ActionBarActivity{
         showIconInActionBar();
     }
 
-
     private void showIconInActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.mipmap.ic_launcher);
@@ -36,10 +37,13 @@ public class MainActivity extends ActionBarActivity{
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        try {
-            onHandleTransition fragment = (onHandleTransition) getSupportFragmentManager().findFragmentById(R.id.container);
-            fragment.handleTransition(intent);
-        } catch (ClassCastException e) {
+        int requestCode = intent.getIntExtra(Constants.PENDING_INTENT_EXTRA_REQUEST_CODE, -1);
+        if (requestCode == Constants.PENDING_INTENT_REQUEST_CODE) {
+            try {
+                onHandleTransition fragment = (onHandleTransition) getSupportFragmentManager().findFragmentById(R.id.container);
+                fragment.handleTransition(intent);
+            } catch (ClassCastException e) {
+            }
         }
     }
 

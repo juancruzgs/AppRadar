@@ -7,8 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
-import com.google.android.gms.location.GeofencingEvent;
-
 public class MainActivity extends ActionBarActivity{
 
     private Fragment mContent;

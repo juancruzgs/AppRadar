@@ -28,7 +28,6 @@ public class MainActivity extends ActionBarActivity{
         showIconInActionBar();
     }
 
-
     private void showIconInActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.mipmap.ic_launcher);

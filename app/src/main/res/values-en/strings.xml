@@ -30,7 +30,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="message_no_location_dialog">I can\'t get a location. Try in other place.</string>
-    <string name="textView_welcome">Welcome to AppRadar!</string>
+    <string name="textView_welcome">Welcome to RadarMe!</string>
     <string name="sub_klaxon">Submarine horn</string>
     <string name="factory">Factory</string>
     <string name="buton_dialog_cancel">Cancel</string>

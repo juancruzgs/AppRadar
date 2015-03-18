@@ -63,31 +63,4 @@
             android:background="@drawable/speed_limit_ring" />
     </android.support.v7.widget.CardView>
 
-    <LinearLayout
-        android:layout_marginTop="@dimen/elements_spacer"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/button_show_map"
-            android:id="@+id/button_map"
-            android:layout_weight="1"
-            android:background="@color/accent"
-            android:layout_marginRight="@dimen/summary_buttons_margin"
-            android:elevation="6dp"/>
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/button_end"
-            android:id="@+id/button_end"
-            android:layout_weight="1"
-            android:background="@color/yellow"
-            android:layout_marginLeft="@dimen/summary_buttons_margin"
-            android:elevation="6dp"/>
-    </LinearLayout>
-
 </LinearLayout>

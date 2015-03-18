@@ -5,4 +5,12 @@
         android:icon="@android:drawable/ic_popup_sync"
         android:title="@string/action_refresh"
         app:showAsAction="always"/>
+    <item android:id="@+id/action_show_map"
+          android:icon="@android:drawable/ic_dialog_map"
+          android:title="@string/button_show_map"
+          app:showAsAction="always"/>
+    <item android:id="@+id/action_end_trip"
+          android:icon="@android:drawable/ic_menu_close_clear_cancel"
+          android:title="@string/button_end"
+          app:showAsAction="always"/>
 </menu>

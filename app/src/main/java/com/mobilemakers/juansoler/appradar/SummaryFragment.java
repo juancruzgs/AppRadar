@@ -38,8 +38,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private RadarList mRadars;
     private GeofenceTransitionsIntent mGeofenceTransition;
     
-    private Button mButtonEnd;
-
     public SummaryFragment() {
         // Required empty public constructor
     }
@@ -82,8 +80,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         wireUpViews(rootView);
 //        monitorGpsStatus();
         mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
-        prepareEndButton();
-
         return rootView;
     }
 
@@ -98,32 +94,9 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         setScreenInformation();
     }
 
-    private void prepareEndButton() {
-        mButtonEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                endTrip();
-            }
-        });
-    }
-
     private void wireUpViews(View rootView) {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
-        prepareButtonMap(rootView);
-        mButtonEnd = (Button) rootView.findViewById(R.id.button_end);
-    }
-
-    private void prepareButtonMap(View rootView) {
-        Button buttonMap = (Button) rootView.findViewById(R.id.button_map);
-        buttonMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MapActivity.class);
-                intent.putExtra(Constants.RADARS_LIST, mRadars);
-                startActivity(intent);
-            }
-        });
     }
 
     private void getFragmentArguments() {
@@ -244,6 +217,16 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
             case R.id.action_refresh:
                 handled = true;
                 setScreenInformation();
+                break;
+            case R.id.action_show_map:
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                intent.putExtra(Constants.RADARS_LIST, mRadars);
+                startActivity(intent);
+                handled = true;
+                break;
+            case R.id.action_end_trip:
+                endTrip();
+                handled = true;
                 break;
         }
 

@@ -15,7 +15,7 @@ public class MainActivity extends ActionBarActivity{
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mContent = getSupportFragmentManager().findFragmentById(R.id.container);
-        getSupportFragmentManager().putFragment(outState, "mContent", mContent);
+        getSupportFragmentManager().putFragment(outState, Constants.FRAGMENT_SAVED, mContent);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity{
         else {
             //Restore the fragment's instance
             mContent = getSupportFragmentManager().getFragment(
-                    savedInstanceState, "mContent");
+                    savedInstanceState, Constants.FRAGMENT_SAVED);
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, mContent, Constants.SUMMARY_FRAGMENT_TAG)

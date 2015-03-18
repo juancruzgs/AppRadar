@@ -13,9 +13,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/text_view_next_text"
+        android:text="Coronel Vidal (Km 341)"
+        android:id="@+id/textView"
+        android:textSize="@dimen/typography_radar_name"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/text_view_distance"
         android:id="@+id/text_view_next"
-        android:layout_gravity="left" />
+        android:layout_gravity="left"
+        android:layout_marginTop="@dimen/elements_spacer"/>
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -32,7 +42,34 @@
             android:text="@string/text_view_distance_value"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/typography_display_3"/>
+            android:textSize="@dimen/typography_display_1"/>
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/text_view_speed"
+        android:id="@+id/text_view_speed"
+        android:layout_gravity="left"
+        android:layout_marginTop="@dimen/elements_spacer"/>
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_speed"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_view_distance_height"
+        android:layout_marginTop="@dimen/elements_spacer"
+        card_view:cardCornerRadius="@dimen/card_view_corner_radius">
+
+        <TextView
+            android:id="@+id/text_view_speed_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/text_view_speed_value"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/typography_display_1"/>
     </android.support.v7.widget.CardView>
 
     <TextView
@@ -54,40 +91,14 @@
 
         <TextView
             android:id="@+id/text_view_speed_limit_value"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:text="@string/text_view_speed_limit_value_text"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/typography_speed_limit_portrait"
-            android:background="@drawable/speed_limit_ring" />
+            android:textSize="@dimen/typography_display_2"
+            android:background="@drawable/speed_limit_ring"
+            android:layout_gravity="center"/>
     </android.support.v7.widget.CardView>
-
-    <LinearLayout
-        android:layout_marginTop="@dimen/elements_spacer"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/button_show_map"
-            android:id="@+id/button_map"
-            android:layout_weight="1"
-            android:background="@color/accent"
-            android:layout_marginRight="@dimen/summary_buttons_margin"
-            android:elevation="6dp"/>
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/button_end"
-            android:id="@+id/button_end"
-            android:layout_weight="1"
-            android:background="@color/yellow"
-            android:layout_marginLeft="@dimen/summary_buttons_margin"
-            android:elevation="6dp"/>
-    </LinearLayout>
 
 </LinearLayout>

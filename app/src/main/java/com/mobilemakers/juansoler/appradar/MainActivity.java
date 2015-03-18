@@ -23,13 +23,6 @@ public class MainActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prepareFragment(savedInstanceState);
-        showIconInActionBar();
-    }
-
-    private void showIconInActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setIcon(R.mipmap.ic_launcher);
-        actionBar.setDisplayShowHomeEnabled(true);
     }
 
     @Override

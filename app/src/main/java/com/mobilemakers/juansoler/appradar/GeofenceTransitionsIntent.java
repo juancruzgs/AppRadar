@@ -51,7 +51,7 @@ public class GeofenceTransitionsIntent {
             } else if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType &&
                         radiusIndex == Constants.RADIUS_INDEX_THIRD_FENCE) {
                 radarIndex++;
-                if (radarIndex < radarList.getQuantity()) {
+                if (radarIndex < radarList.size()) {
                     radarList.setNextRadarIndex(radarIndex);
                 }
                 else {

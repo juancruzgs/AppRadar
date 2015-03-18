@@ -34,7 +34,7 @@ public class RadarList implements Parcelable {
         mNextRadarIndex = nextRadarIndex;
     }
 
-    public int getQuantity() {
+    public int size() {
         return mRadars.size();
     }
 

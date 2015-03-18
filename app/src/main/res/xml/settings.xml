@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_refresh_time">
+        <ListPreference
+            android:key="preference_refresh_time"
+            android:title="@string/pref_refresh_time"
+            android:summary="@string/pref_refresh_time_summary"
+            android:entries="@array/refresh_time_entries"
+            android:entryValues="@array/refresh_time_values"
+            android:defaultValue="10"/>
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_first_notification">
         <ListPreference
             android:key="first_notification_preference_distance"

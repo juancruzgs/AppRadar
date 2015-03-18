@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,8 +39,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private GeofenceTransitionsIntent mGeofenceTransition;
     
     private Button mButtonEnd;
-    private Button mButtonMap;
-    
+
     public SummaryFragment() {
         // Required empty public constructor
     }
@@ -117,11 +115,11 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private void prepareButtonMap(View rootView) {
-        mButtonMap = (Button) rootView.findViewById(R.id.button_map);
-        mButtonMap.setOnClickListener(new View.OnClickListener() {
+        Button buttonMap = (Button) rootView.findViewById(R.id.button_map);
+        buttonMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (getActivity(), MapActivity.class);
+                Intent intent = new Intent(getActivity(), MapActivity.class);
                 intent.putExtra(Constants.RADARS_LIST, mRadars);
                 startActivity(intent);
             }

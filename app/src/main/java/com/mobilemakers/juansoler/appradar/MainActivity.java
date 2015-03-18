@@ -1,12 +1,11 @@
 package com.mobilemakers.juansoler.appradar;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 public class MainActivity extends ActionBarActivity{
 
@@ -24,7 +23,6 @@ public class MainActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prepareFragment(savedInstanceState);
-
         showIconInActionBar();
     }
 

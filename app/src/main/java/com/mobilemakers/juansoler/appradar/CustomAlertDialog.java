@@ -3,6 +3,7 @@ package com.mobilemakers.juansoler.appradar;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 

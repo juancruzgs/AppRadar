@@ -1,13 +1,12 @@
 package com.mobilemakers.juansoler.appradar;
 
-import android.app.FragmentTransaction;
+
 import android.location.Location;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -23,7 +22,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Iterator;
 
-public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, LocationListener {
+public class MapActivity extends ActionBarActivity
+        implements OnMapReadyCallback, LocationListener {
 
     private RadarList mRadars;
     private GoogleMap mGoogleMap;
@@ -31,28 +31,29 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     LocationRequest mLocationRequest;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
-
-        mRadars = getIntent().getExtras().getParcelable(Constants.RADARS_LIST);
-
-        if (savedInstanceState == null) {
-            Toast.makeText(this, getString(R.string.message_map_toast), Toast.LENGTH_LONG).show();
-            MapFragment mMapFragment = MapFragment.newInstance();
-            FragmentTransaction fragmentTransaction =
-                    getFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.container, mMapFragment);
-            fragmentTransaction.commit();
-            mMapFragment.getMapAsync(this);
-        }
-
-        showIconInActionBar();
+    public void onLocationChanged(Location location) {
+        refreshMap(location);
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        refreshMap(location);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_map);
+        showIconInActionBar();
+        getMap();
+        mRadars = getIntent().getExtras().getParcelable(Constants.RADARS_LIST);
+    }
+
+    private void getMap() {
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
+    private void showIconInActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setIcon(R.mipmap.ic_launcher);
+        actionBar.setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         createLocationRequest();
         refreshMap(getLocation());
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        addMarkerForEachRadar(mGoogleMap);
+        addMarkerForEachRadar(googleMap);
     }
 
     private void refreshMap(Location location) {
@@ -76,10 +77,10 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     private CameraPosition getCameraPosition(LatLng latLong) {
         return CameraPosition.builder()
-                .target(latLong)
-                .zoom(17)
-                .bearing(90)
-                .build();
+                    .target(latLong)
+                    .zoom(17)
+                    .bearing(90)
+                    .build();
     }
 
     private Location getLocation() {
@@ -105,15 +106,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         }
     }
 
-
-
-    private void showIconInActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setIcon(R.mipmap.ic_launcher);
-        actionBar.setDisplayShowHomeEnabled(true);
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -135,5 +127,4 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         return super.onOptionsItemSelected(item);
     }
-
 }

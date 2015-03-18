@@ -75,4 +75,8 @@ public class Constants {
     //Radius
     public static final float MINIMUM_RADIUS_FIRST_NOTIFICATION = 5000;
     public static final float MINIMUM_RADIUS_SECOND_NOTIFICATION = 2000;
+
+    //Fragment replacements - back stack names
+    public static final String BACKSTACK_START_TO_SUMMARY = "START_TO_SUMMARY";
+    public static final String BACKSTACK_SUMMARY_TO_END = "SUMMARY_TO_END";
 }

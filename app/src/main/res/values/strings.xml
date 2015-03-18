@@ -67,4 +67,7 @@
     <string name="distance_error_no_gps">No GPS</string>
     <string name="speed_error_no_gps" translatable="false">-</string>
     <string name="message_map_toast">Cargando  mapa...</string>
+    <string name="text_view_last_radar_title">Viaje tranquilo</string>
+    <string name="text_view_last_radar_text">Acaba de pasar el último radar del camino</string>
+    <string name="button_last_radar_end">Cerrar</string>
 </resources>

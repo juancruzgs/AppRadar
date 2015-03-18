@@ -7,6 +7,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.view.WindowManager;
 
@@ -48,17 +50,30 @@ public class GeofenceTransitionsIntent {
                         R.mipmap.ic_launcher, getNotificationId(radius));
             } else if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType &&
                         radiusIndex == Constants.RADIUS_INDEX_THIRD_FENCE) {
-                    radarList.setNextRadarIndex(radarIndex+1);
+                radarIndex++;
+                if (radarIndex < radarList.getQuantity()) {
+                    radarList.setNextRadarIndex(radarIndex);
+                }
+                else {
+                    FragmentActivity fragmentActivity = (FragmentActivity) mActivity;
+                    fragmentActivity.getSupportFragmentManager().beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .replace(R.id.container, new LastRadarFragment())
+                            .addToBackStack(Constants.BACKSTACK_SUMMARY_TO_END)
+                            .commit();
+
+                    showActivityAlwaysOnTop();
+                }
             }
         }
     }
 
     private void showActivityAlwaysOnTop() {
-        mActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
+        mActivity.getWindow().setFlags(//WindowManager.LayoutParams.FLAG_FULLSCREEN |
                         //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                //WindowManager.LayoutParams.FLAG_FULLSCREEN |
                         //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);

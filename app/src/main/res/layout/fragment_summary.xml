@@ -13,8 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Coronel Vidal (Km 341)"
-        android:id="@+id/textView"
+        android:id="@+id/text_view_info_radar"
         android:textSize="@dimen/typography_radar_name"
         android:gravity="center"/>
 

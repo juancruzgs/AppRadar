@@ -106,8 +106,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         }
     }
 
-
-
     private void showIconInActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.mipmap.ic_launcher);

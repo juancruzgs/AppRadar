@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,6 +33,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private TextView mTextViewDistance;
     private TextView mTextViewSpeedLimitValue;
+    private TextView mTextViewInfoRadar;
 
     private RadarList mRadars;
     private GeofenceTransitionsIntent mGeofenceTransition;
@@ -97,6 +97,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private void wireUpViews(View rootView) {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
+        mTextViewInfoRadar = (TextView)rootView.findViewById(R.id.text_view_info_radar);
     }
 
     private void getFragmentArguments() {
@@ -139,6 +140,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private void setScreenInformation() {
         try {
             Radar nextRadar = mRadars.getNextRadar();
+            setNameAndKilometer(nextRadar);
             setDistance(nextRadar);
             setMaxSpeed(nextRadar);
             setRefreshTime();
@@ -146,6 +148,10 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
             mTextViewDistance.setText(getString(R.string.distance_error_no_gps));
             mTextViewSpeedLimitValue.setText(getString(R.string.speed_error_no_gps));
         }
+    }
+
+    private void setNameAndKilometer(Radar nextRadar){
+        mTextViewInfoRadar.setText(String.format(getString(R.string.text_view_info_radar), nextRadar.getName(), nextRadar.getKm()));
     }
 
     private void setRefreshTime(){

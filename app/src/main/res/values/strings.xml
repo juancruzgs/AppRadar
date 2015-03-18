@@ -72,4 +72,7 @@
     <string name="refresh_5_seconds">5 Segundos</string>
     <string name="refresh_manual">Actualización manual</string>
     <string name="pref_refresh_time_summary">Seleccione cada cuanto tiempo desea que se actualice la distancia al radar y su velocidad</string>
+    <string name="map_activity_km"  translatable="false">%s km %s</string>
+
+
 </resources>

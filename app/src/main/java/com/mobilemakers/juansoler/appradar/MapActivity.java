@@ -37,6 +37,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         mRadars = getIntent().getExtras().getParcelable(Constants.RADARS_LIST);
 
+
         if (savedInstanceState == null) {
             Toast.makeText(this, getString(R.string.message_map_toast), Toast.LENGTH_LONG).show();
             MapFragment mMapFragment = MapFragment.newInstance();
@@ -101,7 +102,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
             Radar radar = (Radar) iterator.next();
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(radar.getLatitude(), radar.getLongitude()))
-                    .title(radar.getName() + " km " + radar.getKm()));
+                    .title(String.format(getString(R.string.map_activity_km), radar.getName(), radar.getKm())));
         }
     }
 

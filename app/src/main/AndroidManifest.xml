@@ -12,6 +12,10 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+    <uses-library
+        android:name="com.google.android.maps"
+        android:required="false" />
+
     <application
         android:name=".AppRadarApplication"
         android:allowBackup="true"

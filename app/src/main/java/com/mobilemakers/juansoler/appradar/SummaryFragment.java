@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +27,7 @@ import com.google.android.gms.location.LocationServices;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -39,12 +38,10 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private TextView mTextViewDistance;
     private TextView mTextViewSpeedLimitValue;
     private TextView mTextViewInfoRadar;
+    private TextView mTextViewSpeedValue;
 
     private RadarList mRadars;
     private GeofenceTransitionsIntent mGeofenceTransition;
-    
-    private Button mButtonEnd;
-    private Button mButtonMap;
 
     private Location mLocation;
 
@@ -108,6 +105,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
         mTextViewInfoRadar = (TextView)rootView.findViewById(R.id.text_view_info_radar);
+        mTextViewSpeedValue = (TextView)rootView.findViewById(R.id.text_view_speed_value);
+        mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), "0"));
     }
 
     private void getFragmentArguments() {
@@ -131,8 +130,11 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                                         } else {
                                             speed = getSpeed(mLocation, location);
                                         }
-                                        ((ActionBarActivity)getActivity()).getSupportActionBar()
-                                                .setSubtitle(String.valueOf(speed)+ "km/h");
+                                        mTextViewSpeedValue.setText(
+                                                String.format(
+                                                        getString(R.string.text_view_speed_value),
+                                                        new DecimalFormat("###").format(speed)
+                                                ));
                                         mLocation = location;
                                     }
 
@@ -172,15 +174,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                                     {
                                         long timeMS;
                                         timeMS = TimeUnit.NANOSECONDS.toSeconds(startLoc.getTime() - endLoc.getTime());
-//                                        timeMS = (long)0.000001 * Math.abs((startLoc.getElapsedRealtimeNanos() -
-//                                                endLoc.getElapsedRealtimeNanos()));
-
-//                                        timeMS = startLoc.getTime() - endLoc.getTime();
-//                                        (long)0.001 converts milliseconds to seconds
-
-//                                        return (long)0.001 * timeMS;
-
-//                                        return (long)0.001 * (startLoc.getTime() - endLoc.getTime());
                                         return timeMS;
                                     }
                                 });

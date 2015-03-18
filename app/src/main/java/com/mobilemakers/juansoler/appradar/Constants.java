@@ -15,7 +15,6 @@ public class Constants {
     public static final int RESULT_OK = -1;
     public static final int REQUEST_RESOLVE_ERROR = 1001;
     public static final String DESTINATION = "destination";
-    public static final String VISIBILITY = "visibility";
     public static final int PENDING_INTENT_REQUEST_CODE = 0;
     public static final String PENDING_INTENT_EXTRA_REQUEST_CODE = "requestCode";
 

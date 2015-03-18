@@ -93,18 +93,13 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private void prepareLandscape(Bundle savedInstanceState) {
         if (savedInstanceState!=null){
             if (savedInstanceState.containsKey(Constants.DESTINATION)) {
-                mButtonSetDestination.setText(savedInstanceState.getString(Constants.DESTINATION));
-
-                switch (savedInstanceState.getInt(Constants.VISIBILITY)) {
-                    case View.VISIBLE:
-                        mButtonStart.setVisibility(View.VISIBLE);
-                        break;
-                    case View.INVISIBLE:
-                        mButtonStart.setVisibility(View.INVISIBLE);
-                        break;
-                    case View.GONE:
-                        mButtonStart.setVisibility(View.GONE);
-                        break;
+                String destination = savedInstanceState.getString(Constants.DESTINATION);
+                mButtonSetDestination.setText(destination);
+                if (!destination.equals(getString(R.string.button_select_destination))) {
+                    mButtonStart.setVisibility((View.VISIBLE));
+                }
+                else {
+                    mButtonStart.setVisibility((View.INVISIBLE));
                 }
             }
         }
@@ -381,7 +376,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         if(getFragmentManager().getBackStackEntryCount() == 0) {
             outState.putBoolean(Constants.STATE_RESOLVING_ERROR, mResolvingError);
             outState.putString(Constants.DESTINATION, mButtonSetDestination.getText().toString());
-            outState.putInt(Constants.VISIBILITY, mButtonStart.getVisibility());
         }
     }
 

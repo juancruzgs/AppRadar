@@ -7,6 +7,9 @@ public class Constants {
     public static final String APPLICATION_ID = "7P8k5rZtpTzL29BqPhsIFqMrD9T0Qg7MIT1VYzfJ";
     public static final String CLIENT_KEY = "FVtaE3Ur3M4AhZuPvvkXZyiRlZhLgRAGqB0GcZt6";
 
+    //MainActivity
+    public static final String FRAGMENT_SAVED = "mContent";
+
     //StartScreenFragment
     public static final String STATE_RESOLVING_ERROR = "resolving_error";
     public static final int RESULT_OK = -1;
@@ -15,6 +18,9 @@ public class Constants {
     public static final String VISIBILITY = "visibility";
     public static final int PENDING_INTENT_REQUEST_CODE = 0;
     public static final String PENDING_INTENT_EXTRA_REQUEST_CODE = "requestCode";
+
+    //SummaryFragment
+    public static final String DATE_FORMAT = "HH:mm";
 
     //Notifications
     public final static int NOTIFICATION_ID = 1;
@@ -59,7 +65,6 @@ public class Constants {
 
     //ErrorDialogFragment
     public final static String DIALOG_ERROR = "dialog_error";
-
     public final static String TAG_DESTINATION_DIALOG = "destinations_dialog";
     public final static String START_SCREEN_FRAGMENT_TAG = StartScreenFragment.class.getSimpleName();
     public final static String SUMMARY_FRAGMENT_TAG = SummaryFragment.class.getSimpleName();

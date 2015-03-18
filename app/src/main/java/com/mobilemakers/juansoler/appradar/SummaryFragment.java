@@ -215,7 +215,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private String getCurrentTime () {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+        DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         Date date = new Date();
         return dateFormat.format(date);
     }

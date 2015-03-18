@@ -75,5 +75,5 @@
     <string name="text_view_speed_value" translatable="false">%s Km/h</string>
     <string name="map_activity_km"  translatable="false">%s km %s</string>
     <string name="message_map_toast">Cargando  mapa&#8230;</string>
-    <string name="text_view_info_radar" translatable="false">%s \n Km %s</string>
+    <string name="text_view_info_radar" translatable="false">(Km %s)</string>
 </resources>

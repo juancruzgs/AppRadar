@@ -224,10 +224,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                 startActivity(intent);
                 handled = true;
                 break;
-            case R.id.action_end_trip:
-                endTrip();
-                handled = true;
-                break;
         }
 
         if (!handled) {

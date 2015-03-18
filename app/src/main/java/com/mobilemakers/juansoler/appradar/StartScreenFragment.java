@@ -231,7 +231,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 mApiClient.connect();
             }
             else {
-                Transitions.fadeOUT(mProgressLayout, Constants.TRANSIION_DURATION_1K ,true);
                 CustomAlertDialog alertDialog = new CustomAlertDialog(getString(R.string.intenetDataDiagloTitle),
                         getString(R.string.internetDialogAccept),
                         getString(R.string.internetDialogCancel),
@@ -241,13 +240,14 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 fadeInViews();
             }
         }
+    }
 
-        private void fadeInViews() {
-            Transitions.fadeIN(mImageViewSS, Constants.TRANSIION_DURATION_1K);
-            Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
-            Transitions.fadeIN(mButtonSetDestination, Constants.TRANSIION_DURATION_1K);
-            Transitions.fadeIN(mTextViewWelcome, Constants.TRANSIION_DURATION_1K);
-        }
+    private void fadeInViews() {
+        Transitions.fadeOUT(mProgressLayout, Constants.TRANSIION_DURATION_1K ,true);
+        Transitions.fadeIN(mImageViewSS, Constants.TRANSIION_DURATION_1K);
+        Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
+        Transitions.fadeIN(mButtonSetDestination, Constants.TRANSIION_DURATION_1K);
+        Transitions.fadeIN(mTextViewWelcome, Constants.TRANSIION_DURATION_1K);
     }
 
     private int getDirection() {
@@ -280,9 +280,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     @Override
     public void onConnected(Bundle bundle) {
-        // Get the PendingIntent for the geofence monitoring request.
-        // Send a request to add the current geofences.
-        PendingIntent geofenceRequestIntent = getGeofenceTransitionPendingIntent();
+        PendingIntent geoFenceRequestIntent = getGeoFenceTransitionPendingIntent();
 
         int id = 0;
         float radius = 0;
@@ -309,13 +307,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         }
 
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
-                geofenceRequestIntent);
+                geoFenceRequestIntent);
 
         prepareNewFragment();
     }
 
     private void prepareNewFragment() {
-
         SummaryFragment mSummaryFragment = new SummaryFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.RADARS_LIST, mRadars);
@@ -327,7 +324,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 .commit();
     }
 
-    private PendingIntent getGeofenceTransitionPendingIntent() {
+    private PendingIntent getGeoFenceTransitionPendingIntent() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(Constants.PENDING_INTENT_EXTRA_REQUEST_CODE, Constants.PENDING_INTENT_REQUEST_CODE);
@@ -420,6 +417,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         super.onStop();
         if (mDatabaseOperations != null && mDatabaseOperations.getStatus() == AsyncTask.Status.RUNNING) {
             mDatabaseOperations.cancel(true);
+            fadeInViews();
         }
     }
 }

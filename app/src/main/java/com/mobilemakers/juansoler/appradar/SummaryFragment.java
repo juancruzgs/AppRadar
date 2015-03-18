@@ -33,11 +33,12 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private TextView mTextViewDistance;
     private TextView mTextViewSpeedLimitValue;
-    private TextView mTextViewInfoRadar;
+    private TextView mTextViewNameRadar;
+    private TextView mTextViewKmRadar;
 
     private RadarList mRadars;
     private GeofenceTransitionsIntent mGeofenceTransition;
-    
+
     public SummaryFragment() {
         // Required empty public constructor
     }
@@ -97,7 +98,9 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private void wireUpViews(View rootView) {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
-        mTextViewInfoRadar = (TextView)rootView.findViewById(R.id.text_view_info_radar);
+        mTextViewNameRadar = (TextView) rootView.findViewById(R.id.text_view_radar_name);
+        mTextViewKmRadar = (TextView) rootView.findViewById(R.id.text_view_radar_km);
+
     }
 
     private void getFragmentArguments() {
@@ -151,7 +154,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private void setNameAndKilometer(Radar nextRadar){
-        mTextViewInfoRadar.setText(String.format(getString(R.string.text_view_info_radar), nextRadar.getName(), nextRadar.getKm()));
+        mTextViewNameRadar.setText(nextRadar.getName());
+        mTextViewKmRadar.setText(String.format(getString(R.string.text_view_info_radar),nextRadar.getKm()));
     }
 
     private void setRefreshTime(){

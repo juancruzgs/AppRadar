@@ -179,7 +179,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private void setRefreshTime(){
         String time = getCurrentTime();
-        setActionBarSubtitle(String.format(getString(R.string.text_view_refresh_time_text),time));
+        setActionBarSubtitle(String.format(getString(R.string.text_view_refresh_time_text), time));
     }
 
     private void setActionBarSubtitle(String subtitle){

@@ -328,7 +328,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private PendingIntent getGeofenceTransitionPendingIntent() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        return PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.putExtra(Constants.PENDING_INTENT_EXTRA_REQUEST_CODE, Constants.PENDING_INTENT_REQUEST_CODE);
+        return PendingIntent.getActivity(getActivity(), Constants.PENDING_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @Override
@@ -415,7 +416,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     @Override
     public void onStop() {
         super.onStop();
-        if (mDatabaseOperations != null) {
+        if (mDatabaseOperations != null && mDatabaseOperations.getStatus() == AsyncTask.Status.RUNNING) {
             mDatabaseOperations.cancel(true);
         }
     }

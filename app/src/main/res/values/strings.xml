@@ -72,8 +72,8 @@
     <string name="refresh_manual">Actualización manual</string>
     <string name="pref_refresh_time_summary">Seleccione cada cuanto tiempo desea que se actualice la distancia al radar y su velocidad</string>
     <string name="text_view_speed">Velocidad actual:</string>
-    <string name="text_view_speed_value" translatable="false">%s Km/h</string>
-    <string name="map_activity_km"  translatable="false">%s km %s</string>
+    <string name="text_view_speed_value" translatable="false">%.0f Km/h</string>
+    <string name="map_activity_km"  translatable="false">%1$s km %2$s</string>
     <string name="message_map_toast">Cargando  mapa&#8230;</string>
     <string name="text_view_info_radar" translatable="false">(Km %s)</string>
 </resources>

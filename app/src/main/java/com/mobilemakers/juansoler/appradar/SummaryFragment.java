@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +28,6 @@ import com.google.android.gms.location.LocationServices;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -45,6 +45,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private GeofenceTransitionsIntent mGeofenceTransition;
 
     private Location mLocation;
+    private LocationListener mLocationListener;
+    private LocationManager mLocationManager;
 
     public SummaryFragment() {
         // Required empty public constructor
@@ -58,6 +60,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     @Override
     public void doBack() {
         endTrip();
+        mLocationManager.removeUpdates(mLocationListener);
     }
 
     private void endTrip() {
@@ -87,7 +90,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
         wireUpViews(rootView);
         refreshSpeed();
-//        monitorGpsStatus();
         mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
         return rootView;
     }
@@ -120,57 +122,64 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private void refreshSpeed() {
-        LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 100,
-                new android.location.LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        float speed;
-                        if (mLocation == null) {
-                            speed = 0;
-                        } else {
-                            speed = getSpeed(location);
-                        }
-                        mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), speed));
-                        mLocation = location;
-                    }
+        mLocationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (mLocationListener == null) {
+            setLocationListener();
+        }
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 100,
+                mLocationListener);
+    }
 
-                    @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
+    public void setLocationListener(){
+        mLocationListener = new android.location.LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                float speed;
+                if (mLocation == null) {
+                    speed = 0;
+                } else {
+                    speed = getSpeed(location);
+                }
+                mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), speed));
+                mLocation = location;
+            }
 
-                    }
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
 
-                    @Override
-                    public void onProviderEnabled(String provider) {
+            }
 
-                    }
+            @Override
+            public void onProviderEnabled(String provider) {
 
-                    @Override
-                    public void onProviderDisabled(String provider) {
+            }
 
-                    }
+            @Override
+            public void onProviderDisabled(String provider) {
 
-                    private float getSpeed(Location endLoc) {
-                        float distM;
-                        long timeS;
-                        //Use provided speed, if it exists
-                        if (endLoc.hasSpeed()) {
-                            return endLoc.getSpeed() * Constants.SPEED_CONVERSION;
-                        }
-                        //Get time difference is seconds
-                        timeS = getTimeDifference(endLoc);
-                        //Get distance traveled in meters
-                        distM = mLocation.distanceTo(endLoc);
+            }
 
-                        return (distM / timeS) * Constants.SPEED_CONVERSION;
-                    }
+            private float getSpeed(Location endLoc) {
+                float distM;
+                long timeS;
+                //Use provided speed, if it exists
+                if (endLoc.hasSpeed()) {
+                    return endLoc.getSpeed() * Constants.SPEED_CONVERSION;
+                }
+                //Get time difference is seconds
+                timeS = getTimeDifference(endLoc);
+                //Get distance traveled in meters
+                distM = mLocation.distanceTo(endLoc);
 
-                    private long getTimeDifference(Location endLoc) {
-                        long timeMS;
-                        timeMS = TimeUnit.NANOSECONDS.toSeconds(mLocation.getTime() - endLoc.getTime());
-                        return timeMS;
-                    }
-                });
+                return (distM / timeS) * Constants.SPEED_CONVERSION;
+            }
+
+            private long getTimeDifference(Location endLoc) {
+                long timeMS;
+                timeMS = TimeUnit.NANOSECONDS.toSeconds(mLocation.getTime() - endLoc.getTime());
+                return timeMS;
+            }
+        };
     }
 
     @Override

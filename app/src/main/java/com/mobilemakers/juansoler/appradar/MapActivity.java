@@ -1,7 +1,7 @@
 package com.mobilemakers.juansoler.appradar;
 
-import android.app.FragmentTransaction;
 import android.location.Location;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,8 +15,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -40,9 +40,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         if (savedInstanceState == null) {
             Toast.makeText(this, getString(R.string.message_map_toast), Toast.LENGTH_LONG).show();
-            MapFragment mMapFragment = MapFragment.newInstance();
+            SupportMapFragment mMapFragment = SupportMapFragment.newInstance();
             FragmentTransaction fragmentTransaction =
-                    getFragmentManager().beginTransaction();
+                    getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.container, mMapFragment);
             fragmentTransaction.commit();
             mMapFragment.getMapAsync(this);

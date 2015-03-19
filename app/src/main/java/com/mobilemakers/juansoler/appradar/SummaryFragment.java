@@ -37,6 +37,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private TextView mTextViewDistance;
     private TextView mTextViewSpeedLimitValue;
+    private TextView mTextViewNameRadar;
+    private TextView mTextViewKmRadar;
     private TextView mTextViewInfoRadar;
     private TextView mTextViewSpeedValue;
 
@@ -104,7 +106,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private void wireUpViews(View rootView) {
         mTextViewDistance = (TextView) rootView.findViewById(R.id.text_view_distance);
         mTextViewSpeedLimitValue = (TextView) rootView.findViewById(R.id.text_view_speed_limit_value);
-        mTextViewInfoRadar = (TextView)rootView.findViewById(R.id.text_view_info_radar);
+        mTextViewNameRadar = (TextView) rootView.findViewById(R.id.text_view_radar_name);
+        mTextViewKmRadar = (TextView) rootView.findViewById(R.id.text_view_radar_km);
         mTextViewSpeedValue = (TextView)rootView.findViewById(R.id.text_view_speed_value);
         mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), "0"));
     }
@@ -200,7 +203,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private void setNameAndKilometer(Radar nextRadar){
-        mTextViewInfoRadar.setText(String.format(getString(R.string.text_view_info_radar), nextRadar.getName(), nextRadar.getKm()));
+        mTextViewNameRadar.setText(nextRadar.getName());
+        mTextViewKmRadar.setText(String.format(getString(R.string.text_view_info_radar),nextRadar.getKm()));
     }
 
     private void setRefreshTime(){
@@ -277,10 +281,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                 Intent intent = new Intent(getActivity(), MapActivity.class);
                 intent.putExtra(Constants.RADARS_LIST, mRadars);
                 startActivity(intent);
-                handled = true;
-                break;
-            case R.id.action_end_trip:
-                endTrip();
                 handled = true;
                 break;
         }

@@ -14,6 +14,7 @@ public class NotificationPreference {
     private String mSecondNotificationLed;
     private String mThirdNotificationSound;
     private String mThirdNotificationLed;
+    private String mRefreshTime;
 
     public NotificationPreference() {
     }
@@ -50,8 +51,14 @@ public class NotificationPreference {
         return mThirdNotificationLed;
     }
 
+    public String getRefreshTime() {
+        return mRefreshTime;
+    }
+
     public void getSharedPreferences (Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mRefreshTime = sharedPreferences.getString(
+                context.getString(R.string.preference_refresh_time), context.getResources().getStringArray(R.array.refresh_time_values)[1]);
         mFirstNotificationDistance = sharedPreferences.getString(
                 context.getString(R.string.first_notification_preference_distance), context.getResources().getStringArray(R.array.first_values)[0]);
         mFirstNotificationSound = sharedPreferences.getString(

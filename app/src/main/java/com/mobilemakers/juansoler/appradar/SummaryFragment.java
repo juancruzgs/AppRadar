@@ -27,7 +27,6 @@ import com.google.android.gms.location.LocationServices;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -84,7 +83,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
-        Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
+        Transitions.fadeIN(layoutMain, Constants.TRANSITION_DURATION_2K);
         wireUpViews(rootView);
         refreshSpeed();
 //        monitorGpsStatus();

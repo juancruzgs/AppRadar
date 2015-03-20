@@ -76,4 +76,13 @@
     <string name="map_activity_km"  translatable="false">%1$s km %2$s</string>
     <string name="message_map_toast">Cargando  mapa&#8230;</string>
     <string name="text_view_info_radar" translatable="false">(Km %s)</string>
+    <string name="first_notification_preference_distance">first_notification_preference_distance</string>
+    <string name="first_notification_preference_sound">first_notification_preference_sound</string>
+    <string name="first_notification_preference_led_color">first_notification_preference_led_color</string>
+    <string name="second_notification_preference_distance">second_notification_preference_distance</string>
+    <string name="second_notification_preference_sound">second_notification_preference_sound</string>
+    <string name="second_notification_preference_led_color">second_notification_preference_led_color</string>
+    <string name="third_notification_preference_sound">third_notification_preference_sound</string>
+    <string name="third_notification_preference_led_color">third_notification_preference_led_color</string>
+    <string name="preference_refresh_time">preference_refresh_time</string>
 </resources>

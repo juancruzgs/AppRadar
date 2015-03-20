@@ -116,7 +116,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mButtonSetDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, false);
+                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSITION_DURATION_1K, false);
                 DestinationsDialog destinationsDialog = new DestinationsDialog();
                 destinationsDialog.show(mFragmentManager, Constants.TAG_DESTINATION_DIALOG);
             }
@@ -157,10 +157,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
 
             private void fadeOutViews() {
-                Transitions.fadeOUT(mImageViewSS, Constants.TRANSIION_DURATION_1K, false);
-                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, true);
-                Transitions.fadeOUT(mButtonStart, Constants.TRANSIION_DURATION_1K, true);
-                Transitions.fadeOUT(mTextViewWelcome, Constants.TRANSIION_DURATION_1K, true, mProgressLayout);
+                Transitions.fadeOUT(mImageViewSS, Constants.TRANSITION_DURATION_1K, false);
+                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSITION_DURATION_1K, true);
+                Transitions.fadeOUT(mButtonStart, Constants.TRANSITION_DURATION_1K, true);
+                Transitions.fadeOUT(mTextViewWelcome, Constants.TRANSITION_DURATION_1K, true, mProgressLayout);
             }
         });
     }
@@ -238,11 +238,11 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     private void fadeInViews() {
-        Transitions.fadeOUT(mProgressLayout, Constants.TRANSIION_DURATION_1K ,true);
-        Transitions.fadeIN(mImageViewSS, Constants.TRANSIION_DURATION_1K);
-        Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
-        Transitions.fadeIN(mButtonSetDestination, Constants.TRANSIION_DURATION_1K);
-        Transitions.fadeIN(mTextViewWelcome, Constants.TRANSIION_DURATION_1K);
+        Transitions.fadeOUT(mProgressLayout, Constants.TRANSITION_DURATION_1K,true);
+        Transitions.fadeIN(mImageViewSS, Constants.TRANSITION_DURATION_1K);
+        Transitions.fadeIN(mButtonStart, Constants.TRANSITION_DURATION_1K);
+        Transitions.fadeIN(mButtonSetDestination, Constants.TRANSITION_DURATION_1K);
+        Transitions.fadeIN(mTextViewWelcome, Constants.TRANSITION_DURATION_1K);
     }
 
     private int getDirection() {
@@ -267,10 +267,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         if (!destination.isEmpty()){
             mButtonSetDestination.setText(destination);
             if (mButtonStart.getVisibility() != View.VISIBLE) {
-                Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
+                Transitions.fadeIN(mButtonStart, Constants.TRANSITION_DURATION_1K);
             }
         }
-        Transitions.fadeIN(mButtonSetDestination, Constants.TRANSIION_DURATION_1K);
+        Transitions.fadeIN(mButtonSetDestination, Constants.TRANSITION_DURATION_1K);
     }
 
     @Override

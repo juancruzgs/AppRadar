@@ -23,14 +23,6 @@ public class Constants {
 
     //Notifications
     public final static int NOTIFICATION_ID = 1;
-    public final static String FIRST_NOTIFICATION_DISTANCE = "first_notification_preference_distance";
-    public final static String FIRST_NOTIFICATION_SOUND = "first_notification_preference_sound";
-    public final static String FIRST_NOTIFICATION_LED = "first_notification_preference_led_color";
-    public final static String SECOND_NOTIFICATION_DISTANCE = "second_notification_preference_distance";
-    public final static String SECOND_NOTIFICATION_SOUND = "second_notification_preference_sound";
-    public final static String SECOND_NOTIFICATION_LED = "second_notification_preference_led_color";
-    public final static String THIRD_NOTIFICATION_SOUND = "third_notification_preference_sound";
-    public final static String THIRD_NOTIFICATION_LED = "third_notification_preference_led_color";
 
     //LED durations
     public final static int [] LED_DURATION_ON = {0, 1000, 1000, 200};
@@ -48,8 +40,8 @@ public class Constants {
     public final static String PARSE_UPDATED_AT = "updatedAt";
 
     //Transitions
-    public final static long TRANSIION_DURATION_1K = 1000;
-    public final static long TRANSIION_DURATION_2K = 2000;
+    public final static long TRANSITION_DURATION_1K = 1000;
+    public final static long TRANSITION_DURATION_2K = 2000;
     public final static float ANIMATION_ALPHA_FROM = 0.0f;
     public final static float ANIMATION_ALPHA_TO = 1.0f;
 

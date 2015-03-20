@@ -60,13 +60,13 @@ public class NotificationPreference {
         mRefreshTime = sharedPreferences.getString(
                 context.getString(R.string.preference_refresh_time), context.getResources().getStringArray(R.array.refresh_time_values)[1]);
         mFirstNotificationDistance = sharedPreferences.getString(
-                context.getString(R.string.first_notification_preference_distance), context.getResources().getStringArray(R.array.first_values)[0]);
+                context.getString(R.string.first_notification_preference_distance), context.getResources().getStringArray(R.array.first_distance_values)[0]);
         mFirstNotificationSound = sharedPreferences.getString(
                 context.getString(R.string.first_notification_preference_sound), context.getResources().getStringArray(R.array.sound_values)[0]);
         mFirstNotificationLed = sharedPreferences.getString(
                 context.getString(R.string.first_notification_preference_led_color), context.getResources().getStringArray(R.array.led_color_values)[2]);
         mSecondNotificationDistance = sharedPreferences.getString(
-                context.getString(R.string.second_notification_preference_distance), context.getResources().getStringArray(R.array.second_values)[0]);
+                context.getString(R.string.second_notification_preference_distance), context.getResources().getStringArray(R.array.second_distance_values)[0]);
         mSecondNotificationSound = sharedPreferences.getString(
                 context.getString(R.string.second_notification_preference_sound), context.getResources().getStringArray(R.array.sound_values)[0]);
         mSecondNotificationLed = sharedPreferences.getString(

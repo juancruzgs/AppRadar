@@ -57,6 +57,16 @@ public class LastRadarFragment extends Fragment implements MainActivity.OnBackPr
         }
     }
 
+    private void prepareOkButton(View rootView) {
+        Button buttonOk = (Button)rootView.findViewById(R.id.button_ok);
+        buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doBack();
+            }
+        });
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,6 +75,7 @@ public class LastRadarFragment extends Fragment implements MainActivity.OnBackPr
 
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
         Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
+        prepareOkButton(rootView);
 
         return rootView;
     }

@@ -13,7 +13,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/text_view_last_radar_title"
         android:id="@+id/text_view_last_radar_title"
-        android:layout_gravity="left" />
+        android:layout_margin="10dp"/>
 
 
     <TextView
@@ -22,34 +22,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/text_view_last_radar_text"
         android:id="@+id/text_view_last_radar_text"
-        android:layout_gravity="left"
         android:layout_marginTop="@dimen/elements_spacer"/>
-
-    <LinearLayout
-        android:layout_marginTop="@dimen/elements_spacer"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/button_show_map"
-            android:id="@+id/button_map"
-            android:layout_weight="1"
-            android:background="@color/accent"
-            android:layout_marginRight="@dimen/summary_buttons_margin"
-            android:elevation="6dp"/>
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/button_last_radar_end"
-            android:id="@+id/button_last_radar_end"
-            android:layout_weight="1"
-            android:background="@color/yellow"
-            android:layout_marginLeft="@dimen/summary_buttons_margin"
-            android:elevation="6dp"/>
-    </LinearLayout>
 
 </LinearLayout>

@@ -76,7 +76,7 @@
     <string name="map_activity_km"  translatable="false">%s km %s</string>
     <string name="message_map_toast">Cargando  mapa&#8230;</string>
     <string name="text_view_info_radar" translatable="false">(Km %s)</string>
-    <string name="text_view_last_radar_title">Viaje tranquilo</string>
-    <string name="text_view_last_radar_text">Acaba de pasar el último radar del camino</string>
+    <string name="text_view_last_radar_title">Viaje tranquilo,</string>
+    <string name="text_view_last_radar_text">ya pasó el último radar.</string>
     <string name="button_last_radar_end">Cerrar</string>
 </resources>

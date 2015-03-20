@@ -39,7 +39,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private TextView mTextViewSpeedLimitValue;
     private TextView mTextViewNameRadar;
     private TextView mTextViewKmRadar;
-    private TextView mTextViewInfoRadar;
     private TextView mTextViewSpeedValue;
 
     private RadarList mRadars;
@@ -87,6 +86,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
         Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
         wireUpViews(rootView);
+        refreshSpeed();
 //        monitorGpsStatus();
         mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
         return rootView;
@@ -109,7 +109,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         mTextViewNameRadar = (TextView) rootView.findViewById(R.id.text_view_radar_name);
         mTextViewKmRadar = (TextView) rootView.findViewById(R.id.text_view_radar_km);
         mTextViewSpeedValue = (TextView)rootView.findViewById(R.id.text_view_speed_value);
-        mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), "0"));
+        mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), 0f));
     }
 
     private void getFragmentArguments() {
@@ -120,66 +120,57 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private void refreshSpeed() {
-        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                                100,
-                                100,
-                                new android.location.LocationListener() {
-                                    @Override
-                                    public void onLocationChanged(Location location) {
-                                        float speed;
-                                        if (mLocation == null){
-                                            speed = 0;
-                                        } else {
-                                            speed = getSpeed(mLocation, location);
-                                        }
-                                        mTextViewSpeedValue.setText(
-                                                String.format(
-                                                        getString(R.string.text_view_speed_value),
-                                                        new DecimalFormat("###").format(speed)
-                                                ));
-                                        mLocation = location;
-                                    }
+        LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 100,
+                new android.location.LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        float speed;
+                        if (mLocation == null) {
+                            speed = 0;
+                        } else {
+                            speed = getSpeed(location);
+                        }
+                        mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), speed));
+                        mLocation = location;
+                    }
 
-                                    @Override
-                                    public void onStatusChanged(String provider, int status, Bundle extras) {
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
 
-                                    }
+                    }
 
-                                    @Override
-                                    public void onProviderEnabled(String provider) {
+                    @Override
+                    public void onProviderEnabled(String provider) {
 
-                                    }
+                    }
 
-                                    @Override
-                                    public void onProviderDisabled(String provider) {
+                    @Override
+                    public void onProviderDisabled(String provider) {
 
-                                    }
+                    }
 
-                                    private float getSpeed(Location startLoc, Location endLoc)
-                                    {
-                                        float distM;
-                                        long timeS;
-                                        //Use provided speed, if it exists
-                                        if(endLoc.hasSpeed())
-                                        {
-                                            return endLoc.getSpeed()*3.6f;
-                                        }
-                                        //Get time difference is seconds
-                                        timeS = getTimeDifference(startLoc, endLoc);
-                                        //Get distance traveled in meters
-                                        distM = startLoc.distanceTo(endLoc);
+                    private float getSpeed(Location endLoc) {
+                        float distM;
+                        long timeS;
+                        //Use provided speed, if it exists
+                        if (endLoc.hasSpeed()) {
+                            return endLoc.getSpeed() * Constants.SPEED_CONVERSION;
+                        }
+                        //Get time difference is seconds
+                        timeS = getTimeDifference(endLoc);
+                        //Get distance traveled in meters
+                        distM = mLocation.distanceTo(endLoc);
 
-                                        return (distM / timeS)*3.6f;
-                                    }
+                        return (distM / timeS) * Constants.SPEED_CONVERSION;
+                    }
 
-                                    private long getTimeDifference(Location startLoc, Location endLoc)
-                                    {
-                                        long timeMS;
-                                        timeMS = TimeUnit.NANOSECONDS.toSeconds(startLoc.getTime() - endLoc.getTime());
-                                        return timeMS;
-                                    }
-                                });
+                    private long getTimeDifference(Location endLoc) {
+                        long timeMS;
+                        timeMS = TimeUnit.NANOSECONDS.toSeconds(mLocation.getTime() - endLoc.getTime());
+                        return timeMS;
+                    }
+                });
     }
 
     @Override
@@ -195,7 +186,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
             setDistance(nextRadar);
             setMaxSpeed(nextRadar);
             setRefreshTime();
-            refreshSpeed();
         } catch (NullPointerException e){
             mTextViewDistance.setText(getString(R.string.distance_error_no_gps));
             mTextViewSpeedLimitValue.setText(getString(R.string.speed_error_no_gps));

@@ -120,7 +120,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private void refreshSpeed() {
         LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 100,
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, Constants.MIN_DISTANCE_UPDATES,
                 new android.location.LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {

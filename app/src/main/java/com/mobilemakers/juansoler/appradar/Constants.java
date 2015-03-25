@@ -47,8 +47,7 @@ public class Constants {
 
     //GPS
     public final static String NEXT_LOCATION = "nextLocation";
-    public final static long MIN_TIME_UPDATES_S = 1000;
-    public final static float MIN_DISTANCE_UPDATES_M = 10;
+    public final static float MIN_DISTANCE_UPDATES = 100;
     public final static int THIRD_FENCE = 300;
     public final static int RADIUS_INDEX_THIRD_FENCE = 2;
     public final static int RADIUS_INDEX_SECOND_FENCE = 1;

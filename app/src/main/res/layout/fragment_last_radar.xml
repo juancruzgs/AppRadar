@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical" android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:paddingLeft="@dimen/summary_fragment_padding"
+              android:paddingRight="@dimen/summary_fragment_padding"
+              android:id="@+id/Layout_Main"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/text_view_last_radar_title"
+        android:id="@+id/text_view_last_radar_title"
+        android:layout_margin="10dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/text_view_last_radar_text"
+        android:id="@+id/text_view_last_radar_text"
+        android:layout_marginTop="@dimen/elements_spacer"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:id="@+id/button_ok"
+        android:elevation="6dp"
+        android:background="@color/accent"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:layout_marginRight="@dimen/button_padding"
+        android:layout_marginLeft="@dimen/button_padding"/>
+
+</LinearLayout>

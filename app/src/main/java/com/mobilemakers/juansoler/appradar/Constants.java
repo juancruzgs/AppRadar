@@ -76,4 +76,8 @@ public class Constants {
 
     //Speed
     public static final float SPEED_CONVERSION = 3.6f;
+
+    //Fragment replacements - back stack names
+    public static final String BACKSTACK_START_TO_SUMMARY = "START_TO_SUMMARY";
+    public static final String BACKSTACK_SUMMARY_TO_END = "SUMMARY_TO_END";
 }

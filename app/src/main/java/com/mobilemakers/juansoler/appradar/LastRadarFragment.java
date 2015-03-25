@@ -74,7 +74,7 @@ public class LastRadarFragment extends Fragment implements MainActivity.OnBackPr
         View rootView = inflater.inflate(R.layout.fragment_last_radar, container, false);
 
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
-        Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
+        Transitions.fadeIN(layoutMain, Constants.TRANSITION_DURATION_2K);
         prepareOkButton(rootView);
 
         return rootView;

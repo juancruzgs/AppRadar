@@ -79,4 +79,13 @@
     <string name="text_view_last_radar_title">Viaje tranquilo,</string>
     <string name="text_view_last_radar_text">ya pasó el último radar.</string>
     <string name="button_last_radar_end">Cerrar</string>
+    <string name="first_notification_preference_distance" translatable="false">first_notification_preference_distance</string>
+    <string name="first_notification_preference_sound" translatable="false">first_notification_preference_sound</string>
+    <string name="first_notification_preference_led_color" translatable="false">first_notification_preference_led_color</string>
+    <string name="second_notification_preference_distance" translatable="false">second_notification_preference_distance</string>
+    <string name="second_notification_preference_sound" translatable="false">second_notification_preference_sound</string>
+    <string name="second_notification_preference_led_color" translatable="false">second_notification_preference_led_color</string>
+    <string name="third_notification_preference_sound" translatable="false">third_notification_preference_sound</string>
+    <string name="third_notification_preference_led_color" translatable="false">third_notification_preference_led_color</string>
+    <string name="preference_refresh_time" translatable="false">preference_refresh_time</string>
 </resources>

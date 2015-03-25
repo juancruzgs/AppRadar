@@ -119,57 +119,60 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private void refreshSpeed() {
-        LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, Constants.MIN_DISTANCE_UPDATES,
-                new android.location.LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        float speed;
-                        if (mLocation == null) {
-                            speed = 0;
-                        } else {
-                            speed = getSpeed(location);
+        long refreshTime = NotificationPreference.getRefreshTime(getActivity());
+        if (refreshTime != 0) {
+            LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, refreshTime, Constants.MIN_DISTANCE_UPDATES,
+                    new android.location.LocationListener() {
+                        @Override
+                        public void onLocationChanged(Location location) {
+                            float speed;
+                            if (mLocation == null) {
+                                speed = 0;
+                            } else {
+                                speed = getSpeed(location);
+                            }
+                            mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), speed));
+                            mLocation = location;
                         }
-                        mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), speed));
-                        mLocation = location;
-                    }
 
-                    @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
+                        @Override
+                        public void onStatusChanged(String provider, int status, Bundle extras) {
 
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String provider) {
-
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String provider) {
-
-                    }
-
-                    private float getSpeed(Location endLoc) {
-                        float distM;
-                        long timeS;
-                        //Use provided speed, if it exists
-                        if (endLoc.hasSpeed()) {
-                            return endLoc.getSpeed() * Constants.SPEED_CONVERSION;
                         }
-                        //Get time difference is seconds
-                        timeS = getTimeDifference(endLoc);
-                        //Get distance traveled in meters
-                        distM = mLocation.distanceTo(endLoc);
 
-                        return (distM / timeS) * Constants.SPEED_CONVERSION;
-                    }
+                        @Override
+                        public void onProviderEnabled(String provider) {
 
-                    private long getTimeDifference(Location endLoc) {
-                        long timeMS;
-                        timeMS = TimeUnit.NANOSECONDS.toSeconds(mLocation.getTime() - endLoc.getTime());
-                        return timeMS;
-                    }
-                });
+                        }
+
+                        @Override
+                        public void onProviderDisabled(String provider) {
+
+                        }
+
+                        private float getSpeed(Location endLoc) {
+                            float distM;
+                            long timeS;
+                            //Use provided speed, if it exists
+                            if (endLoc.hasSpeed()) {
+                                return endLoc.getSpeed() * Constants.SPEED_CONVERSION;
+                            }
+                            //Get time difference is seconds
+                            timeS = getTimeDifference(endLoc);
+                            //Get distance traveled in meters
+                            distM = mLocation.distanceTo(endLoc);
+
+                            return (distM / timeS) * Constants.SPEED_CONVERSION;
+                        }
+
+                        private long getTimeDifference(Location endLoc) {
+                            long timeMS;
+                            timeMS = TimeUnit.NANOSECONDS.toSeconds(mLocation.getTime() - endLoc.getTime());
+                            return timeMS;
+                        }
+                    });
+        }
     }
 
     @Override

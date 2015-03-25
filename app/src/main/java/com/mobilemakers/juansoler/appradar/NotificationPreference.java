@@ -9,10 +9,10 @@ public class NotificationPreference {
     private NotificationPreference() {
     }
 
-    public static String getFirstNotificationDistance(Context context) {
+    public static float getFirstNotificationDistance(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString(
-                context.getString(R.string.first_notification_preference_distance), context.getResources().getStringArray(R.array.first_distance_values)[0]);
+        return Float.parseFloat(sharedPreferences.getString(
+                context.getString(R.string.first_notification_preference_distance), context.getResources().getStringArray(R.array.first_distance_values)[0]));
     }
 
     public static String getFirstNotificationSound(Context context) {
@@ -21,16 +21,17 @@ public class NotificationPreference {
                 context.getString(R.string.first_notification_preference_sound), context.getResources().getStringArray(R.array.sound_values)[0]);
     }
 
-    public static String getFirstNotificationLed(Context context) {
+    public static int getFirstNotificationLed(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString(
-                context.getString(R.string.first_notification_preference_led_color), context.getResources().getStringArray(R.array.led_color_values)[2]);
+        return Integer.parseInt(sharedPreferences.getString(
+                context.getString(R.string.first_notification_preference_led_color), context.getResources().getStringArray(R.array.led_color_values)[2])
+                , Constants.HEXADECIMAL_BASE);
     }
 
-    public static String getSecondNotificationDistance(Context context) {
+    public static float getSecondNotificationDistance(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString(
-                context.getString(R.string.second_notification_preference_distance), context.getResources().getStringArray(R.array.second_distance_values)[0]);
+        return Float.parseFloat(sharedPreferences.getString(
+                context.getString(R.string.second_notification_preference_distance), context.getResources().getStringArray(R.array.second_distance_values)[0]));
     }
 
     public static String getSecondNotificationSound(Context context) {
@@ -39,10 +40,11 @@ public class NotificationPreference {
                 context.getString(R.string.second_notification_preference_sound), context.getResources().getStringArray(R.array.sound_values)[0]);
     }
 
-    public static String getSecondNotificationLed(Context context) {
+    public static int getSecondNotificationLed(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString(
-                context.getString(R.string.second_notification_preference_led_color), context.getResources().getStringArray(R.array.led_color_values)[4]);
+        return Integer.parseInt(sharedPreferences.getString(
+                context.getString(R.string.second_notification_preference_led_color), context.getResources().getStringArray(R.array.led_color_values)[4])
+                , Constants.HEXADECIMAL_BASE);
     }
 
     public static String getThirdNotificationSound(Context context) {
@@ -51,15 +53,16 @@ public class NotificationPreference {
                 context.getString(R.string.third_notification_preference_sound), context.getResources().getStringArray(R.array.sound_values)[0]);
     }
 
-    public static String getThirdNotificationLed(Context context) {
+    public static int getThirdNotificationLed(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString(
-                context.getString(R.string.third_notification_preference_led_color), context.getResources().getStringArray(R.array.led_color_values)[1]);
+        return Integer.parseInt(sharedPreferences.getString(
+                context.getString(R.string.third_notification_preference_led_color), context.getResources().getStringArray(R.array.led_color_values)[1])
+                , Constants.HEXADECIMAL_BASE);
     }
 
-    public static String getRefreshTime(Context context) {
+    public static long getRefreshTime(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString(
-                context.getString(R.string.preference_refresh_time), context.getResources().getStringArray(R.array.refresh_time_values)[1]);
+        return Long.parseLong(sharedPreferences.getString(
+                context.getString(R.string.preference_refresh_time), context.getResources().getStringArray(R.array.refresh_time_values)[1]));
     }
 }

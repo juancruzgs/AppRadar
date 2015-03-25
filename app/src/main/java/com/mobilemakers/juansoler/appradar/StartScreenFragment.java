@@ -284,10 +284,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 radar.setId(Integer.toString(id));
                 switch (j){
                     case 0:
-                        radius = Float.parseFloat(NotificationPreference.getFirstNotificationDistance(getActivity())) * 1000;
+                        radius = NotificationPreference.getFirstNotificationDistance(getActivity());
                         break;
                     case 1:
-                        radius = Float.parseFloat(NotificationPreference.getSecondNotificationDistance(getActivity())) * 1000;
+                        radius = NotificationPreference.getSecondNotificationDistance(getActivity());
                         break;
                     case 2:
                         radius = Constants.THIRD_FENCE;

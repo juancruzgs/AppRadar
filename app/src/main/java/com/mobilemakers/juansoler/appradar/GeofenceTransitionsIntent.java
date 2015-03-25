@@ -67,10 +67,10 @@ public class GeofenceTransitionsIntent {
         float radius = 0;
         switch (radiusIndex){
             case Constants.RADIUS_INDEX_FIRST_FENCE:
-                radius = Float.parseFloat(NotificationPreference.getFirstNotificationDistance(mActivity)) * 1000;
+                radius = NotificationPreference.getFirstNotificationDistance(mActivity);
                 break;
             case Constants.RADIUS_INDEX_SECOND_FENCE:
-                radius = Float.parseFloat(NotificationPreference.getSecondNotificationDistance(mActivity)) * 1000;
+                radius = NotificationPreference.getSecondNotificationDistance(mActivity);
                 break;
             case Constants.RADIUS_INDEX_THIRD_FENCE:
                 radius = Constants.THIRD_FENCE;
@@ -173,13 +173,13 @@ public class GeofenceTransitionsIntent {
         int ledColor;
         switch (notificationId){
             case 1:
-                ledColor = Integer.parseInt(NotificationPreference.getFirstNotificationLed(mActivity), 16);
+                ledColor = NotificationPreference.getFirstNotificationLed(mActivity);
                 break;
             case 2:
-                ledColor = Integer.parseInt(NotificationPreference.getSecondNotificationLed(mActivity), 16);
+                ledColor = NotificationPreference.getSecondNotificationLed(mActivity);
                 break;
             default:
-                ledColor = Integer.parseInt(NotificationPreference.getThirdNotificationLed(mActivity), 16);
+                ledColor = NotificationPreference.getThirdNotificationLed(mActivity);
                 break;
         }
 

@@ -27,6 +27,7 @@ public class Constants {
     //LED durations
     public final static int [] LED_DURATION_ON = {0, 1000, 1000, 200};
     public final static int [] LED_DURATION_OFF = {0, 2000, 500, 200};
+    public final static int HEXADECIMAL_BASE = 16;
 
     //Parse
     public final static String PARSE_LATITUDE = "latitude";

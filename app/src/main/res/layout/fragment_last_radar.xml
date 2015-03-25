@@ -26,11 +26,18 @@
         />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ok"
         android:id="@+id/button_ok"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"/>
+        android:elevation="6dp"
+        android:background="@color/accent"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:layout_marginRight="@dimen/button_padding"
+        android:layout_marginLeft="@dimen/button_padding"/>
 
 </LinearLayout>

@@ -132,6 +132,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                             } else {
                                 speed = getSpeed(location);
                             }
+                            setScreenInformation();
                             mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), speed));
                             mLocation = location;
                         }
@@ -268,6 +269,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
             case R.id.action_refresh:
                 handled = true;
                 setScreenInformation();
+                //Inexact speed calculation
+                mTextViewSpeedValue.setText(getString(R.string.speed_error_no_gps));
                 break;
             case R.id.action_show_map:
                 Intent intent = new Intent(getActivity(), MapActivity.class);

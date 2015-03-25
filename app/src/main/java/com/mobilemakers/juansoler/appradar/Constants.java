@@ -27,6 +27,7 @@ public class Constants {
     //LED durations
     public final static int [] LED_DURATION_ON = {0, 1000, 1000, 200};
     public final static int [] LED_DURATION_OFF = {0, 2000, 500, 200};
+    public final static int HEXADECIMAL_BASE = 16;
 
     //Parse
     public final static String PARSE_LATITUDE = "latitude";
@@ -47,8 +48,7 @@ public class Constants {
 
     //GPS
     public final static String NEXT_LOCATION = "nextLocation";
-    public final static long MIN_TIME_UPDATES_S = 1000;
-    public final static float MIN_DISTANCE_UPDATES_M = 10;
+    public final static float MIN_DISTANCE_UPDATES = 100;
     public final static int THIRD_FENCE = 300;
     public final static int RADIUS_INDEX_THIRD_FENCE = 2;
     public final static int RADIUS_INDEX_SECOND_FENCE = 1;

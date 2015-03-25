@@ -25,8 +25,6 @@ public class GeofenceTransitionsIntent {
     }
 
     protected void handleTransition(Intent intent, RadarList radarList) {
-        NotificationPreference notification = new NotificationPreference();
-        notification.getSharedPreferences(mActivity);
         GeofencingEvent geoFenceEvent = GeofencingEvent.fromIntent(intent);
         if (geoFenceEvent != null && !geoFenceEvent.hasError()) {
             int transitionType = geoFenceEvent.getGeofenceTransition();
@@ -43,7 +41,7 @@ public class GeofenceTransitionsIntent {
                 //Calling notifications
                 Radar radar = radarList.get(radarIndex);
                 Float km = radar.getKm();
-                float radius = getRadiusMeters(notification, radiusIndex);
+                float radius = getRadiusMeters(radiusIndex);
 
                 createNotification(mActivity.getString(R.string.warning_message),
                         String.format(mActivity.getString(R.string.radar_message), radius, km),
@@ -80,14 +78,14 @@ public class GeofenceTransitionsIntent {
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
     }
 
-    private float getRadiusMeters(NotificationPreference notification, int radiusIndex) {
+    private float getRadiusMeters(int radiusIndex) {
         float radius = 0;
         switch (radiusIndex){
             case Constants.RADIUS_INDEX_FIRST_FENCE:
-                radius = Float.parseFloat(notification.getFirstNotificationDistance()) * 1000;
+                radius = NotificationPreference.getFirstNotificationDistance(mActivity);
                 break;
             case Constants.RADIUS_INDEX_SECOND_FENCE:
-                radius = Float.parseFloat(notification.getSecondNotificationDistance()) * 1000;
+                radius = NotificationPreference.getSecondNotificationDistance(mActivity);
                 break;
             case Constants.RADIUS_INDEX_THIRD_FENCE:
                 radius = Constants.THIRD_FENCE;
@@ -127,22 +125,17 @@ public class GeofenceTransitionsIntent {
     }
 
     private Uri getSoundUri(int notification){
-
-        //Getting SharedPreference
-        NotificationPreference notificationPreference = new NotificationPreference();
-        notificationPreference.getSharedPreferences(mActivity);
-
         //Checking notification number
         String soundName;
         switch (notification){
             case 1:
-                soundName = notificationPreference.getFirstNotificationSound();
+                soundName = NotificationPreference.getFirstNotificationSound(mActivity);
                 break;
             case 2:
-                soundName = notificationPreference.getSecondNotificationSound();
+                soundName = NotificationPreference.getSecondNotificationSound(mActivity);
                 break;
             default:
-                soundName = notificationPreference.getThirdNotificationSound();
+                soundName = NotificationPreference.getThirdNotificationSound(mActivity);
                 break;
         }
 
@@ -191,21 +184,17 @@ public class GeofenceTransitionsIntent {
     }
 
     private int getLedColor(int notificationId) {
-        //Getting SharedPreference
-        NotificationPreference notificationPreference = new NotificationPreference();
-        notificationPreference.getSharedPreferences(mActivity);
-
         //Checking notification number
         int ledColor;
         switch (notificationId){
             case 1:
-                ledColor = Integer.parseInt(notificationPreference.getFirstNotificationLed(), 16);
+                ledColor = NotificationPreference.getFirstNotificationLed(mActivity);
                 break;
             case 2:
-                ledColor = Integer.parseInt(notificationPreference.getSecondNotificationLed(), 16);
+                ledColor = NotificationPreference.getSecondNotificationLed(mActivity);
                 break;
             default:
-                ledColor = Integer.parseInt(notificationPreference.getThirdNotificationLed(), 16);
+                ledColor = NotificationPreference.getThirdNotificationLed(mActivity);
                 break;
         }
 

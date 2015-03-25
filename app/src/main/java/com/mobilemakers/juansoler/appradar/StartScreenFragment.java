@@ -50,11 +50,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private Button mButtonSetDestination;
     private Button mButtonStart;
     private TextView mTextViewWelcome;
-    private NotificationPreference mNotification;
     private AsyncTask<Void, Void, RadarList> mDatabaseOperations;
 
     public StartScreenFragment() {
-        mNotification = new NotificationPreference();
         mRadars = new RadarList();
         mResolvingError = false;
     }
@@ -259,7 +257,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     @Override
     public void onResume() {
         super.onResume();
-        mNotification.getSharedPreferences(getActivity());
     }
 
     @Override
@@ -287,10 +284,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 radar.setId(Integer.toString(id));
                 switch (j){
                     case 0:
-                        radius = Float.parseFloat(mNotification.getFirstNotificationDistance()) * 1000;
+                        radius = NotificationPreference.getFirstNotificationDistance(getActivity());
                         break;
                     case 1:
-                        radius = Float.parseFloat(mNotification.getSecondNotificationDistance()) * 1000;
+                        radius = NotificationPreference.getSecondNotificationDistance(getActivity());
                         break;
                     case 2:
                         radius = Constants.THIRD_FENCE;

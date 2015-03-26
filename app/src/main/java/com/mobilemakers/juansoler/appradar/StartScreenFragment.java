@@ -50,11 +50,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     private Button mButtonSetDestination;
     private Button mButtonStart;
     private TextView mTextViewWelcome;
-    private NotificationPreference mNotification;
     private AsyncTask<Void, Void, RadarList> mDatabaseOperations;
 
     public StartScreenFragment() {
-        mNotification = new NotificationPreference();
         mRadars = new RadarList();
         mResolvingError = false;
     }
@@ -116,7 +114,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mButtonSetDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, false);
+                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSITION_DURATION_1K, false);
                 DestinationsDialog destinationsDialog = new DestinationsDialog();
                 destinationsDialog.show(mFragmentManager, Constants.TAG_DESTINATION_DIALOG);
             }
@@ -157,37 +155,13 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
 
             private void fadeOutViews() {
-                Transitions.fadeOUT(mImageViewSS, Constants.TRANSIION_DURATION_1K, false);
-                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSIION_DURATION_1K, true);
-                Transitions.fadeOUT(mButtonStart, Constants.TRANSIION_DURATION_1K, true);
-                Transitions.fadeOUT(mTextViewWelcome, Constants.TRANSIION_DURATION_1K, true, mProgressLayout);
+                Transitions.fadeOUT(mImageViewSS, Constants.TRANSITION_DURATION_1K, false);
+                Transitions.fadeOUT(mButtonSetDestination, Constants.TRANSITION_DURATION_1K, true);
+                Transitions.fadeOUT(mButtonStart, Constants.TRANSITION_DURATION_1K, true);
+                Transitions.fadeOUT(mTextViewWelcome, Constants.TRANSITION_DURATION_1K, true, mProgressLayout);
             }
         });
     }
-//                    Handler handler = new Handler();
-//                    handler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (getLastLocation() == null) {
-//                                showNoLocationDialog();
-//                            }
-//                            else {
-//                                    mFragmentManager.beginTransaction().replace(R.id.container, mSummaryFragment)
-//                                            .addToBackStack(null).commit();
-//                            }
-//                        }
-//                    }, 1000);
-//            private void showNoLocationDialog() {
-//                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
-//                builder.setMessage(getString(R.string.message_no_location_dialog))
-//                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                dialog.dismiss();
-//                            }
-//                        });
-//                final AlertDialog alert = builder.create();
-//                alert.show();
-//            }
 
     private void initializeGooglePlayServices(){
         if(isGooglePlayServicesAvailable()){
@@ -238,11 +212,11 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     }
 
     private void fadeInViews() {
-        Transitions.fadeOUT(mProgressLayout, Constants.TRANSIION_DURATION_1K ,true);
-        Transitions.fadeIN(mImageViewSS, Constants.TRANSIION_DURATION_1K);
-        Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
-        Transitions.fadeIN(mButtonSetDestination, Constants.TRANSIION_DURATION_1K);
-        Transitions.fadeIN(mTextViewWelcome, Constants.TRANSIION_DURATION_1K);
+        Transitions.fadeOUT(mProgressLayout, Constants.TRANSITION_DURATION_1K,true);
+        Transitions.fadeIN(mImageViewSS, Constants.TRANSITION_DURATION_1K);
+        Transitions.fadeIN(mButtonStart, Constants.TRANSITION_DURATION_1K);
+        Transitions.fadeIN(mButtonSetDestination, Constants.TRANSITION_DURATION_1K);
+        Transitions.fadeIN(mTextViewWelcome, Constants.TRANSITION_DURATION_1K);
     }
 
     private int getDirection() {
@@ -259,7 +233,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     @Override
     public void onResume() {
         super.onResume();
-        mNotification.getSharedPreferences(getActivity());
     }
 
     @Override
@@ -267,16 +240,14 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         if (!destination.isEmpty()){
             mButtonSetDestination.setText(destination);
             if (mButtonStart.getVisibility() != View.VISIBLE) {
-                Transitions.fadeIN(mButtonStart, Constants.TRANSIION_DURATION_1K);
+                Transitions.fadeIN(mButtonStart, Constants.TRANSITION_DURATION_1K);
             }
         }
-        Transitions.fadeIN(mButtonSetDestination, Constants.TRANSIION_DURATION_1K);
+        Transitions.fadeIN(mButtonSetDestination, Constants.TRANSITION_DURATION_1K);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        PendingIntent geoFenceRequestIntent = getGeoFenceTransitionPendingIntent();
-
         int id = 0;
         float radius = 0;
         List<Geofence> geoFenceListForLocationServices = new ArrayList<>();
@@ -287,10 +258,10 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 radar.setId(Integer.toString(id));
                 switch (j){
                     case 0:
-                        radius = Float.parseFloat(mNotification.getFirstNotificationDistance()) * 1000;
+                        radius = NotificationPreference.getFirstNotificationDistance(getActivity());
                         break;
                     case 1:
-                        radius = Float.parseFloat(mNotification.getSecondNotificationDistance()) * 1000;
+                        radius = NotificationPreference.getSecondNotificationDistance(getActivity());
                         break;
                     case 2:
                         radius = Constants.THIRD_FENCE;
@@ -301,6 +272,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
         }
 
+        PendingIntent geoFenceRequestIntent = getGeoFenceTransitionPendingIntent();
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
                 geoFenceRequestIntent);
 
@@ -315,7 +287,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, mSummaryFragment)
-                .addToBackStack(null)
+                .addToBackStack(Constants.BACKSTACK_START_TO_SUMMARY)
                 .commit();
     }
 
@@ -410,7 +382,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     public void onStop() {
         super.onStop();
         if (mDatabaseOperations != null && mDatabaseOperations.getStatus() == AsyncTask.Status.RUNNING) {
-            mDatabaseOperations.cancel(true);
+            mDatabaseOperations.cancel(false);
             fadeInViews();
         }
     }

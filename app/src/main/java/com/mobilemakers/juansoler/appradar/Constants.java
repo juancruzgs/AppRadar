@@ -23,18 +23,11 @@ public class Constants {
 
     //Notifications
     public final static int NOTIFICATION_ID = 1;
-    public final static String FIRST_NOTIFICATION_DISTANCE = "first_notification_preference_distance";
-    public final static String FIRST_NOTIFICATION_SOUND = "first_notification_preference_sound";
-    public final static String FIRST_NOTIFICATION_LED = "first_notification_preference_led_color";
-    public final static String SECOND_NOTIFICATION_DISTANCE = "second_notification_preference_distance";
-    public final static String SECOND_NOTIFICATION_SOUND = "second_notification_preference_sound";
-    public final static String SECOND_NOTIFICATION_LED = "second_notification_preference_led_color";
-    public final static String THIRD_NOTIFICATION_SOUND = "third_notification_preference_sound";
-    public final static String THIRD_NOTIFICATION_LED = "third_notification_preference_led_color";
 
     //LED durations
     public final static int [] LED_DURATION_ON = {0, 1000, 1000, 200};
     public final static int [] LED_DURATION_OFF = {0, 2000, 500, 200};
+    public final static int HEXADECIMAL_BASE = 16;
 
     //Parse
     public final static String PARSE_LATITUDE = "latitude";
@@ -48,15 +41,14 @@ public class Constants {
     public final static String PARSE_UPDATED_AT = "updatedAt";
 
     //Transitions
-    public final static long TRANSIION_DURATION_1K = 1000;
-    public final static long TRANSIION_DURATION_2K = 2000;
+    public final static long TRANSITION_DURATION_1K = 1000;
+    public final static long TRANSITION_DURATION_2K = 2000;
     public final static float ANIMATION_ALPHA_FROM = 0.0f;
     public final static float ANIMATION_ALPHA_TO = 1.0f;
 
     //GPS
     public final static String NEXT_LOCATION = "nextLocation";
-    public final static long MIN_TIME_UPDATES_S = 1000;
-    public final static float MIN_DISTANCE_UPDATES_M = 10;
+    public final static float MIN_DISTANCE_UPDATES = 100;
     public final static int THIRD_FENCE = 300;
     public final static int RADIUS_INDEX_THIRD_FENCE = 2;
     public final static int RADIUS_INDEX_SECOND_FENCE = 1;
@@ -84,4 +76,8 @@ public class Constants {
 
     //Speed
     public static final float SPEED_CONVERSION = 3.6f;
+
+    //Fragment replacements - back stack names
+    public static final String BACKSTACK_START_TO_SUMMARY = "START_TO_SUMMARY";
+    public static final String BACKSTACK_SUMMARY_TO_END = "SUMMARY_TO_END";
 }

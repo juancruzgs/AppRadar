@@ -87,7 +87,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_summary, container, false);
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
-        Transitions.fadeIN(layoutMain, Constants.TRANSIION_DURATION_2K);
+        Transitions.fadeIN(layoutMain, Constants.TRANSITION_DURATION_2K);
         wireUpViews(rootView);
         refreshSpeed();
         mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
@@ -122,15 +122,20 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private void refreshSpeed() {
-        mLocationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (mLocationListener == null) {
             setLocationListener();
         }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 100,
-                mLocationListener);
+        long refreshTime = NotificationPreference.getRefreshTime(getActivity());
+        if (refreshTime != 0) {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    refreshTime,
+                    Constants.MIN_DISTANCE_UPDATES,
+                    mLocationListener);
+        }
     }
 
-    public void setLocationListener(){
+    public void setLocationListener() {
         mLocationListener = new android.location.LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -275,6 +280,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
             case R.id.action_refresh:
                 handled = true;
                 setScreenInformation();
+                //Inexact speed calculation
+                mTextViewSpeedValue.setText(getString(R.string.speed_error_no_gps));
                 break;
             case R.id.action_show_map:
                 Intent intent = new Intent(getActivity(), MapActivity.class);

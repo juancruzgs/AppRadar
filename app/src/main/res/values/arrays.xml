@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cities">
+        <item>Mar del Plata</item>
+        <item>Buenos Aires</item>
+    </string-array>
+
+    <string-array name="led_color_entries">
+        <item>@string/led_color_white</item>
+        <item>@string/led_color_red</item>
+        <item>@string/led_color_green</item>
+        <item>@string/led_color_blue</item>
+        <item>@string/led_color_yellow</item>
+        <item>@string/led_color_cyan</item>
+        <item>@string/led_color_magenta</item>
+    </string-array>
+    <string-array name="led_color_values">
+        <item>FFFFFF</item>
+        <item>FF0000</item>
+        <item>00FF00</item>
+        <item>0000FF</item>
+        <item>FFFF00</item>
+        <item>00FFFF</item>
+        <item>FF00FF</item>
+    </string-array>
+
+    <string-array name="first_distance_entries">
+        <item>10 Km</item>
+        <item>7 Km</item>
+        <item>5 Km</item>
+    </string-array>
+    <string-array name="first_distance_values">
+        <item>10000</item>
+        <item>7000</item>
+        <item>5000</item>
+    </string-array>
+
+    <string-array name="second_distance_entries">
+        <item>4 Km</item>
+        <item>3 Km</item>
+        <item>2 Km</item>
+    </string-array>
+    <string-array name="second_distance_values">
+        <item>4000</item>
+        <item>3000</item>
+        <item>2000</item>
+    </string-array>
+
+    <string-array name="sound_options">
+        <item name="sub_klaxon">@string/sub_klaxon</item>
+        <item name="factory">@string/factory</item>
+        <item name="air_horn">@string/air_horn</item>
+        <item name="beep_ping">@string/beep_ping</item>
+        <item name="smb_flagpole">@string/smb_flagpole</item>
+        <item name="smb_pipe">@string/smb_pipe</item>
+        <item name="smb_vine">@string/smb_vine</item>
+        <item name="smb_warning">@string/smb_warning</item>
+    </string-array>
+    <string-array name="sound_values">
+        <item name="sub_klaxon">sub_klaxon</item>
+        <item name="factory">factory</item>
+        <item name="air_horn">air_horn</item>
+        <item name="beep_ping">beep_ping</item>
+        <item name="smb_flagpole">smb_flagpole</item>
+        <item name="smb_pipe">smb_pipe</item>
+        <item name="smb_vine">smb_vine</item>
+        <item name="smb_warning">smb_warning</item>
+    </string-array>
+
+    <string-array name="refresh_time_entries">
+        <item>@string/refresh_10_seconds</item>
+        <item>@string/refresh_5_seconds</item>
+        <item>@string/refresh_1_second</item>
+        <item>@string/refresh_manual</item>
+    </string-array>
+    <string-array name="refresh_time_values">
+        <item>10000</item>
+        <item>5000</item>
+        <item>1000</item>
+        <item>0</item>
+    </string-array>
+</resources>

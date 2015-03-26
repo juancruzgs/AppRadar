@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 
 /**
@@ -23,8 +24,6 @@ import android.widget.TextView;
 public class LastRadarFragment extends Fragment implements MainActivity.OnBackPressedListener {
 
     private RadarList mRadars;
-
-    private Button mButtonEnd;
 
     public LastRadarFragment() {
         // Required empty public constructor
@@ -36,8 +35,14 @@ public class LastRadarFragment extends Fragment implements MainActivity.OnBackPr
     }
 
     private void endTrip() {
+        setActionBarSubtitle("");
         getActivity().getSupportFragmentManager().popBackStack(Constants.BACKSTACK_START_TO_SUMMARY,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    private void setActionBarSubtitle(String subtitle){
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        actionBar.setSubtitle(subtitle);
     }
 
     @Override

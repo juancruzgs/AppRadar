@@ -162,30 +162,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
         });
     }
-//                    Handler handler = new Handler();
-//                    handler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (getLastLocation() == null) {
-//                                showNoLocationDialog();
-//                            }
-//                            else {
-//                                    mFragmentManager.beginTransaction().replace(R.id.container, mSummaryFragment)
-//                                            .addToBackStack(null).commit();
-//                            }
-//                        }
-//                    }, 1000);
-//            private void showNoLocationDialog() {
-//                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
-//                builder.setMessage(getString(R.string.message_no_location_dialog))
-//                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                dialog.dismiss();
-//                            }
-//                        });
-//                final AlertDialog alert = builder.create();
-//                alert.show();
-//            }
 
     private void initializeGooglePlayServices(){
         if(isGooglePlayServicesAvailable()){
@@ -272,8 +248,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
 
     @Override
     public void onConnected(Bundle bundle) {
-        PendingIntent geoFenceRequestIntent = getGeoFenceTransitionPendingIntent();
-
         int id = 0;
         float radius = 0;
         List<Geofence> geoFenceListForLocationServices = new ArrayList<>();
@@ -298,6 +272,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
         }
 
+        PendingIntent geoFenceRequestIntent = getGeoFenceTransitionPendingIntent();
         LocationServices.GeofencingApi.addGeofences(mApiClient, geoFenceListForLocationServices,
                 geoFenceRequestIntent);
 
@@ -407,7 +382,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
     public void onStop() {
         super.onStop();
         if (mDatabaseOperations != null && mDatabaseOperations.getStatus() == AsyncTask.Status.RUNNING) {
-            mDatabaseOperations.cancel(true);
+            mDatabaseOperations.cancel(false);
             fadeInViews();
         }
     }

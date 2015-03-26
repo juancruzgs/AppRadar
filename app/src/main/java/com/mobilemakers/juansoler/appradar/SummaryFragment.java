@@ -42,6 +42,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private TextView mTextViewSpeedValue;
 
     private float mMaxSpeed;
+    private float mDistance;
 
     private RadarList mRadars;
     private GeofenceTransitionsIntent mGeofenceTransition;
@@ -143,7 +144,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                         }
 
                         private void speedNotification(float currentSpeed) {
-                            if (currentSpeed > mMaxSpeed){
+                            float distanceNotification = NotificationPreference.getSecondNotificationDistance(getActivity());
+                            if ((currentSpeed > mMaxSpeed) && (mDistance <= distanceNotification)){
                                 MediaPlayer player = MediaPlayer.create(getActivity(), R.raw.heal);
                                 player.start();
                             }
@@ -224,15 +226,15 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private void setDistance(Radar nextRadar) throws NullPointerException{
-        float distance = calculateDistanceToNextRadar(nextRadar);
-        mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), Float.toString(distance)));
+        mDistance = calculateDistanceToNextRadar(nextRadar);
+        float distance = mDistance/1000;
+        mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), distance));
     }
 
     private float calculateDistanceToNextRadar(Radar nextRadar) throws NullPointerException {
         Location currentLocation = getLastLocation();
         Location nextRadarLocation = createNextRadarLocation(nextRadar);
-        float distance = (currentLocation.distanceTo(nextRadarLocation)/1000);
-        return new BigDecimal(distance).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue();
+        return currentLocation.distanceTo(nextRadarLocation);
     }
 
     private Location getLastLocation() {

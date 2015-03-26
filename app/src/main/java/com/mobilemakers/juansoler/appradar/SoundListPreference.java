@@ -113,33 +113,6 @@ public class SoundListPreference extends ListPreference {
 
                                 mPlayer = MediaPlayer.create(getContext(), SoundListPreference.getSound(value));
 
-/*
-                                if (value.equals(strings[0])) {
-                                    mPlayer = MediaPlayer.create(getContext(), R.raw.sub_klaxon);
-                                }
-                                else if (value.equals(strings[1])) {
-                                    mPlayer = MediaPlayer.create(getContext(), R.raw.factory);
-                                }
-                                else if (value.equals(strings[2])) {
-                                    mPlayer = MediaPlayer.create(getContext(), R.raw.air_horn);
-                                }
-                                else if (value.equals(strings[3])) {
-                                    mPlayer = MediaPlayer.create(getContext(), R.raw.beep_ping);
-                                }
-                                else if (value.equals(strings[4])) {
-                                    mPlayer = MediaPlayer.create(getContext(), R.raw.smb_flagpole);
-                                }
-                                else if (value.equals(strings[5])) {
-                                    mPlayer = MediaPlayer.create(getContext(), R.raw.smb_pipe);
-                                }
-                                else if (value.equals(strings[6])) {
-                                    mPlayer = MediaPlayer.create(getContext(), R.raw.smb_vine);
-                                }
-                                else {
-                                    mPlayer = MediaPlayer.create(getContext(), R.raw.smb_warning);
-                                }
-*/
-
                                 mPlayer.start();
                             }
                         });

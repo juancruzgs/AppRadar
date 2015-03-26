@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private TextView mTextViewNameRadar;
     private TextView mTextViewKmRadar;
     private TextView mTextViewSpeedValue;
+
+    private float mMaxSpeed;
 
     private RadarList mRadars;
     private GeofenceTransitionsIntent mGeofenceTransition;
@@ -96,6 +99,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState!=null){
             mRadars = savedInstanceState.getParcelable(Constants.RADARS_LIST);
+            mMaxSpeed = savedInstanceState.getFloat(Constants.MAX_SPEED);
         } else {
             getFragmentArguments();
         }
@@ -133,8 +137,16 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                                 speed = getSpeed(location);
                             }
                             setScreenInformation();
+                            speedNotification(speed);
                             mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), speed));
                             mLocation = location;
+                        }
+
+                        private void speedNotification(float currentSpeed) {
+                            if (currentSpeed > mMaxSpeed){
+                                MediaPlayer player = MediaPlayer.create(getActivity(), R.raw.heal);
+                                player.start();
+                            }
                         }
 
                         @Override
@@ -180,6 +192,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(Constants.RADARS_LIST, mRadars);
+        outState.putFloat(Constants.MAX_SPEED, mMaxSpeed);
     }
 
     private void setScreenInformation() {
@@ -237,6 +250,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private void setMaxSpeed(Radar nextRadar) {
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), nextRadar.getMaxSpeed()));
+        mMaxSpeed = nextRadar.getMaxSpeed();
     }
 
     private String getCurrentTime () {

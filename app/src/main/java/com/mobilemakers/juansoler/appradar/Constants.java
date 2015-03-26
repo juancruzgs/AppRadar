@@ -20,6 +20,7 @@ public class Constants {
 
     //SummaryFragment
     public static final String DATE_FORMAT = "HH:mm";
+    public static final String MAX_SPEED = "maxSpeed";
 
     //Notifications
     public final static int NOTIFICATION_ID = 1;

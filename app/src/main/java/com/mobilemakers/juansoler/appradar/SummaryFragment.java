@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,6 +41,9 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private TextView mTextViewNameRadar;
     private TextView mTextViewKmRadar;
     private TextView mTextViewSpeedValue;
+
+    private float mMaxSpeed;
+    private float mDistance;
 
     private RadarList mRadars;
     private GeofenceTransitionsIntent mGeofenceTransition;
@@ -99,6 +103,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState!=null){
             mRadars = savedInstanceState.getParcelable(Constants.RADARS_LIST);
+            mMaxSpeed = savedInstanceState.getFloat(Constants.MAX_SPEED);
         } else {
             getFragmentArguments();
         }
@@ -120,7 +125,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
             mRadars = bundle.getParcelable(Constants.RADARS_LIST);
         }
     }
-
+    
     private void refreshSpeed() {
         mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (mLocationListener == null) {
@@ -134,7 +139,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                     mLocationListener);
         }
     }
-
     public void setLocationListener() {
         mLocationListener = new android.location.LocationListener() {
             @Override
@@ -145,6 +149,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                 } else {
                     speed = getSpeed(location);
                 }
+                setScreenInformation();
+                speedNotification(speed);
                 mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), speed));
                 mLocation = location;
             }
@@ -184,6 +190,14 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                 timeMS = TimeUnit.NANOSECONDS.toSeconds(mLocation.getTime() - endLoc.getTime());
                 return timeMS;
             }
+
+            private void speedNotification(float currentSpeed) {
+                float distanceNotification = NotificationPreference.getSecondNotificationDistance(getActivity());
+                if ((currentSpeed > mMaxSpeed) && (mDistance <= distanceNotification)){
+                    MediaPlayer player = MediaPlayer.create(getActivity(), R.raw.heal);
+                    player.start();
+                }
+            }
         };
     }
 
@@ -191,6 +205,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(Constants.RADARS_LIST, mRadars);
+        outState.putFloat(Constants.MAX_SPEED, mMaxSpeed);
     }
 
     private void setScreenInformation() {
@@ -222,15 +237,15 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private void setDistance(Radar nextRadar) throws NullPointerException{
-        float distance = calculateDistanceToNextRadar(nextRadar);
-        mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), Float.toString(distance)));
+        mDistance = calculateDistanceToNextRadar(nextRadar);
+        float distance = mDistance/1000;
+        mTextViewDistance.setText(String.format(getString(R.string.text_view_distance_value), distance));
     }
 
     private float calculateDistanceToNextRadar(Radar nextRadar) throws NullPointerException {
         Location currentLocation = getLastLocation();
         Location nextRadarLocation = createNextRadarLocation(nextRadar);
-        float distance = (currentLocation.distanceTo(nextRadarLocation)/1000);
-        return new BigDecimal(distance).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue();
+        return currentLocation.distanceTo(nextRadarLocation);
     }
 
     private Location getLastLocation() {
@@ -248,6 +263,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private void setMaxSpeed(Radar nextRadar) {
         mTextViewSpeedLimitValue.setText(String.format(getString(R.string.text_view_speed_limit_value_text), nextRadar.getMaxSpeed()));
+        mMaxSpeed = nextRadar.getMaxSpeed();
     }
 
     private String getCurrentTime () {

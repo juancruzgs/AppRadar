@@ -126,19 +126,6 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
         mButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Check Network Connection. Use Class NetworkConnections , method isNetworkAvailable()
-                //TODO 3 Buttons in dialog. Cancel, Wifi, Data Roaming
-                //TODO Test Preference "firstrun". I has to be set the first time that you press "Start Travel"
-//                AppRadarApplication app = (AppRadarApplication) getActivity().getApplication();
-//                if (app.getFirstRun()){
-//                    app.setRunned();
-//                    new CustomAlertDialog(getString(R.string.first_time_connection),
-//                            getString(R.string.ok),
-//                            getString(R.string.cancel),
-//                            Settings.ACTION_WIFI_SETTINGS,
-//                            getActivity()).showAlertDialog();
-//                }
-
                 LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     CustomAlertDialog alertDialog = new CustomAlertDialog(getString(R.string.messageGPS_dialog),
@@ -200,6 +187,7 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 mApiClient.connect();
             }
             else {
+                Transitions.fadeOUT(mProgressLayout, Constants.TRANSITION_DURATION_1K ,true);
                 CustomAlertDialog alertDialog = new CustomAlertDialog(getString(R.string.intenetDataDiagloTitle),
                         getString(R.string.internetDialogAccept),
                         getString(R.string.internetDialogCancel),

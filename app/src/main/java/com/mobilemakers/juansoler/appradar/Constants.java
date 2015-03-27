@@ -73,8 +73,9 @@ public class Constants {
     public static final String TABLE_DIVIDER_PACKAGE = "android";
 
     //Radius
-    public static final float MINIMUM_RADIUS_FIRST_NOTIFICATION = 5000;
-    public static final float MINIMUM_RADIUS_SECOND_NOTIFICATION = 2000;
+    //TODO Change to the notification distances
+    public static final float MINIMUM_RADIUS_FIRST_NOTIFICATION = 500;
+    public static final float MINIMUM_RADIUS_SECOND_NOTIFICATION = 200;
 
     //Speed
     public static final float SPEED_CONVERSION = 3.6f;

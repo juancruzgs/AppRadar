@@ -22,22 +22,22 @@ public class ParseDataBase {
         radar = new Radar();
 
         //TODO Latitude and longitude, obtain it from Google Maps
-        radar.setLatitude(-35.514806);
-        radar.setLongitude(-58.0054482);
+        radar.setLatitude(-38.011935);
+        radar.setLongitude(-57.573291);
         //TODO MaxSpeed, displayed in SummaryFragment and alerts
-        radar.setMaxSpeed(50);
+        radar.setMaxSpeed(60);
         //TODO Radar Name, displayed in SummaryFragment
-        radar.setName("Chascomús");
+        radar.setName("Casa");
         //TODO Ordered by Km. Set the lowest km to the first radar and then increment it. Always select DESTINATION BUENOS AIRES
         radar.setKm(1f);
         mRadarList.add(radar);
 
 
         radar = new Radar();
-        radar.setLatitude(-35.514806);
-        radar.setLongitude(-58.0054482);
-        radar.setMaxSpeed(80);
-        radar.setName("Lezama");
+        radar.setLatitude(-38.000719);
+        radar.setLongitude(-57.546739);
+        radar.setMaxSpeed(70);
+        radar.setName("Geo");
         radar.setKm(2f);
         mRadarList.add(radar);
 

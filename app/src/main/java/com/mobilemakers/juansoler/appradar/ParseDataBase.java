@@ -21,8 +21,6 @@ public class ParseDataBase {
         Radar radar;
         radar = new Radar();
 
-        //TODO Increment ID by 1
-        radar.setId("1");
         //TODO Latitude and longitude, obtain it from Google Maps
         radar.setLatitude(-35.514806);
         radar.setLongitude(-58.0054482);
@@ -30,16 +28,17 @@ public class ParseDataBase {
         radar.setMaxSpeed(50);
         //TODO Radar Name, displayed in SummaryFragment
         radar.setName("Chascomús");
+        //TODO Ordered by Km. Set the lowest km to the first radar and then increment it. Always select DESTINATION BUENOS AIRES
+        radar.setKm(1f);
         mRadarList.add(radar);
 
 
-
         radar = new Radar();
-        radar.setId("2");
         radar.setLatitude(-35.514806);
         radar.setLongitude(-58.0054482);
         radar.setMaxSpeed(80);
         radar.setName("Lezama");
+        radar.setKm(2f);
         mRadarList.add(radar);
 
         //TODO Add more radars

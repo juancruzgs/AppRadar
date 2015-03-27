@@ -67,12 +67,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     private void refreshMap(Location location) {
-        LatLng latLong = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraPosition cameraPosition = getCameraPosition(latLong);
+        if (location != null) {
+            LatLng latLong = new LatLng(location.getLatitude(), location.getLongitude());
+            CameraPosition cameraPosition = getCameraPosition(latLong);
 
-        // Animate the change in camera view over 2 seconds
-        mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),
-                2000, null);
+            // Animate the change in camera view over 2 seconds
+            mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),
+                    2000, null);
+        }
     }
 
     private CameraPosition getCameraPosition(LatLng latLong) {

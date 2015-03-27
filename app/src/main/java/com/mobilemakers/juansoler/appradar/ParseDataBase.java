@@ -12,45 +12,41 @@ import java.util.List;
 public class ParseDataBase {
 
     ConnectivityManager mConnectivityManager;
+    RadarList mRadarList;
 
     public ParseDataBase(ConnectivityManager connectivityManager) {
         mConnectivityManager = connectivityManager;
+        mRadarList = new RadarList();
+
+        Radar radar;
+        radar = new Radar();
+
+        //TODO Increment ID by 1
+        radar.setId("1");
+        //TODO Latitude and longitude, obtain it from Google Maps
+        radar.setLatitude(-35.514806);
+        radar.setLongitude(-58.0054482);
+        //TODO MaxSpeed, displayed in SummaryFragment and alerts
+        radar.setMaxSpeed(50);
+        //TODO Radar Name, displayed in SummaryFragment
+        radar.setName("Chascomús");
+        mRadarList.add(radar);
+
+
+
+        radar = new Radar();
+        radar.setId("2");
+        radar.setLatitude(-35.514806);
+        radar.setLongitude(-58.0054482);
+        radar.setMaxSpeed(80);
+        radar.setName("Lezama");
+        mRadarList.add(radar);
+
+        //TODO Add more radars
     }
 
     public RadarList getParseObjects(int direction) {
-        RadarList radars = new RadarList();
-        Date localDatabaseDate = getDatabaseDate(false);
-
-        try {
-            if  (localDatabaseDate == null) {
-                //LocalDatabase does not exist
-                if (NetworkConnections.isNetworkAvailable(mConnectivityManager)) {
-                    radars = getParseObjectsFromCloud(direction);
-                }
-                else {
-                    radars = null;
-                }
-            }
-            else {
-                if (NetworkConnections.isNetworkAvailable(mConnectivityManager)){
-                    Date cloudDatabaseDate = getDatabaseDate(true);
-
-                    if (cloudDatabaseDate != null && cloudDatabaseDate.compareTo(localDatabaseDate) != 0){
-                        radars = getParseObjectsFromCloud(direction);
-                    }
-                    else {
-                        radars = getParseObjectsFromLocal(direction);
-                    }
-                }
-                else {
-                    radars = getParseObjectsFromLocal(direction);
-                }
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return radars;
+        return mRadarList;
     }
 
     private Date getDatabaseDate(boolean cloudDatabase){

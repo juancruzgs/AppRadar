@@ -27,7 +27,6 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -104,6 +103,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         if (savedInstanceState!=null){
             mRadars = savedInstanceState.getParcelable(Constants.RADARS_LIST);
             mMaxSpeed = savedInstanceState.getFloat(Constants.MAX_SPEED);
+            mDistance = savedInstanceState.getFloat(Constants.DISTANCE);
         } else {
             getFragmentArguments();
         }
@@ -206,6 +206,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         super.onSaveInstanceState(outState);
         outState.putParcelable(Constants.RADARS_LIST, mRadars);
         outState.putFloat(Constants.MAX_SPEED, mMaxSpeed);
+        outState.putFloat(Constants.DISTANCE, mDistance);
     }
 
     private void setScreenInformation() {

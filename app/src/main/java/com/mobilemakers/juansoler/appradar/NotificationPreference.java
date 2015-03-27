@@ -10,9 +10,8 @@ public class NotificationPreference {
     }
 
     public static float getFirstNotificationDistance(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return Float.parseFloat(sharedPreferences.getString(
-                context.getString(R.string.first_notification_preference_distance), context.getResources().getStringArray(R.array.first_distance_values)[0]));
+        //TODO Change first notification distance (meters)
+        return 500;
     }
 
     public static String getFirstNotificationSound(Context context) {
@@ -29,9 +28,8 @@ public class NotificationPreference {
     }
 
     public static float getSecondNotificationDistance(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return Float.parseFloat(sharedPreferences.getString(
-                context.getString(R.string.second_notification_preference_distance), context.getResources().getStringArray(R.array.second_distance_values)[0]));
+        //TODO Change first notification distance (meters)
+        return 200;
     }
 
     public static String getSecondNotificationSound(Context context) {

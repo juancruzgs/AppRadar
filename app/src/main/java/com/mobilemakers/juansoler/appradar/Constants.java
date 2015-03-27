@@ -50,7 +50,8 @@ public class Constants {
     //GPS
     public final static String NEXT_LOCATION = "nextLocation";
     public final static float MIN_DISTANCE_UPDATES = 100;
-    public final static int THIRD_FENCE = 300;
+    //TODO Third notification distance
+    public final static int THIRD_FENCE = 50;
     public final static int RADIUS_INDEX_THIRD_FENCE = 2;
     public final static int RADIUS_INDEX_SECOND_FENCE = 1;
     public final static int RADIUS_INDEX_FIRST_FENCE = 0;

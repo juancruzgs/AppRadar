@@ -63,7 +63,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     @Override
     public void doBack() {
         endTrip();
-        mLocationManager.removeUpdates(mLocationListener);
     }
 
     private void endTrip() {
@@ -73,6 +72,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                 .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {
+                        mLocationManager.removeUpdates(mLocationListener);
                         setActionBarSubtitle("");
                         getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     }

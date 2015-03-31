@@ -207,6 +207,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         outState.putParcelable(Constants.RADARS_LIST, mRadars);
         outState.putFloat(Constants.MAX_SPEED, mMaxSpeed);
         outState.putFloat(Constants.DISTANCE, mDistance);
+        //TODO Save Actual Speed
     }
 
     private void setScreenInformation() {
@@ -314,4 +315,9 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         return handled;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mLocationManager.removeUpdates(mLocationListener);
+    }
 }

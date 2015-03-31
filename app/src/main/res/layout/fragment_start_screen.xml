@@ -6,13 +6,23 @@
     android:orientation="vertical"
     tools:context="com.mobilemakers.juansoler.appradar.StartScreenFragment">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/textView_welcome"
+        android:id="@+id/textView_welcome"
+        android:paddingTop="10dp"
+        android:gravity="center" />
+
     <ImageView
         android:id="@+id/imageView_start_screen_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:src="@mipmap/startscreenpic"
         android:scaleType="fitXY"
-        android:layout_weight="0.9" />
+        android:layout_weight="0.9"
+        android:paddingTop="10dp"/>
 
     <LinearLayout
         android:id="@+id/loadingPanel"
@@ -34,15 +44,6 @@
             />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/textView_welcome"
-        android:id="@+id/textView_welcome"
-        android:paddingTop="25dp"
-        android:gravity="center" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -54,36 +55,37 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"/>
 
-        <Button
-            android:id="@+id/button_select_desntination"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_select_destination"
-            android:elevation="6dp"
-            android:background="@color/accent"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:layout_marginRight="@dimen/button_padding"
-            android:layout_marginLeft="@dimen/button_padding"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            />
+            <Button
+                android:id="@+id/button_select_desntination"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="@string/button_select_destination"
+                android:elevation="6dp"
+                android:background="@color/accent"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="2dp" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_start_travel"
-            android:id="@+id/button_start_travel"
-            android:elevation="6dp"
-            android:background="@color/accent"
-            android:visibility="invisible"
-            android:layout_marginLeft="@dimen/button_padding"
-            android:layout_marginRight="@dimen/button_padding"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="@string/button_start_travel"
+                android:id="@+id/button_start_travel"
+                android:elevation="6dp"
+                android:background="@color/accent"
+                android:visibility="invisible"
+                android:layout_weight="1"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

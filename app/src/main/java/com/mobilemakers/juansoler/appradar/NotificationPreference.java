@@ -63,6 +63,6 @@ public class NotificationPreference {
     public static long getRefreshTime(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return Long.parseLong(sharedPreferences.getString(
-                context.getString(R.string.preference_refresh_time), context.getResources().getStringArray(R.array.refresh_time_values)[1]));
+                context.getString(R.string.preference_refresh_time), context.getResources().getStringArray(R.array.refresh_time_values)[3]));
     }
 }

@@ -66,9 +66,6 @@
     <string name="distance_error_no_gps">No GPS</string>
     <string name="speed_error_no_gps" translatable="false">-</string>
     <string name="pref_refresh_time">Período de Actualización</string>
-    <string name="refresh_10_seconds">10 Segundos</string>
-    <string name="refresh_1_second">1 Segundo</string>
-    <string name="refresh_5_seconds">5 Segundos</string>
     <string name="refresh_manual">Actualización manual</string>
     <string name="pref_refresh_time_summary">Seleccione cada cuanto tiempo desea que se actualice la distancia al radar y su velocidad</string>
     <string name="text_view_speed">Velocidad actual:</string>

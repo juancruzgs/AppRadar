@@ -59,9 +59,6 @@
     <string name="end_trip">Are you sure you want to leave this trip?</string>
     <string name="title_activity_map">Map</string>
     <string name="distance_error_no_gps">No GPS</string>
-    <string name="refresh_10_seconds">10 Seconds</string>
-    <string name="refresh_5_seconds">5 Seconds</string>
-    <string name="refresh_1_second">1 Second</string>
     <string name="refresh_manual">Manual refresh</string>
     <string name="pref_refresh_time">Refresh Period</string>
     <string name="pref_refresh_time_summary">Select the refresh time to update the distance to the radar and your speed</string>
@@ -70,4 +67,7 @@
     <string name="button_last_radar_end">Close</string>
     <string name="text_view_last_radar_title">Have a calm trip,</string>
     <string name="text_view_last_radar_text">you passed the last radar.</string>
+    <string name="refresh_5_minutes">5 Minutes</string>
+    <string name="refresh_1_minute">1 Minute</string>
+    <string name="refresh_10_minutes">10 Minutes</string>
 </resources>

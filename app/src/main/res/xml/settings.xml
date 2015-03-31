@@ -7,7 +7,7 @@
             android:summary="@string/pref_refresh_time_summary"
             android:entries="@array/refresh_time_entries"
             android:entryValues="@array/refresh_time_values"
-            android:defaultValue="5000"/>
+            android:defaultValue="60000"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_customized_first_notification">
         <ListPreference

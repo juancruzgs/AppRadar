@@ -68,15 +68,18 @@
     </string-array>
 
     <string-array name="refresh_time_entries">
-        <item>@string/refresh_10_seconds</item>
-        <item>@string/refresh_5_seconds</item>
-        <item>@string/refresh_1_second</item>
+        <item>@string/refresh_10_minutes</item>
+        <item>@string/refresh_5_minutes</item>
+        <item>@string/refresh_1_minute</item>
         <item>@string/refresh_manual</item>
     </string-array>
     <string-array name="refresh_time_values">
-        <item>10000</item>
-        <item>5000</item>
-        <item>1000</item>
+        <item>600000</item>
+        <item>300000</item>
+        <item>60000</item>
         <item>0</item>
     </string-array>
+    <string name="refresh_10_minutes">10 Minutos</string>
+    <string name="refresh_5_minutes">5 Minutos</string>
+    <string name="refresh_1_minute">1 Minuto</string>
 </resources>

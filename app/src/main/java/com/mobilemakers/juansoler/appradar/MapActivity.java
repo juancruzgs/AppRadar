@@ -34,9 +34,11 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setIcon(R.mipmap.ic_launcher);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         mRadars = getIntent().getExtras().getParcelable(Constants.RADARS_LIST);
-
 
         if (savedInstanceState == null) {
             Toast.makeText(this, getString(R.string.message_map_toast), Toast.LENGTH_LONG).show();

@@ -14,16 +14,16 @@
         android:visibility="gone"
         android:layout_height="match_parent"
         android:layout_gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/loading"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
         <ProgressBar
             android:layout_width="@dimen/progress_bar_size"
             android:layout_height="@dimen/progress_bar_size"
             android:indeterminate="true"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
     </LinearLayout>
 
     <RelativeLayout

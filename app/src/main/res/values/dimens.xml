@@ -10,6 +10,7 @@
     <dimen name="typography_display_1">34sp</dimen>
     <dimen name="typography_radar_name">30sp</dimen>
     <dimen name="elements_spacer_large">20dp</dimen>
+    <dimen name="card_view_speed_limit_width_portrait">100dp</dimen>
     <dimen name="card_view_speed_limit_height_portrait">130dp</dimen>
     <dimen name="typography_display_3">56sp</dimen>
     <dimen name="typography_speed_limit_portrait">80sp</dimen>

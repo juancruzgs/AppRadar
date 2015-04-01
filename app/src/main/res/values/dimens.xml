@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="summary_fragment_padding">30dp</dimen>
     <dimen name="elements_spacer">5dp</dimen>
-    <dimen name="card_view_distance_height">55dp</dimen>
+    <dimen name="card_view_distance_height">85dp</dimen>
     <dimen name="card_view_corner_radius">4dp</dimen>
     <dimen name="typography_display_2">45sp</dimen>
     <dimen name="typography_display_1">34sp</dimen>

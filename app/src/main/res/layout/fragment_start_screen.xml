@@ -20,8 +20,8 @@
             android:text="@string/loading"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
         <ProgressBar
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/progress_bar_size"
+            android:layout_height="@dimen/progress_bar_size"
             android:indeterminate="true"
             />
     </LinearLayout>
@@ -44,7 +44,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/textView_welcome"
             android:id="@+id/textView_welcome"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/text_view_welcome_margin"
             android:gravity="center"
             android:layout_centerHorizontal="true"/>
 
@@ -63,10 +63,8 @@
         android:text="@string/button_select_destination"
         android:elevation="6dp"
         android:background="@color/accent"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginLeft="@dimen/button_margin"
+        android:layout_marginRight="@dimen/button_margin" />
 
     <Space
         android:layout_width="match_parent"
@@ -82,10 +80,8 @@
         android:elevation="6dp"
         android:background="@color/accent"
         android:visibility="invisible"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="@dimen/button_margin"
+        android:layout_marginRight="@dimen/button_margin"
         android:layout_gravity="center_vertical"/>
     <Space
         android:layout_width="match_parent"

@@ -2,26 +2,31 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="summary_fragment_padding">30dp</dimen>
+    <dimen name="summary_fragment_padding">10dp</dimen>
     <dimen name="elements_spacer">5dp</dimen>
-    <dimen name="card_view_distance_height">55dp</dimen>
+    <dimen name="card_view_distance_height">85dp</dimen>
     <dimen name="card_view_corner_radius">4dp</dimen>
     <dimen name="typography_display_2">45sp</dimen>
     <dimen name="typography_display_1">34sp</dimen>
     <dimen name="typography_radar_name">30sp</dimen>
     <dimen name="elements_spacer_large">20dp</dimen>
-    <dimen name="card_view_speed_limit_height_portrait">130dp</dimen>
+    <dimen name="card_view_speed_limit_width_portrait">100dp</dimen>
+    <dimen name="card_view_speed_limit_height_portrait">90dp</dimen>
     <dimen name="typography_display_3">56sp</dimen>
     <dimen name="typography_speed_limit_portrait">80sp</dimen>
     <dimen name="summary_fragment_padding_landscape">10dp</dimen>
     <dimen name="summary_fragment_padding_landscape_intern">10dp</dimen>
     <dimen name="card_view_speed_limit_height_landscape">140dp</dimen>
     <dimen name="card_view_speed_limit_width_landscape">140dp</dimen>
-    <dimen name="shape_thickness">10dp</dimen>
-    <dimen name="ring_size">30dp</dimen>
+    <dimen name="shape_thickness">8dp</dimen>
+    <dimen name="ring_size">16dp</dimen>
     <dimen name="button_padding">16dp</dimen>
     <dimen name="summary_buttons_margin">5dp</dimen>
     <dimen name="progress_bar_size">40dp</dimen>
     <dimen name="text_view_welcome_margin">20dp</dimen>
     <dimen name="button_margin">5dp</dimen>
+    <dimen name="card_margin_top">10dp</dimen>+
+    <dimen name="card_title_padding_left">20dp</dimen>
+    <dimen name="card_radar_info_height">80dp</dimen>
+    <dimen name="content_padding_top">10dp</dimen>
 </resources>

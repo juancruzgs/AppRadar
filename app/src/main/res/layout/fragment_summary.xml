@@ -206,7 +206,7 @@
             android:id="@+id/button_refresh"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
-            android:layout_marginRight="@dimen/summary_fragment_padding"/>
+            android:layout_marginRight="@dimen/buttons_separation"/>
 
         <Button
             android:layout_width="0dp"

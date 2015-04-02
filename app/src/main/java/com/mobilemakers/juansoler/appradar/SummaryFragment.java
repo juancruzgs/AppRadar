@@ -97,6 +97,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
         Transitions.fadeIN(layoutMain, Constants.TRANSITION_DURATION_2K);
         wireUpViews(rootView);
+        prepareButtons();
         refreshSpeed();
         mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
         return rootView;
@@ -122,14 +123,26 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         mTextViewKmRadar = (TextView) rootView.findViewById(R.id.text_view_radar_km);
         mTextViewSpeedValue = (TextView)rootView.findViewById(R.id.text_view_speed_value);
         mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), 0f));
+        mButtonRefresh = (Button) rootView.findViewById(R.id.button_refresh);
+        mButtonMap = (Button) rootView.findViewById(R.id.button_map);
+    }
 
-        mButtonRefresh = (Button)rootView.findViewById(R.id.button_refresh);
+    private void prepareButtons() {
         mButtonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setScreenInformation();
                 //Inexact speed calculation
                 mTextViewSpeedValue.setText(getString(R.string.speed_error_no_gps));
+            }
+        });
+
+        mButtonMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                intent.putExtra(Constants.RADARS_LIST, mRadars);
+                startActivity(intent);
             }
         });
     }
@@ -308,18 +321,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
         switch(id) {
             case R.id.action_bar:
-                handled = true;
-                break;
-            case R.id.action_refresh:
-                handled = true;
-                setScreenInformation();
-                //Inexact speed calculation
-                mTextViewSpeedValue.setText(getString(R.string.speed_error_no_gps));
-                break;
-            case R.id.action_show_map:
-                Intent intent = new Intent(getActivity(), MapActivity.class);
-                intent.putExtra(Constants.RADARS_LIST, mRadars);
-                startActivity(intent);
                 handled = true;
                 break;
         }

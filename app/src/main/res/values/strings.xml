@@ -85,4 +85,5 @@
     <string name="third_notification_preference_sound" translatable="false">third_notification_preference_sound</string>
     <string name="third_notification_preference_led_color" translatable="false">third_notification_preference_led_color</string>
     <string name="preference_refresh_time" translatable="false">preference_refresh_time</string>
+    <string name="text_view_next_radar">Próximo radar</string>
 </resources>

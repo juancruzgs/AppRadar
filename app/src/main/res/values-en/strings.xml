@@ -22,9 +22,9 @@
     <string name="pref_third_notification_distance_summary">Select the distance to the radar for the closest notification.</string>
     <string name="pref_third_notification_sound_summary">Choose a sound for the closest notification.</string>
     <string name="pref_third_notification_led_color_summary">Select a LED color for the closest notification.</string>
-    <string name="text_view_distance">Distance:</string>
+    <string name="text_view_distance">Distance</string>
     <string name="text_view_refresh_time_text">Last update: %s hs.</string>
-    <string name="text_view_speed_limit_text">Speed Limit:</string>
+    <string name="text_view_speed_limit_text">Speed Limit</string>
     <string name="title_activity_settings">Settings</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -62,7 +62,7 @@
     <string name="refresh_manual">Manual refresh</string>
     <string name="pref_refresh_time">Refresh Period</string>
     <string name="pref_refresh_time_summary">Select the refresh time to update the distance to the radar and your speed</string>
-    <string name="text_view_speed">Current speed:</string>
+    <string name="text_view_speed">Current speed</string>
     <string name="message_map_toast">Loading map&#8230;</string>
     <string name="button_last_radar_end">Close</string>
     <string name="text_view_last_radar_title">Have a calm trip,</string>

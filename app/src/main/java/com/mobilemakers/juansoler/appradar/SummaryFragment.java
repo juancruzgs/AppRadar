@@ -165,16 +165,10 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         mLocationListener = new android.location.LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                float speed;
-                if (mLocation == null) {
-                    speed = 0;
-                } else {
-                    speed = getSpeed(location);
-                }
+                float speed = location.getSpeed() * Constants.SPEED_CONVERSION;
                 setScreenInformation();
                 speedNotification(speed);
                 mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), speed));
-                mLocation = location;
             }
 
             @Override
@@ -190,27 +184,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
             @Override
             public void onProviderDisabled(String provider) {
 
-            }
-
-            private float getSpeed(Location endLoc) {
-                float distM;
-                long timeS;
-                //Use provided speed, if it exists
-                if (endLoc.hasSpeed()) {
-                    return endLoc.getSpeed() * Constants.SPEED_CONVERSION;
-                }
-                //Get time difference is seconds
-                timeS = getTimeDifference(endLoc);
-                //Get distance traveled in meters
-                distM = mLocation.distanceTo(endLoc);
-
-                return (distM / timeS) * Constants.SPEED_CONVERSION;
-            }
-
-            private long getTimeDifference(Location endLoc) {
-                long timeMS;
-                timeMS = TimeUnit.NANOSECONDS.toSeconds(mLocation.getTime() - endLoc.getTime());
-                return timeMS;
             }
 
             private void speedNotification(float currentSpeed) {

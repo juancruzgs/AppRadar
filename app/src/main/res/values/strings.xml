@@ -2,9 +2,9 @@
     <string name="app_name" translatable="false">RadarMe</string>
     <string name="action_settings">Opciones</string>
 
-    <string name="text_view_distance">Distancia:</string>
+    <string name="text_view_distance">Distancia</string>
     <string name="text_view_refresh_time_text">Última actualización: %s hs.</string>
-    <string name="text_view_speed_limit_text">Máxima velocidad:</string>
+    <string name="text_view_speed_limit_text">Máxima velocidad</string>
     <string name="text_view_distance_value" translatable="false">%.1f Km</string>
     <string name="text_view_speed_limit_value_text" translatable="false">%s</string>
     <string name="action_refresh">Actualizar</string>
@@ -68,7 +68,7 @@
     <string name="pref_refresh_time">Período de Actualización</string>
     <string name="refresh_manual">Actualización manual</string>
     <string name="pref_refresh_time_summary">Seleccione cada cuanto tiempo desea que se actualice la distancia al radar y su velocidad</string>
-    <string name="text_view_speed">Velocidad actual:</string>
+    <string name="text_view_speed">Velocidad actual</string>
     <string name="text_view_speed_value" translatable="false">%.0f Km/h</string>
     <string name="map_activity_km"  translatable="false">%1$s km %2$s</string>
     <string name="message_map_toast">Cargando  mapa&#8230;</string>
@@ -85,4 +85,5 @@
     <string name="third_notification_preference_sound" translatable="false">third_notification_preference_sound</string>
     <string name="third_notification_preference_led_color" translatable="false">third_notification_preference_led_color</string>
     <string name="preference_refresh_time" translatable="false">preference_refresh_time</string>
+    <string name="text_view_next_radar">Próximo radar</string>
 </resources>

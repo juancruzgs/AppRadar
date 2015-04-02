@@ -15,11 +15,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -92,6 +90,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
         Transitions.fadeIN(layoutMain, Constants.TRANSITION_DURATION_2K);
         wireUpViews(rootView);
+        prepareButtons(rootView);
         refreshSpeed();
         mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
         return rootView;
@@ -119,6 +118,28 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), 0f));
     }
 
+    private void prepareButtons(View rootView) {
+        Button buttonRefresh = (Button) rootView.findViewById(R.id.button_refresh);
+        buttonRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setScreenInformation();
+                //Inexact speed calculation
+                mTextViewSpeedValue.setText(getString(R.string.speed_error_no_gps));
+            }
+        });
+
+        Button buttonMap = (Button) rootView.findViewById(R.id.button_map);
+        buttonMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                intent.putExtra(Constants.RADARS_LIST, mRadars);
+                startActivity(intent);
+            }
+        });
+    }
+
     private void getFragmentArguments() {
         Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey(Constants.RADARS_LIST)) {
@@ -139,6 +160,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                     mLocationListener);
         }
     }
+
     public void setLocationListener() {
         mLocationListener = new android.location.LocationListener() {
             @Override
@@ -225,7 +247,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private void setNameAndKilometer(Radar nextRadar){
         mTextViewNameRadar.setText(nextRadar.getName());
-        mTextViewKmRadar.setText(String.format(getString(R.string.text_view_info_radar),nextRadar.getKm()));
+        mTextViewKmRadar.setText(String.format(getString(R.string.text_view_info_radar), nextRadar.getKm()));
     }
 
     private void setRefreshTime(){
@@ -275,44 +297,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_fragment_summary, menu);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        Boolean handled = false;
-
-        switch(id) {
-            case R.id.action_bar:
-                handled = true;
-                break;
-            case R.id.action_refresh:
-                handled = true;
-                setScreenInformation();
-                //Inexact speed calculation
-                mTextViewSpeedValue.setText(getString(R.string.speed_error_no_gps));
-                break;
-            case R.id.action_show_map:
-                Intent intent = new Intent(getActivity(), MapActivity.class);
-                intent.putExtra(Constants.RADARS_LIST, mRadars);
-                startActivity(intent);
-                handled = true;
-                break;
-        }
-
-        if (!handled) {
-            handled = super.onOptionsItemSelected(item);
-        }
-        return handled;
     }
 
     @Override

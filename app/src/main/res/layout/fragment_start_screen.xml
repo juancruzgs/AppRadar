@@ -14,16 +14,17 @@
         android:visibility="gone"
         android:layout_height="match_parent"
         android:layout_gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/loading"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
         <ProgressBar
             android:layout_width="@dimen/progress_bar_size"
             android:layout_height="@dimen/progress_bar_size"
             android:indeterminate="true"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:textSize="@dimen/typography_normal_text" />
     </LinearLayout>
 
     <RelativeLayout
@@ -42,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/typography_normal_text"
             android:text="@string/textView_welcome"
             android:id="@+id/textView_welcome"
             android:layout_marginTop="@dimen/text_view_welcome_margin"
@@ -61,8 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_select_destination"
-        android:elevation="6dp"
-        android:background="@color/accent"
+        android:background="@drawable/button_background"
         android:layout_marginLeft="@dimen/button_margin"
         android:layout_marginRight="@dimen/button_margin" />
 
@@ -77,8 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_start_travel"
-        android:elevation="6dp"
-        android:background="@color/accent"
+        android:background="@drawable/button_background"
         android:visibility="invisible"
         android:layout_marginLeft="@dimen/button_margin"
         android:layout_marginRight="@dimen/button_margin"

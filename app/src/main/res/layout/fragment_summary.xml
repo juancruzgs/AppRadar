@@ -1,111 +1,228 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:paddingLeft="@dimen/summary_fragment_padding"
     android:paddingRight="@dimen/summary_fragment_padding"
     android:id="@+id/Layout_Main"
-    >
+    tools:context="com.mobilemakers.juansoler.appradar.SummaryFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/text_view_radar_name"
-        android:textSize="@dimen/typography_radar_name"
-        android:gravity="center"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/text_view_radar_km"
-        android:textSize="@dimen/typography_radar_name"
-        android:gravity="center"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/text_view_distance"
-        android:id="@+id/text_view_next"
-        android:layout_gravity="left"
-        android:layout_marginTop="@dimen/elements_spacer"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
 
     <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_radar_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/typography_normal_text"
+                android:text="@string/text_view_next_radar"
+                android:id="@+id/text_view_next_info"
+                android:gravity="center"
+                android:textColor="@color/title_card"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/text_view_radar_name"
+                    android:textSize="@dimen/typography_radar_name"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/text_view_radar_km"
+                    android:textSize="@dimen/typography_radar_name"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <android.support.v7.widget.CardView
         android:id="@+id/card_view_distance"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/card_view_distance_height"
-        android:layout_marginTop="@dimen/elements_spacer"
-        card_view:cardCornerRadius="@dimen/card_view_corner_radius">
+        android:layout_height="wrap_content"
+        android:layout_weight="5">
 
-        <TextView
-            android:id="@+id/text_view_distance"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/text_view_distance_value"
+            android:orientation="vertical"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/typography_display_1"/>
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/typography_normal_text"
+                android:text="@string/text_view_distance"
+                android:id="@+id/text_view_next"
+                android:gravity="center"
+                android:textColor="@color/title_card"/>
+
+            <TextView
+                android:id="@+id/text_view_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_view_distance_value"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/typography_display_1"/>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/text_view_speed"
-        android:id="@+id/text_view_speed"
-        android:layout_gravity="left"
-        android:layout_marginTop="@dimen/elements_spacer"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
 
     <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view_speed"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/card_view_distance_height"
-        android:layout_marginTop="@dimen/elements_spacer"
-        card_view:cardCornerRadius="@dimen/card_view_corner_radius">
+        android:layout_height="wrap_content"
+        android:layout_weight="5">
 
-        <TextView
-            android:id="@+id/text_view_speed_value"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/text_view_speed_value"
+            android:orientation="vertical"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/typography_display_1"/>
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/typography_normal_text"
+                android:text="@string/text_view_speed"
+                android:id="@+id/text_view_speed"
+                android:gravity="center"
+                android:textColor="@color/title_card"/>
+
+            <TextView
+                android:id="@+id/text_view_speed_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_view_speed_value"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/typography_display_1"
+                android:singleLine="true"/>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/text_view_speed_limit_text"
-        android:id="@+id/text_view_speed_limit"
-        android:layout_gravity="left"
-        android:layout_marginTop="@dimen/elements_spacer"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
 
     <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view_speed_limit"
-        android:layout_width="130dp"
-        android:layout_height="@dimen/card_view_speed_limit_height_portrait"
-        card_view:cardCornerRadius="@dimen/card_view_corner_radius"
-        android:layout_marginTop="@dimen/elements_spacer">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5" >
 
-        <TextView
-            android:id="@+id/text_view_speed_limit_value"
-            android:layout_width="150dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/text_view_speed_limit_value_text"
+            android:orientation="vertical"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/typography_display_2"
-            android:background="@drawable/speed_limit_ring"
-            android:layout_gravity="center"/>
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/typography_normal_text"
+                android:text="@string/text_view_speed_limit_text"
+                android:id="@+id/text_view_speed_limit"
+                android:gravity="center"
+                android:textColor="@color/title_card"/>
+
+            <TextView
+                android:id="@+id/text_view_speed_limit_value"
+                android:layout_width="@dimen/card_view_speed_limit_width_portrait"
+                android:layout_height="@dimen/card_view_speed_limit_height_portrait"
+                android:text="@string/text_view_speed_limit_value_text"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/typography_display_2"
+                android:background="@drawable/speed_limit_ring" />
+
+        </LinearLayout>
     </android.support.v7.widget.CardView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/action_refresh"
+            android:background="@drawable/button_background"
+            android:id="@+id/button_refresh"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:layout_marginRight="@dimen/summary_fragment_padding"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/button_show_map"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:background="@drawable/button_background"
+            android:id="@+id/button_map"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
 
 </LinearLayout>

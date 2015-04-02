@@ -6,6 +6,7 @@
     <dimen name="elements_spacer">5dp</dimen>
     <dimen name="card_view_distance_height">85dp</dimen>
     <dimen name="card_view_corner_radius">4dp</dimen>
+    <dimen name="typography_normal_text">25sp</dimen>
     <dimen name="typography_display_2">45sp</dimen>
     <dimen name="typography_display_1">34sp</dimen>
     <dimen name="typography_radar_name">30sp</dimen>

@@ -23,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/loading"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:textSize="@dimen/typography_normal_text" />
     </LinearLayout>
 
     <RelativeLayout
@@ -42,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/typography_normal_text"
             android:text="@string/textView_welcome"
             android:id="@+id/textView_welcome"
             android:layout_marginTop="@dimen/text_view_welcome_margin"

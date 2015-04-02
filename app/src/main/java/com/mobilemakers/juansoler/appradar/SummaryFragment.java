@@ -15,9 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -41,10 +38,6 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private TextView mTextViewNameRadar;
     private TextView mTextViewKmRadar;
     private TextView mTextViewSpeedValue;
-
-    private Button mButtonRefresh;
-    // TODO: Add mButtonMap functionality
-    private Button mButtonMap;
 
     private float mMaxSpeed;
     private float mDistance;
@@ -97,7 +90,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         LinearLayout layoutMain = (LinearLayout)rootView.findViewById(R.id.Layout_Main);
         Transitions.fadeIN(layoutMain, Constants.TRANSITION_DURATION_2K);
         wireUpViews(rootView);
-        prepareButtons();
+        prepareButtons(rootView);
         refreshSpeed();
         mGeofenceTransition = new GeofenceTransitionsIntent(getActivity());
         return rootView;
@@ -123,12 +116,11 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         mTextViewKmRadar = (TextView) rootView.findViewById(R.id.text_view_radar_km);
         mTextViewSpeedValue = (TextView)rootView.findViewById(R.id.text_view_speed_value);
         mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), 0f));
-        mButtonRefresh = (Button) rootView.findViewById(R.id.button_refresh);
-        mButtonMap = (Button) rootView.findViewById(R.id.button_map);
     }
 
-    private void prepareButtons() {
-        mButtonRefresh.setOnClickListener(new View.OnClickListener() {
+    private void prepareButtons(View rootView) {
+        Button buttonRefresh = (Button) rootView.findViewById(R.id.button_refresh);
+        buttonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setScreenInformation();
@@ -137,7 +129,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
             }
         });
 
-        mButtonMap.setOnClickListener(new View.OnClickListener() {
+        Button buttonMap = (Button) rootView.findViewById(R.id.button_map);
+        buttonMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MapActivity.class);
@@ -167,6 +160,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                     mLocationListener);
         }
     }
+
     public void setLocationListener() {
         mLocationListener = new android.location.LocationListener() {
             @Override
@@ -253,7 +247,7 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
 
     private void setNameAndKilometer(Radar nextRadar){
         mTextViewNameRadar.setText(nextRadar.getName());
-        mTextViewKmRadar.setText(String.format(getString(R.string.text_view_info_radar),nextRadar.getKm()));
+        mTextViewKmRadar.setText(String.format(getString(R.string.text_view_info_radar), nextRadar.getKm()));
     }
 
     private void setRefreshTime(){
@@ -303,32 +297,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_fragment_summary, menu);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        Boolean handled = false;
-
-        switch(id) {
-            case R.id.action_bar:
-                handled = true;
-                break;
-        }
-
-        if (!handled) {
-            handled = super.onOptionsItemSelected(item);
-        }
-        return handled;
     }
 
     @Override

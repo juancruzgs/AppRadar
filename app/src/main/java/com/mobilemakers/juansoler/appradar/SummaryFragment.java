@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,6 +41,10 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     private TextView mTextViewNameRadar;
     private TextView mTextViewKmRadar;
     private TextView mTextViewSpeedValue;
+
+    private Button mButtonRefresh;
+    // TODO: Add mButtonMap functionality
+    private Button mButtonMap;
 
     private float mMaxSpeed;
     private float mDistance;
@@ -117,6 +122,16 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
         mTextViewKmRadar = (TextView) rootView.findViewById(R.id.text_view_radar_km);
         mTextViewSpeedValue = (TextView)rootView.findViewById(R.id.text_view_speed_value);
         mTextViewSpeedValue.setText(String.format(getString(R.string.text_view_speed_value), 0f));
+
+        mButtonRefresh = (Button)rootView.findViewById(R.id.button_refresh);
+        mButtonRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setScreenInformation();
+                //Inexact speed calculation
+                mTextViewSpeedValue.setText(getString(R.string.speed_error_no_gps));
+            }
+        });
     }
 
     private void getFragmentArguments() {

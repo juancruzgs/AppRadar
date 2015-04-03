@@ -76,7 +76,7 @@ public class ParseDataBase {
         Radar radar;
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Constants.RADARS_TABLE);
-        query.whereEqualTo(Constants.PARSE_DIRECTION, direction);
+//        query.whereEqualTo(Constants.PARSE_DIRECTION, direction);
         if (direction == 1) {
             query.orderByDescending(Constants.PARSE_KM); }
         else {
@@ -86,8 +86,11 @@ public class ParseDataBase {
         parseObjects = query.find();
         for (int i = 0; i < parseObjects.size(); i++) {
             parseObject = parseObjects.get(i);
-            radar = createRadarFromParse(parseObject);
-            radars.add(radar);
+            int parseObjectDirection = parseObject.getNumber(Constants.PARSE_DIRECTION).intValue();
+            if (parseObjectDirection == direction) {
+                radar = createRadarFromParse(parseObject);
+                radars.add(radar);
+            }
             //Save to local database
             parseObject.pin();
         }

@@ -129,8 +129,8 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
                 LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     CustomAlertDialog alertDialog = new CustomAlertDialog(getString(R.string.messageGPS_dialog),
-                            getString(R.string.enableGPS_dialog),
-                            getString(R.string.cancelGPS_dialog),
+                            getString(R.string.dialog_activate),
+                            getString(R.string.dialog_cancel),
                             Settings.ACTION_LOCATION_SOURCE_SETTINGS,
                             getActivity());
                     alertDialog.showAlertDialog();
@@ -188,9 +188,9 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             }
             else {
                 Transitions.fadeOUT(mProgressLayout, Constants.TRANSITION_DURATION_1K ,true);
-                CustomAlertDialog alertDialog = new CustomAlertDialog(getString(R.string.intenetDataDiagloTitle),
-                        getString(R.string.internetDialogAccept),
-                        getString(R.string.internetDialogCancel),
+                CustomAlertDialog alertDialog = new CustomAlertDialog(getString(R.string.internet_dialog_title),
+                        getString(R.string.dialog_activate),
+                        getString(R.string.dialog_cancel),
                         Settings.ACTION_DATA_ROAMING_SETTINGS,
                         getActivity());
                 alertDialog.showAlertDialog();

@@ -28,7 +28,6 @@
     <string name="title_activity_settings">Settings</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="message_no_location_dialog">I can\'t get a location. Try in other place.</string>
     <string name="textView_welcome">Welcome to RadarMe!</string>
     <string name="sub_klaxon">Submarine horn</string>
     <string name="factory">Factory</string>
@@ -50,10 +49,9 @@
     <string name="loading">Loading&#8230;</string>
     <string name="radar_message">Radar %1$.0f meters away. Km %2$.0f</string>
     <string name="warning_message">Attention!</string>
-    <string name="intenetDataDiagloTitle">Your wi-fi/mobile data is not active&#8230;</string>
-    <string name="internetDialogAccept">Activate</string>
-    <string name="internetDialogCancel">Cancel</string>
-    <string name="first_time_connection">It has been detected that you don\'t have the necessary data to continue running this app, please enable any data connection to continue.</string>
+    <string name="internet_dialog_title">Your Wi-Fi/Mobile data seems to be disabled, do you want to enable it?</string>
+    <string name="dialog_activate">Activate</string>
+    <string name="dialog_cancel">Cancel</string>
     <string name="button_end">End Trip</string>
     <string name="button_show_map">Show Map</string>
     <string name="end_trip">Are you sure you want to leave this trip?</string>

@@ -1,6 +1,7 @@
 package com.mobilemakers.juansoler.appradar;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,7 +22,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -253,8 +253,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
     }
 
     private void endTrip() {
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
-        builder.setMessage(getResources().getString(R.string.end_trip))
+        AlertDialog.Builder endTripDialogBuilder = new AlertDialog.Builder(getActivity());
+        endTripDialogBuilder.setMessage(getResources().getString(R.string.end_trip))
                 .setCancelable(false)
                 .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
@@ -268,9 +268,8 @@ public class SummaryFragment extends Fragment implements MainActivity.onHandleTr
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
-                });
-        final android.app.AlertDialog alert = builder.create();
-        alert.show();
+                })
+                .show();
     }
 
     @Override

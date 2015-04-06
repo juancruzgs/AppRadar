@@ -1,10 +1,9 @@
 package com.mobilemakers.juansoler.appradar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 
 public class CustomAlertDialog {
@@ -27,22 +26,21 @@ public class CustomAlertDialog {
     }
 
     public void showAlertDialog() {
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mActivity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         builder.setMessage(mMessage)
-                .setCancelable(false)
                 .setPositiveButton(mPositiveButton, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,
-                                        int id) {
-                        Intent intent = new Intent(mSettings);
-                        mActivity.startActivity(intent);
-                    }
-                })
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(mSettings);
+                mActivity.startActivity(intent);
+            }
+        })
                 .setNegativeButton(mNegativeButton, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        final android.app.AlertDialog alert = builder.create();
-        alert.show();
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        })
+                .show();
     }
 }

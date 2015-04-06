@@ -1,10 +1,13 @@
 package com.mobilemakers.juansoler.appradar;
 
+import android.content.Context;
 import android.location.Location;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -23,20 +26,24 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Iterator;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, LocationListener {
 
     private RadarList mRadars;
     private GoogleMap mGoogleMap;
     private GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
+    ActionBar mActionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setIcon(R.mipmap.ic_launcher);
-        actionBar.setDisplayShowHomeEnabled(true);
+        mActionBar = getSupportActionBar();
+        mActionBar.setIcon(R.mipmap.ic_launcher);
+        mActionBar.setDisplayShowHomeEnabled(true);
 
         mRadars = getIntent().getExtras().getParcelable(Constants.RADARS_LIST);
 
@@ -51,6 +58,37 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         }
 
         showIconInActionBar();
+        checkConnection();
+    }
+
+    private void checkConnection() {
+        TelephonyManager myTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        PhoneStateListener callStateListener = new PhoneStateListener() {
+            public void onDataConnectionStateChanged(int state) {
+                String message = "";
+                switch (state) {
+                    case TelephonyManager.DATA_DISCONNECTED:
+                       message ="No internet connection...";
+                        break;
+                    case TelephonyManager.DATA_CONNECTING:
+                        message = "Reconnecting...";
+                        break;
+                    case TelephonyManager.DATA_CONNECTED:
+                        message = "Connected";
+                        break;
+                }
+                Crouton.makeText(MapActivity.this, message, Style.ALERT).show();
+            }
+        };
+        myTelephonyManager.listen(callStateListener,
+                PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Crouton.cancelAllCroutons();
     }
 
     @Override
@@ -88,7 +126,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     private Location getLocation() {
-        AppRadarApplication state = (AppRadarApplication)getApplicationContext();
+        AppRadarApplication state = (AppRadarApplication) getApplicationContext();
         mGoogleApiClient = state.getApiClient();
         return LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
     }
@@ -138,5 +176,5 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         return super.onOptionsItemSelected(item);
     }
-
 }
+

@@ -1,10 +1,8 @@
 package com.mobilemakers.juansoler.appradar;
 
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.LocationManager;
@@ -130,23 +128,12 @@ public class StartScreenFragment extends Fragment implements DestinationsDialog.
             public void onClick(View v) {
                 LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    AlertDialog.Builder gpsBuilder = new AlertDialog.Builder(getActivity());
-                    gpsBuilder.setMessage(getString(R.string.messageGPS_dialog));
-                    gpsBuilder.setPositiveButton(getString(R.string.dialog_activate),new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                            startActivity(intent);
-                        }
-                    });
-
-                    gpsBuilder.setNegativeButton(getString(R.string.dialog_cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    gpsBuilder.show();
+                    CustomAlertDialog alertDialog = new CustomAlertDialog(getString(R.string.messageGPS_dialog),
+                            getString(R.string.dialog_activate),
+                            getString(R.string.dialog_cancel),
+                            Settings.ACTION_LOCATION_SOURCE_SETTINGS,
+                            getActivity());
+                    alertDialog.showAlertDialog();
                 } else {
                     fadeOutViews();
                     initializeGooglePlayServices();

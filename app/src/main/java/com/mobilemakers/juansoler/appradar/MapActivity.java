@@ -68,13 +68,13 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 String message = "";
                 switch (state) {
                     case TelephonyManager.DATA_DISCONNECTED:
-                       message ="No internet connection...";
+                       message = getString(R.string.message_no_internet_connection);
                         break;
                     case TelephonyManager.DATA_CONNECTING:
-                        message = "Reconnecting...";
+                        message = getString(R.string.message_reconnecting);
                         break;
                     case TelephonyManager.DATA_CONNECTED:
-                        message = "Connected";
+                        message = getString(R.string.message_connected);
                         break;
                 }
                 Crouton.makeText(MapActivity.this, message, Style.ALERT).show();

@@ -69,4 +69,7 @@
     <string name="refresh_1_minute">1 Minute</string>
     <string name="refresh_10_minutes">10 Minutes</string>
     <string name="text_view_next_radar">Next radar</string>
+    <string name="message_no_internet_connection">No internet connection...</string>
+    <string name="message_connected">Connected</string>
+    <string name="message_reconnecting">Reconnecting...</string>
 </resources>

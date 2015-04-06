@@ -82,4 +82,7 @@
     <string name="third_notification_preference_led_color" translatable="false">third_notification_preference_led_color</string>
     <string name="preference_refresh_time" translatable="false">preference_refresh_time</string>
     <string name="text_view_next_radar">Próximo radar</string>
+    <string name="message_no_internet_connection">No hay conexión a internet...</string>
+    <string name="message_connected">Conectado</string>
+    <string name="message_reconnecting">Reconectando...</string>
 </resources>

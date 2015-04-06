@@ -30,21 +30,20 @@ public class CustomAlertDialog {
 
     public void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setMessage(mMessage);
-        builder.setPositiveButton(mPositiveButton, new DialogInterface.OnClickListener() {
+        builder.setMessage(mMessage)
+                .setPositiveButton(mPositiveButton, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(mSettings);
                 mActivity.startActivity(intent);
             }
-        });
-
-        builder.setNegativeButton(mNegativeButton, new DialogInterface.OnClickListener() {
+        })
+                .setNegativeButton(mNegativeButton, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
-        });
-        builder.show();
+        })
+                .show();
     }
 }
